@@ -1,3 +1,8 @@
+---
+name: auth-patterns
+description: Authentication and authorization boundaries, token handling, and session rules. Loaded when touching auth middleware, protected routes, or user session logic.
+---
+
 # Auth Patterns
 
 ## Boundaries

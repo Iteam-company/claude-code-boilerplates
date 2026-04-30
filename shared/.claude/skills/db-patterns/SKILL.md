@@ -1,3 +1,8 @@
+---
+name: db-patterns
+description: Database access patterns, query rules, and migration conventions. Loaded when writing queries, repositories, or migrations.
+---
+
 # DB Patterns
 
 ## Structure

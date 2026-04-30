@@ -1,3 +1,8 @@
+---
+name: api-patterns
+description: REST API structure, error handling, and response shapes. Loaded when writing or reviewing API route handlers.
+---
+
 # API Patterns
 
 ## Structure
