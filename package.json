@@ -1,11 +1,12 @@
 {
-  "name": "claude-code-boilerplate-next-",
+  "name": "claude-code-boilerplate",
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "turbo run dev --parallel",
+    "start": "turbo run start",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
