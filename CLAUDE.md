@@ -1,6 +1,18 @@
 # Project
 
-<2-3 sentence description of what this project does and its main stack>
+Turborepo monorepo with Next.js (frontend) and NestJS (backend API).
+Frontend: TypeScript, Tailwind CSS, SWR for data fetching.
+Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
+
+# Structure
+
+- apps/web — Next.js frontend
+- apps/api — NestJS backend
+- apps/cms — Strapi CMS
+- packages/ui — shared component library
+- packages/types — shared TypeScript types
+- packages/typescript-config — tsconfig
+- packages/eslint-config - shared eslint
 
 # Commands
 
