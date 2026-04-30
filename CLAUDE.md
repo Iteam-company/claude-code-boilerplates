@@ -1,7 +1,7 @@
 # Project
 
 Turborepo monorepo with Next.js (frontend) and NestJS (backend API).
-Frontend: TypeScript, Tailwind CSS, SWR for data fetching.
+Frontend: TypeScript, Tailwind CSS, SWR for data fetching, lucide-react icons.
 Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 
 # Structure
