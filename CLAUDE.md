@@ -8,7 +8,6 @@ Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 
 - apps/web — Next.js frontend
 - apps/api — NestJS backend
-- apps/cms — Strapi CMS
 - packages/ui — shared component library
 - packages/types — shared TypeScript types
 - packages/typescript-config — tsconfig
