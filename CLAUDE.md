@@ -18,9 +18,18 @@ Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 - `npm run dev` — start dev server
 - `npm run build` — production build
 - `npm run lint` — lint check
-- `npm run format` — prettier format
+- `npm run check-types` — tsc check types
 
 # Conventions
+
+<!-- DTO validation and types -->
+
+- Shared types live in packages/types, never defined locally in apps
+- packages/types exports two surfaces:
+  - class-validator DTOs (used by NestJS for validation)
+  - plain TypeScript interfaces derived from DTOs (used by Next.js frontend)
+- Never import class-validator directly in apps/web — use packages/types interfaces only
+- Never duplicate DTO definitions in apps/api — always import from packages/types
 
 - Never commit to main directly
 - Conventional commits: feat/fix/chore/docs
