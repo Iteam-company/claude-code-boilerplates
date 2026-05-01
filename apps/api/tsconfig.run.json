@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./dist/apps/api/src/*"],
+      "@repo/types": ["../../packages/types/src/index.ts"],
+      "@repo/dtos": ["../../packages/dtos/src/index.ts"]
+    }
+  }
+}
