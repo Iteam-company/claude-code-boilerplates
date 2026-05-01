@@ -43,3 +43,8 @@ Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 - Never define types locally in apps/ — always import from packages/types
 - react-hook-form + zodResolver used in apps/web only
 - NestJS uses ValidationPipe with class-validator DTOs from packages/dtos
+
+<!-- import packages -->
+
+- Use "\*" for internal workspace package references, never "workspace:\*"
+- workspace:\* is pnpm/yarn only — this monorepo uses npm

@@ -1,4 +1,4 @@
-import { HealthCheckType } from "@repo/types/health-check.types";
+import type { HealthCheckType } from "@repo/types/health-check.types";
 import {
   IsDateString,
   IsNotEmptyObject,
