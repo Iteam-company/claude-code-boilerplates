@@ -11,8 +11,7 @@
   "dependencies": {
     "class-validator": "^0.14.0",
     "class-transformer": "^0.5.1",
-    "@types/node": "^20.19.39",
-    "@repo/types": "workspace:*"
+    "@types/node": "^20.19.39"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
