@@ -1,7 +1,7 @@
 # Project
 
 Turborepo monorepo with Next.js (frontend) and NestJS (backend API).
-Frontend: TypeScript, Tailwind CSS, SWR for data fetching, lucide-react icons.
+Frontend: TypeScript, Tailwind CSS, SWR for data fetching, shadcn-ui, lucide-react icons.
 Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 
 # Structure
@@ -35,5 +35,9 @@ Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 - Conventional commits: feat/fix/chore/docs
 - Never hardcode secrets; reference env vars by name only
 - Auth lives in middleware only, never in route handlers
-- Never import across `apps/` boundaries in monorepo
+
+- Never import directly between apps (apps/web must never import from apps/api)
+- Always use packages/ for shared code between apps
+- Cross-app communication via API calls only, never direct imports
+
 - Shared types in src/types/, never colocated with components
