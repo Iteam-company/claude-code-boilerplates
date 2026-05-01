@@ -11,15 +11,15 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
+    "@repo/types": "*",
     "@repo/ui": "*",
+    "@repo/validators": "*",
     "lucide-react": "^1.14.0",
     "next": "16.2.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "react-hook-form": "^7.74.0",
-    "swr": "^2.4.1",
-    "@repo/types": "*",
-    "@repo/validators": "*"
+    "swr": "^2.4.1"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
