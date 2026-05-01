@@ -2,6 +2,7 @@
 
 import useSWR from "swr";
 import { fetcher } from "../lib/fetcher";
+import { Code } from "@repo/ui";
 
 export default function Home() {
   const { data, error, isLoading } = useSWR("/health-check", fetcher);
@@ -15,6 +16,8 @@ export default function Home() {
           {key}: {JSON.stringify(value)}
         </p>
       ))}
+
+      <Code>test</Code>
     </div>
   );
 }
