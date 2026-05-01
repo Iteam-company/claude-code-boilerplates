@@ -8,9 +8,22 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3333',
+    'http://localhost:5555',
+  ];
+
   app.enableCors({
-    origin: [`http://localhost:${port}`],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, origin);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   });
 
   const swaggerConfig = new DocumentBuilder()
