@@ -5,11 +5,18 @@ description: DTO and type sharing conventions between NestJS and Next.js via pac
 
 # DTO Patterns
 
-## Structure
+## Validation split
 
-- packages/types/src/dtos/ — class-validator decorated classes (NestJS consumes)
-- packages/types/src/interfaces/ — plain interfaces derived from DTOs (Next.js consumes)
-- packages/types/src/index.ts — exports both surfaces separately
+- packages/types — interface ICreateUser { email: string; ... }
+- packages/dtos — class CreateUserDto with @IsEmail(), imports ICreateUser
+- packages/validators — createUserSchema = z.object({ email: z.string().email() })
+
+## Rules
+
+- DTO must implement the interface from packages/types
+- Zod schema shape must match the interface from packages/types
+- packages/types is the contract — if it changes, update both DTO and schema
+- Never import @nestjs/\* in packages/dtos — keep it framework-agnostic
 
 ## Adding a new DTO
 

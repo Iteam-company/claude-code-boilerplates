@@ -22,15 +22,6 @@ Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 
 # Conventions
 
-<!-- DTO validation and types -->
-
-- Shared types live in packages/types, never defined locally in apps
-- packages/types exports two surfaces:
-  - class-validator DTOs (used by NestJS for validation)
-  - plain TypeScript interfaces derived from DTOs (used by Next.js frontend)
-- Never import class-validator directly in apps/web — use packages/types interfaces only
-- Never duplicate DTO definitions in apps/api — always import from packages/types
-
 - Never commit to main directly
 - Conventional commits: feat/fix/chore/docs
 - Never hardcode secrets; reference env vars by name only
@@ -41,3 +32,14 @@ Backend: TypeScript, NestJS, TypeORM, Strapi for CMS.
 - Cross-app communication via API calls only, never direct imports
 
 - Shared types in src/types/, never colocated with components
+
+<!-- DTO validation and types -->
+
+- Plain TS interfaces live in packages/types — shared across all apps
+- Zod schemas live in packages/validators — apps/web only
+- class-validator DTOs live in packages/dtos — apps/api only
+- Never use zod in apps/api, never use class-validator in apps/web
+- Types in packages/types are the contract — validators and DTOs must match them
+- Never define types locally in apps/ — always import from packages/types
+- react-hook-form + zodResolver used in apps/web only
+- NestJS uses ValidationPipe with class-validator DTOs from packages/dtos
