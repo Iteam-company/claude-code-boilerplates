@@ -16,7 +16,10 @@
     "next": "16.2.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "swr": "^2.4.1"
+    "react-hook-form": "^7.74.0",
+    "swr": "^2.4.1",
+    "@repo/types": "*",
+    "@repo/validators": "*"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
