@@ -1,8 +1,18 @@
-import 'tsconfig-paths/register';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+
+import { register } from 'tsconfig-paths';
+import { join } from 'path';
+
+register({
+  baseUrl: join(__dirname, '..'),
+  paths: {
+    '@repo/types': ['../../packages/types/src/index.ts'],
+    '@repo/dtos': ['../../packages/dtos/src/index.ts'],
+  },
+});
 
 async function bootstrap() {
   const port = Number(process.env.PORT) || 3333;
