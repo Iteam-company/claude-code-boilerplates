@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "declaration": true,
     "outDir": "./dist",
-    "types": ["node"]
+    "types": ["node"],
+    "moduleResolution": "bundler"
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

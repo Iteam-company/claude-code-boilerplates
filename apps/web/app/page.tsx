@@ -5,7 +5,7 @@ import { fetcher } from "../lib/fetcher";
 import { HealthCheckType } from "@repo/types/health-check.types";
 
 export default function Home() {
-  const { data, error, isLoading } = useSWR<HealthCheckType>(
+  const { data, error, isLoading } = useSWR<HealthCheckType, { qq: number }>(
     "/health-check",
     fetcher,
   );
