@@ -7,10 +7,12 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <Header />
-      <main>{children}</main>
+    <div className="flex flex-col justify-between items-center h-dvh">
+      <div>
+        <Header />
+        <main>{children}</main>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 }
