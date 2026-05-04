@@ -14,6 +14,10 @@ Brief description of what this project is.
 - next-themes (dark/light mode)
 - sonner (toasts)
 - Recharts (charts)
+- Drizzle ORM (PostgreSQL)
+- Neon DB (serverless Postgres)
+- JWT (authentication)
+- bcryptjs (password hashing)
 
 # Structure
 
@@ -122,11 +126,11 @@ type FormData = z.infer<typeof schema>;
 - Always export metadata from every page
 
 ```ts
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Page Title",
-  description: "Page description",
+  title: 'Page Title',
+  description: 'Page description',
 };
 ```
 
@@ -138,7 +142,7 @@ export const metadata: Metadata = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${params.slug} | Site Name`,
-    description: "...",
+    description: '...',
   };
 }
 ```
@@ -151,13 +155,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
   title: {
-    default: "Site Name",
-    template: "%s | Site Name",
+    default: 'Site Name',
+    template: '%s | Site Name',
   },
-  description: "Default description",
+  description: 'Default description',
   openGraph: {
-    type: "website",
-    locale: "en_US",
+    type: 'website',
+    locale: 'en_US',
   },
 };
 ```
@@ -168,3 +172,198 @@ export const metadata: Metadata = {
 - Use `title.template` so page titles are consistent
 - Every page must have a unique `title` and `description`
 - Never hardcode the base URL — use `NEXT_PUBLIC_BASE_URL` env variable
+
+# Backend Architecture
+
+## API Layer (Next.js)
+
+- All API routes are located in app/api/\*
+- Use App Router (route.ts)
+- Routes must be thin:
+  - validate input
+  - call service
+  - return response
+- Never place business logic inside routes
+
+## Modules (DDD-lite)
+
+All business logic lives in src/modules/
+
+```
+src
+|-- db
+|   |-- drizzle.ts
+|   `-- schema.ts
+|-- lib
+|   `-- errors
+|       |-- handle-error.ts
+|       |-- http-error.ts
+|       `-- index.ts
+`-- modules
+    `-- user
+        |-- index.ts
+        |-- user.repo.ts
+        |-- user.schema.ts
+        |-- user.service.ts
+        |-- user.types.ts
+        `-- user.validation.ts
+```
+
+## Database (Drizzle)
+
+- Use Drizzle ORM for all DB access
+- Schemas are defined in \*.schema.ts
+- Table naming convention:
+  - plural (users, posts)
+- Export naming:
+  - export const users = pgTable(...)
+  - never use UserSchema
+
+## Repository Layer
+
+- Only DB queries
+- No business logic
+- Always typed via user.types.ts
+
+Examples:
+userRepo.findByEmail(email)
+userRepo.create(data)
+
+## Service Layer
+
+- Contains all business logic
+- Can throw domain/HTTP errors
+- Must NOT know about HTTP (Request/Response)
+
+Examples:
+userService.register()
+userService.login()
+
+## API Routes
+
+Pattern:
+
+```ts
+export async function POST(req: Request) {
+  try {
+    // validate
+    // call service
+    // return response
+  } catch (error: unknown) {
+    return handleError(error);
+  }
+}
+```
+
+## Validation (Zod)
+
+- All validation schemas live in modules/_/_.validation.ts
+- Never validate manually in routes
+- Always use safeParse
+
+Example:
+const parsed = schema.safeParse(body);
+
+## Types
+
+Used for:
+
+- service return types
+- repo input types
+- API contracts
+
+Example:
+user.types.ts
+
+```ts
+AuthResponse = {
+user: Omit<User, "passwordHash">;
+token: string;
+}
+```
+
+## Rules
+
+- Never duplicate types between layers
+- Never infer DB types directly in UI
+- Use Omit<> for safe objects
+
+## Auth
+
+### Current approach
+
+- JWT (Bearer token)
+- Returned in response body
+
+Authorization: Bearer <token>
+
+### Rules
+
+- Never return passwordHash
+- Always sanitize user object
+
+Example:
+const { passwordHash, ...safeUser } = user;
+
+## Error Handling
+
+### HttpError
+
+throw new HttpError(401, "Invalid credentials");
+
+### Global handler
+
+catch (error: unknown) {
+return handleError(error);
+}
+
+### Rules
+
+- Never use any in catch
+- Always use unknown
+- Always centralize error handling
+
+## Database Migrations
+
+### Important
+
+- Drizzle schema DOES NOT create tables automatically
+
+### Commands
+
+npx drizzle-kit generate
+npx drizzle-kit push
+
+### Rules
+
+- Always run migrations after schema changes
+- Never assume table exists
+
+## Security
+
+- Always hash passwords (bcrypt)
+- Never store raw passwords
+- Use environment variables for secrets
+
+JWT_SECRET=...
+DATABASE_URL=...
+
+### DB
+
+- tables → plural (users)
+- columns → snake_case (created_at)
+
+### TS
+
+- variables → camelCase
+- types → PascalCase
+
+## Anti-Patterns (DO NOT DO)
+
+- business logic in routes
+- DB queries in components
+- using any
+- returning passwordHash
+- manual validation instead of Zod
+- mixing schema/validation/types
+- naming Drizzle tables as UserSchema
