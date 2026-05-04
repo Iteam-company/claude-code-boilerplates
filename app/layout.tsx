@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("", "font-sans", geist.variable)}>
       <TooltipProvider>
-        <body className="min-h-full flex flex-col">
+        <body className="min-h-dvh">
           {children}
           <Toaster />
         </body>
