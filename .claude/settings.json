@@ -26,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npm run format && npm run lint && npx tsc --noEmit"
+            "command": "pnpm run format && pnpm run lint && npx tsc --noEmit"
           }
         ]
       }
