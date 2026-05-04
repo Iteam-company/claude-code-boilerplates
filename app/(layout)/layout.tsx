@@ -7,11 +7,9 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col justify-between items-center h-dvh">
-      <div>
-        <Header />
-        <main>{children}</main>
-      </div>
+    <div className="flex flex-col items-center h-dvh overflow-y-scroll">
+      <Header />
+      <main className="w-full">{children}</main>
       <Footer />
     </div>
   );
