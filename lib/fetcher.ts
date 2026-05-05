@@ -17,3 +17,9 @@ export const fetcher = async <T>(
 
 export const poster = <TArg, TResponse>(url: string, { arg }: { arg: TArg }) =>
   fetcher<TResponse>(url, { method: 'POST', body: JSON.stringify(arg) });
+
+export const putter = <TArg, TResponse>(url: string, { arg }: { arg: TArg }) =>
+  fetcher<TResponse>(url, { method: 'PUT', body: JSON.stringify(arg) });
+
+export const deleter = (url: string) =>
+  fetcher<void>(url, { method: 'DELETE' });
