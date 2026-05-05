@@ -16,10 +16,13 @@ import {
   TiptapUnderline,
   TiptapLink,
   handleCommandNavigation,
+  EditorContentProps,
 } from 'novel';
 import GlobalDragHandle from 'tiptap-extension-global-drag-handle';
 import AutoJoiner from 'tiptap-extension-auto-joiner';
 import { Markdown } from 'tiptap-markdown';
+import { cn } from '@/lib/utils';
+
 import './Editor.css';
 
 const extensions = [
@@ -43,35 +46,50 @@ const extensions = [
       if (node.type.name === 'heading') {
         return 'Enter a heading...';
       }
-      return 'Start writing... (type / for commands)';
+      return 'Start write... (type / for commands)';
     },
     includeChildren: true,
   }),
-  Markdown,
+  Markdown.configure({
+    html: false,
+    transformPastedText: true,
+  }),
   slashCommand,
 ];
 
 type Props = {
-  onChange?: (value: string) => string;
-};
+  className?: string;
+  initialValue?: string;
+  onChange?: (value: string) => void;
+  onBlur?: () => void;
+} & EditorContentProps;
 
-export default function Editor({ onChange }: Props) {
+export default function Editor({
+  className,
+  initialValue = '# Hello World',
+  onChange,
+  ...rest
+}: Props) {
   return (
     <EditorRoot>
       <div
-        className="flex h-full flex-col"
+        className={cn('flex h-full flex-col', className)}
         onClick={() => {
           document.querySelector<HTMLElement>('.tiptap')?.focus();
         }}
       >
         <EditorContent
-          className="prose-content flex-1 cursor-text rounded-xl border border-black [&_.tiptap]:p-4 [&_.tiptap]:pl-7 [&_.tiptap]:outline-none"
+          {...rest}
+          className="prose-content border-input flex-1 cursor-text rounded-xl border [&_.tiptap]:p-4 [&_.tiptap]:pl-7 [&_.tiptap]:outline-none"
           editorProps={{
             handleKeyDown: (view, event) => handleCommandNavigation(event),
           }}
           extensions={extensions}
           onUpdate={({ editor }) => {
-            onChange?.(editor.storage.markdown.getMarkdown());
+            onChange?.(editor.storage.markdown?.getMarkdown?.());
+          }}
+          onCreate={({ editor }) => {
+            editor.commands.setContent(initialValue);
           }}
         >
           <EditorCommand className="border-muted bg-background z-50 h-auto max-h-82.5 w-72 overflow-y-auto rounded-md border px-1 py-2 shadow-md transition-all">

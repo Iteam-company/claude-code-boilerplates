@@ -11,9 +11,9 @@ const links: HeaderLinksType = [
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <div className="flex h-dvh flex-col">
+    <div className="flex flex-col">
       <Header links={links} />
-      <main className="flex-1">{children}</main>
+      <main className="h-full">{children}</main>
     </div>
   );
 }

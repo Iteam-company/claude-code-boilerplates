@@ -1,5 +1,6 @@
 'use client';
 
+import ErrorMessage from '@/components/ErrorMessage';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -70,7 +71,7 @@ export default function SignUpPage() {
                 disabled={isMutating}
               />
               {errors.email && (
-                <p className="text-red-600">{errors.email.message}</p>
+                <ErrorMessage>{errors.email.message}</ErrorMessage>
               )}
             </div>
 
@@ -82,7 +83,7 @@ export default function SignUpPage() {
                 disabled={isMutating}
               />
               {errors.password && (
-                <p className="text-red-600">{errors.password.message}</p>
+                <ErrorMessage>{errors.password.message}</ErrorMessage>
               )}
             </div>
 
@@ -94,10 +95,10 @@ export default function SignUpPage() {
                 disabled={isMutating}
               />
               {errors.passwordRepeat && (
-                <p className="text-red-600">{errors.passwordRepeat.message}</p>
+                <ErrorMessage>{errors.passwordRepeat.message}</ErrorMessage>
               )}
             </div>
-            {error && <p className="text-red-600">{error.message}</p>}
+            {error && <ErrorMessage>{error.message}</ErrorMessage>}
 
             <Button type="submit" className="w-full" disabled={isMutating}>
               Sign Up
