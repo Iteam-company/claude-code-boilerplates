@@ -1,5 +1,5 @@
-import { cn } from "@/lib/utils";
-import { Children, FC, HtmlHTMLAttributes, PropsWithChildren } from "react";
+import { cn } from '@/lib/utils';
+import { FC, HtmlHTMLAttributes, PropsWithChildren } from 'react';
 
 type Props = {
   section?: boolean;
@@ -11,11 +11,11 @@ export const Container: FC<PropsWithChildren<Props>> = ({
   children,
   ...rest
 }) => {
-  const Content = isSection ? "section" : "div";
+  const Content = isSection ? 'section' : 'div';
 
   return (
     <Content
-      className={cn("max-w-5xl px-4 mx-auto box-content", className)}
+      className={cn('mx-auto box-content max-w-5xl px-4', className)}
       {...rest}
     >
       {children}

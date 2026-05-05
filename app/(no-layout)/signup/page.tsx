@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { useSignup } from "@/hooks/api/signup";
-import { useAuth } from "@/hooks/useAuth";
-import { ROUTES } from "@/lib/routes";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useSignup } from '@/hooks/api/signup';
+import { useAuth } from '@/hooks/useAuth';
+import { ROUTES } from '@/lib/routes';
 import {
   registerSchema,
   RegisterSchemaType,
-} from "@/src/modules/user/user.validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+} from '@/src/modules/user/user.validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -26,8 +26,8 @@ export default function SignUpPage() {
   } = useForm<RegisterSchemaType>({
     resolver: zodResolver(
       registerSchema.refine((data) => data.password === data.passwordRepeat, {
-        message: "Passwords do not match",
-        path: ["passwordRepeat"],
+        message: 'Passwords do not match',
+        path: ['passwordRepeat'],
       }),
     ),
   });
@@ -50,13 +50,13 @@ export default function SignUpPage() {
     <div className="absolute top-1/2 left-1/2 -translate-1/2">
       <Card className="min-w-87.5">
         <CardHeader>
-          <h1 className="text-2xl text-center">Sign Up</h1>
+          <h1 className="text-center text-2xl">Sign Up</h1>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             <div>
               <Input
-                {...register("email")}
+                {...register('email')}
                 type="email"
                 placeholder="Email"
                 disabled={isMutating}
@@ -68,7 +68,7 @@ export default function SignUpPage() {
 
             <div>
               <Input
-                {...register("password")}
+                {...register('password')}
                 type="password"
                 placeholder="Password"
                 disabled={isMutating}
@@ -80,7 +80,7 @@ export default function SignUpPage() {
 
             <div>
               <Input
-                {...register("passwordRepeat")}
+                {...register('passwordRepeat')}
                 type="password"
                 placeholder="Repeat password"
                 disabled={isMutating}

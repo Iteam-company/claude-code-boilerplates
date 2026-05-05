@@ -1,5 +1,5 @@
-import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
+import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
 
 export default function Layout({
   children,
@@ -7,7 +7,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex flex-col h-dvh overflow-y-scroll">
+    <div className="flex h-dvh flex-col overflow-y-scroll">
       <Header />
       <main className="w-full">{children}</main>
       <Footer />
