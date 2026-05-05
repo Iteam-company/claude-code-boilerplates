@@ -70,7 +70,6 @@ export default function Editor({ onChange }: Props) {
             handleKeyDown: (view, event) => handleCommandNavigation(event),
           }}
           extensions={extensions}
-          initialContent={}
           onUpdate={({ editor }) => {
             onChange?.(editor.storage.markdown.getMarkdown());
           }}
