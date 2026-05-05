@@ -1,5 +1,5 @@
 import { poster } from '@/lib/fetcher';
-import { AuthResponse, LoginSchemaType } from '@/src/modules/user';
+import { AuthResponse, LoginSchemaType } from '@/modules/user';
 import useSWRMutation from 'swr/mutation';
 
 export const useSignin = () => {

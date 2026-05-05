@@ -6,10 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useSignin } from '@/hooks/api/signin';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
-import {
-  loginSchema,
-  LoginSchemaType,
-} from '@/src/modules/user/user.validation';
+import { loginSchema, LoginSchemaType } from '@/modules/user/user.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
