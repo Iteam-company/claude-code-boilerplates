@@ -9,7 +9,8 @@ export const fetcher = async <T>(
 
   if (!res.ok) {
     const error = await res.json().catch(() => ({ message: res.statusText }));
-    throw new Error(error.message ?? "Something went wrong");
+
+    throw new Error(error.error ?? "Something went wrong");
   }
 
   return res.json();

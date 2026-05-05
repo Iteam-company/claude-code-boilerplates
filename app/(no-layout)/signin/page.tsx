@@ -3,38 +3,32 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useSignup } from "@/hooks/api/signup";
+import { useSignin } from "@/hooks/api/signin";
 import { useAuth } from "@/hooks/useAuth";
 import { ROUTES } from "@/lib/routes";
 import {
-  registerSchema,
-  RegisterSchemaType,
+  loginSchema,
+  LoginSchemaType,
 } from "@/src/modules/user/user.validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const router = useRouter();
   const { setToken } = useAuth();
-  const { trigger: signup, error, isMutating } = useSignup();
+  const { trigger: signin, error, isMutating } = useSignin();
 
-  const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<RegisterSchemaType>({
-    resolver: zodResolver(
-      registerSchema.refine((data) => data.password === data.passwordRepeat, {
-        message: "Passwords do not match",
-        path: ["passwordRepeat"],
-      }),
-    ),
+  } = useForm<LoginSchemaType>({
+    resolver: zodResolver(loginSchema),
     shouldUnregister: true,
   });
 
-  const onSubmit = async (data: RegisterSchemaType) => {
-    const result = await signup(data);
+  const onSubmit = async (data: LoginSchemaType) => {
+    const result = await signin(data);
 
     if (result.token) {
       setToken(result.token);
@@ -43,15 +37,15 @@ export default function SignUpPage() {
     router.push(ROUTES.HOME);
   };
 
-  const handleHaveAccount = () => {
-    router.push(ROUTES.SIGNIN);
+  const handleDontHaveAccount = () => {
+    router.push(ROUTES.SIGNUP);
   };
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-1/2">
       <Card className="min-w-87.5">
         <CardHeader>
-          <h1 className="text-2xl text-center">Sign Up</h1>
+          <h1 className="text-2xl text-center">Sign In</h1>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
@@ -79,21 +73,10 @@ export default function SignUpPage() {
               )}
             </div>
 
-            <div>
-              <Input
-                {...register("passwordRepeat")}
-                type="password"
-                placeholder="Repeat password"
-                disabled={isMutating}
-              />
-              {errors.passwordRepeat && (
-                <p className="text-red-600">{errors.passwordRepeat.message}</p>
-              )}
-            </div>
             {error && <p className="text-red-600">{error.message}</p>}
 
             <Button type="submit" className="w-full" disabled={isMutating}>
-              Sign Up
+              Sign In
             </Button>
 
             <Button
@@ -101,9 +84,9 @@ export default function SignUpPage() {
               variant="ghost"
               className="w-full"
               disabled={isMutating}
-              onClick={handleHaveAccount}
+              onClick={handleDontHaveAccount}
             >
-              Already have account?
+              Don&apos;t have account?
             </Button>
           </form>
         </CardContent>
