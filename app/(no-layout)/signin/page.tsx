@@ -19,6 +19,7 @@ export default function SignInPage() {
   const { setToken } = useAuth();
   const { trigger: signin, error, isMutating } = useSignin();
 
+  const {
     handleSubmit,
     register,
     formState: { errors },
