@@ -1,4 +1,4 @@
-import { db } from '@db/drizzle';
+import { db } from '@/db/drizzle';
 import { userTable } from './user.schema';
 import { eq } from 'drizzle-orm';
 import { CreateUserInput } from './user.types';
