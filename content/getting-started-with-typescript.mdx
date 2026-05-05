@@ -1,0 +1,37 @@
+export const metadata = {
+  title: 'Getting Started with TypeScript',
+  date: '2026-04-15',
+  description: 'A practical intro to TypeScript for JavaScript developers.',
+};
+
+# Getting Started with TypeScript
+
+TypeScript is a strongly typed superset of JavaScript that compiles to plain JS. Once you try it, it's hard to go back.
+
+## Why TypeScript?
+
+- Catches bugs at **compile time**, not runtime
+- Better autocomplete and refactoring in your editor
+- Self-documenting code through types
+
+## Your first typed function
+
+```ts
+function greet(name: string): string {
+  return `Hello, ${name}!`;
+}
+```
+
+## Interfaces vs Types
+
+Both work for describing object shapes, but interfaces are generally preferred for public APIs:
+
+```ts
+interface User {
+  id: number;
+  name: string;
+  email?: string; // optional
+}
+```
+
+Start small — type your function arguments and return values first, and let TypeScript infer the rest.
