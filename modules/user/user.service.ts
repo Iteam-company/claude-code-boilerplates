@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { userRepo } from './user.repo';
 import { AuthResponse, User } from './user.types';
-import { HttpError } from '@lib/errors/http-error';
+import { HttpError } from '@/lib/errors/http-error';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
