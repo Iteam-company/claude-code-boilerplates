@@ -14,10 +14,7 @@ export const Container: FC<PropsWithChildren<Props>> = ({
   const Content = isSection ? 'section' : 'div';
 
   return (
-    <Content
-      className={cn('mx-auto box-content max-w-5xl px-4', className)}
-      {...rest}
-    >
+    <Content className={cn('mx-auto max-w-5xl px-4', className)} {...rest}>
       {children}
     </Content>
   );
