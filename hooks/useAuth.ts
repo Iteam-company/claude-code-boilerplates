@@ -1,10 +1,10 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from 'react';
 
-const TOKEN_KEY = "auth_token";
+const TOKEN_KEY = 'auth_token';
 
 export const useAuth = () => {
   const [token, setTokenState] = useState<string | null>(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       return localStorage.getItem(TOKEN_KEY);
     }
     return null;
@@ -24,7 +24,7 @@ export const useAuth = () => {
     const setToken = (token: string) => {
       setTokenState(token);
     };
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const token = localStorage.getItem(TOKEN_KEY);
       if (token) {
         setToken(token);

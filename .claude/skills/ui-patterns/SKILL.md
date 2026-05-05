@@ -16,18 +16,18 @@ description: UI component structure, styling conventions, and theme usage for pa
 
 ```ts
 // correct — JS/TS imports use package name
-import { Button } from "@repo/ui/components/button";
+import { Button } from '@repo/ui/components/button';
 ```
 
 ## Importing CSS
 
 ```css
 /* correct — CSS imports must use relative paths, never @repo/ui */
-@import "../../../packages/ui/src/styles/globals.css";
-@import "../../../packages/ui/src/themes/brand.css";
+@import '../../../packages/ui/src/styles/globals.css';
+@import '../../../packages/ui/src/themes/brand.css';
 
 /* never — Tailwind v4 PostCSS cannot resolve package CSS exports */
-@import "@repo/ui/styles/globals.css";
+@import '@repo/ui/styles/globals.css';
 ```
 
 ## Components
