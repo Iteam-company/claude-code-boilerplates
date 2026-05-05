@@ -1,22 +1,23 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { useSignin } from "@/hooks/api/signin";
-import { useAuth } from "@/hooks/useAuth";
-import { ROUTES } from "@/lib/routes";
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { useSignin } from '@/hooks/api/signin';
+import { useAuth } from '@/hooks/useAuth';
+import { ROUTES } from '@/lib/routes';
 import {
   loginSchema,
   LoginSchemaType,
-} from "@/src/modules/user/user.validation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
+} from '@/src/modules/user/user.validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function SignInPage() {
   const router = useRouter();
-  const { setToken } = useAuth();
+  const { token, setToken } = useAuth();
   const { trigger: signin, error, isMutating } = useSignin();
 
   const {
@@ -42,17 +43,23 @@ export default function SignInPage() {
     router.push(ROUTES.SIGNUP);
   };
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && token) {
+      router.replace(ROUTES.HOME);
+    }
+  }, []);
+
   return (
     <div className="absolute top-1/2 left-1/2 -translate-1/2">
       <Card className="min-w-87.5">
         <CardHeader>
-          <h1 className="text-2xl text-center">Sign In</h1>
+          <h1 className="text-center text-2xl">Sign In</h1>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             <div>
               <Input
-                {...register("email")}
+                {...register('email')}
                 type="email"
                 placeholder="Email"
                 disabled={isMutating}
@@ -64,7 +71,7 @@ export default function SignInPage() {
 
             <div>
               <Input
-                {...register("password")}
+                {...register('password')}
                 type="password"
                 placeholder="Password"
                 disabled={isMutating}
