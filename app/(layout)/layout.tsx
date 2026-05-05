@@ -9,7 +9,7 @@ export default function Layout({
   return (
     <div className="flex h-dvh flex-col overflow-y-scroll">
       <Header />
-      <main className="w-full">{children}</main>
+      <main className="flex-1">{children}</main>
       <Footer />
     </div>
   );
