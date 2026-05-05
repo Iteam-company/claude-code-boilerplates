@@ -12,11 +12,12 @@ import {
 } from '@/src/modules/user/user.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 export default function SignUpPage() {
   const router = useRouter();
-  const { setToken } = useAuth();
+  const { token, setToken } = useAuth();
   const { trigger: signup, error, isMutating } = useSignup();
 
   const {
@@ -46,6 +47,12 @@ export default function SignUpPage() {
   const handleHaveAccount = () => {
     router.push(ROUTES.SIGNIN);
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && token) {
+      router.replace(ROUTES.HOME);
+    }
+  }, []);
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-1/2">

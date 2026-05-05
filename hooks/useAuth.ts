@@ -20,19 +20,19 @@ export const useAuth = () => {
     setTokenState(null);
   };
 
+  const isAuthenticated = !!token;
+
   useLayoutEffect(() => {
     const setToken = (token: string) => {
       setTokenState(token);
     };
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !token) {
       const token = localStorage.getItem(TOKEN_KEY);
       if (token) {
         setToken(token);
       }
     }
   }, []);
-
-  const isAuthenticated = !!token;
 
   return { token, setToken, clearToken, isAuthenticated };
 };
