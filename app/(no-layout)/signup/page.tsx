@@ -30,6 +30,7 @@ export default function SignUpPage() {
         path: ['passwordRepeat'],
       }),
     ),
+    shouldUnregister: true,
   });
 
   const onSubmit = async (data: RegisterSchemaType) => {
@@ -89,7 +90,7 @@ export default function SignUpPage() {
                 <p className="text-red-600">{errors.passwordRepeat.message}</p>
               )}
             </div>
-            {error && <p>{error.message}</p>}
+            {error && <p className="text-red-600">{error.message}</p>}
 
             <Button type="submit" className="w-full" disabled={isMutating}>
               Sign Up
