@@ -1,25 +1,30 @@
 import { notFound } from 'next/navigation';
+import { postService } from '@/modules/post';
+import { BlogPostContent } from './blog-post-content';
 
-export default async function BlogPostPage({
-  params,
-}: {
+type Props = {
   params: Promise<{ slug: string }>;
-}) {
+};
+
+export async function generateMetadata({ params }: Props) {
+  const { slug } = await params;
+  try {
+    const post = await postService.getBySlug(slug);
+    return { title: post.title, description: post.description };
+  } catch {
+    return {};
+  }
+}
+
+export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
 
-  let Post, metadata;
+  let post;
   try {
-    const mod = await import(`@/content/${slug}.mdx`);
-    Post = mod.default;
-    metadata = mod.metadata;
+    post = await postService.getBySlug(slug);
   } catch {
     notFound();
   }
 
-  return (
-    <article className="prose mx-auto max-w-2xl px-4 py-4">
-      <p className="text-sm text-gray-500">{metadata?.date}</p>
-      <Post />
-    </article>
-  );
+  return <BlogPostContent post={post} />;
 }

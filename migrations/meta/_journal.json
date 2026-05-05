@@ -8,6 +8,13 @@
       "when": 1777900245358,
       "tag": "0000_dapper_silverclaw",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777986419445,
+      "tag": "0001_smiling_kinsey_walden",
+      "breakpoints": true
     }
   ]
 }
