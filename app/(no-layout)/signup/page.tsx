@@ -9,7 +9,7 @@ import { ROUTES } from '@/lib/routes';
 import {
   registerSchema,
   RegisterSchemaType,
-} from '@/src/modules/user/user.validation';
+} from '@/modules/user/user.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';

@@ -1,5 +1,5 @@
-import { userService, registerSchema } from '@modules/user';
-import { handleError } from '@lib/errors';
+import { userService, registerSchema } from '@/modules/user';
+import { handleError } from '@/lib/errors';
 
 export async function POST(req: Request) {
   try {
