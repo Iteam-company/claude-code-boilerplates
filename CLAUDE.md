@@ -175,195 +175,144 @@ export const metadata: Metadata = {
 
 # Backend Architecture
 
-## API Layer (Next.js)
+## Architecture Style
 
-- All API routes are located in app/api/\*
-- Use App Router (route.ts)
-- Routes must be thin:
-  - validate input
-  - call service
-  - return response
-- Never place business logic inside routes
+The backend follows a lightweight DDD/module-oriented structure.
 
-## Modules (DDD-lite)
+Each feature is isolated inside `modules/<feature>`.
 
-All business logic lives in src/modules/
+Typical module structure:
 
-```
-src
-|-- db
-|   |-- drizzle.ts
-|   `-- schema.ts
-|-- lib
-|   `-- errors
-|       |-- handle-error.ts
-|       |-- http-error.ts
-|       `-- index.ts
-`-- modules
-    `-- user
-        |-- index.ts
-        |-- user.repo.ts
-        |-- user.schema.ts
-        |-- user.service.ts
-        |-- user.types.ts
-        `-- user.validation.ts
+```txt
+modules/
+└── feature/
+    ├── feature.schema.ts
+    ├── feature.relations.ts
+    ├── feature.types.ts
+    ├── feature.validation.ts
+    ├── feature.repo.ts
+    ├── feature.service.ts
+    └── index.ts
 ```
 
-## Database (Drizzle)
+## Layer Responsibilities
 
-- Use Drizzle ORM for all DB access
-- Schemas are defined in \*.schema.ts
-- Table naming convention:
-  - plural (users, posts)
-- Export naming:
-  - export const users = pgTable(...)
-  - never use UserSchema
+### API Routes
 
-## Repository Layer
+Located in:
 
-- Only DB queries
-- No business logic
-- Always typed via user.types.ts
-
-Examples:
-userRepo.findByEmail(email)
-userRepo.create(data)
-
-## Service Layer
-
-- Contains all business logic
-- Can throw domain/HTTP errors
-- Must NOT know about HTTP (Request/Response)
-
-Examples:
-userService.register()
-userService.login()
-
-## API Routes
-
-Pattern:
-
-```ts
-export async function POST(req: Request) {
-  try {
-    // validate
-    // call service
-    // return response
-  } catch (error: unknown) {
-    return handleError(error);
-  }
-}
+```txt
+app/api/*
 ```
 
-## Validation (Zod)
+Responsibilities:
 
-- All validation schemas live in modules/_/_.validation.ts
-- Never validate manually in routes
-- Always use safeParse
+- authentication
+- request parsing
+- validation
+- calling services
+- returning responses
 
-Example:
-const parsed = schema.safeParse(body);
+Rules:
 
-## Types
+- keep routes thin
+- never place business logic in routes
+- never place DB queries in routes
 
-Used for:
+### Services
 
-- service return types
-- repo input types
-- API contracts
+Contain business logic.
 
-Example:
-user.types.ts
+Responsibilities:
 
-```ts
-AuthResponse = {
-user: Omit<User, "passwordHash">;
-token: string;
-}
-```
+- orchestration
+- authorization/ownership checks
+- domain rules
+- throwing domain errors
 
-## Rules
+Rules:
 
-- Never duplicate types between layers
-- Never infer DB types directly in UI
-- Use Omit<> for safe objects
+- services must not depend on HTTP primitives
+- services should not know about `Request`/`Response`
 
-## Auth
+### Repositories
 
-### Current approach
+Contain database access only.
 
-- JWT (Bearer token)
-- Returned in response body
+Responsibilities:
 
-Authorization: Bearer <token>
+- queries
+- persistence
+- data retrieval
 
-### Rules
+Rules:
 
-- Never return passwordHash
-- Always sanitize user object
+- no business logic
+- no HTTP logic
 
-Example:
-const { passwordHash, ...safeUser } = user;
+### Validation
+
+Validation lives in module validation files.
+
+Rules:
+
+- validate all external input
+- prefer `safeParse`
+- validate at API boundaries
+
+## Database Rules
+
+- Use Drizzle ORM
+- Define relations explicitly
+- Register schemas and relations in the DB schema object
+- Use migrations for schema changes
+- Keep schemas normalized
+
+Naming:
+
+- tables → plural snake_case
+- columns → snake_case
+
+## TypeScript Rules
+
+- Avoid `any`
+- Prefer explicit types at boundaries
+- Use inference internally where clear
+- Use shared module types for contracts
+
+Naming:
+
+- variables/functions → camelCase
+- types/classes → PascalCase
 
 ## Error Handling
 
-### HttpError
-
-throw new HttpError(401, "Invalid credentials");
-
-### Global handler
-
-catch (error: unknown) {
-return handleError(error);
-}
-
-### Rules
-
-- Never use any in catch
-- Always use unknown
-- Always centralize error handling
-
-## Database Migrations
-
-### Important
-
-- Drizzle schema DOES NOT create tables automatically
-
-### Commands
-
-npx drizzle-kit generate
-npx drizzle-kit push
-
-### Rules
-
-- Always run migrations after schema changes
-- Never assume table exists
+- Centralize error handling
+- Use typed/domain errors
+- Never throw raw strings
+- Avoid silent failures
 
 ## Security
 
-- Always hash passwords (bcrypt)
+- Never expose secrets
 - Never store raw passwords
-- Use environment variables for secrets
+- Use environment variables
+- Sanitize sensitive fields before returning responses
 
-JWT_SECRET=...
-DATABASE_URL=...
+## Preferred Patterns
 
-### DB
+- Thin API routes
+- Composition over inheritance
+- Feature/module isolation
+- Small focused functions
+- Shared utilities
+- Server-side data fetching when possible
 
-- tables → plural (users)
-- columns → snake_case (created_at)
+## Anti-Patterns
 
-### TS
-
-- variables → camelCase
-- types → PascalCase
-
-## Anti-Patterns (DO NOT DO)
-
-- business logic in routes
-- DB queries in components
-- using any
-- returning passwordHash
-- manual validation instead of Zod
-- mixing schema/validation/types
-- naming Drizzle tables as UserSchema
+- Business logic in routes
+- DB access inside UI components
+- Massive files/modules
+- Hidden side effects
+- Tight coupling between modules
+- Manual validation in routes/components
