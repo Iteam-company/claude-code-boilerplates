@@ -328,6 +328,7 @@ CLOUDINARY_API_SECRET=
 
 - Business logic in routes
 - DB queries in components
+- DB access inside UI components
 - Using `any`
 - Returning `passwordHash`
 - Manual validation instead of Zod
@@ -336,3 +337,19 @@ CLOUDINARY_API_SECRET=
 - Using `db.query.*` with `with` without `*.relations.ts`
 - Fetching in Client Components when a Server Component would do
 - Setting `Content-Type` manually when using `FormData`
+- Massive files/modules
+- Hidden side effects
+- Tight coupling between modules
+
+# MCP
+
+MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if missing:
+
+| Server | Variable       | Where to get it                        |
+| ------ | -------------- | -------------------------------------- |
+| neon   | `NEON_API_KEY` | console.neon.tech → Account → API Keys |
+| vercel | `VERCEL_TOKEN` | vercel.com → Settings → Tokens         |
+
+If an MCP tool fails due to a missing token, stop and ask the user to add the relevant variable to `.env`, then restart the dev session before retrying.
+
+> > > > > > > 2adc750d56a382e167c252d6cc663034e0d561ce
