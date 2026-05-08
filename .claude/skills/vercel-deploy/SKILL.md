@@ -20,7 +20,7 @@ Sets up Vercel with Git integration so every `git push` triggers an automatic de
 ### Step 1 — Install Vercel CLI
 
 ```bash
-npm install -g vercel@latest
+pnpm add -g vercel@latest
 ```
 
 ### Step 2 — Login
@@ -61,27 +61,11 @@ Verify the connection:
 vercel git ls
 ```
 
-### Step 5 — Sync environment variables
+### Step 5 - Add environment
 
-Pull existing Vercel env vars to local `.env.local`:
+Add all environment to Vercel
 
-```bash
-vercel env pull .env.local
-```
-
-Add each environment variable to Vercel (run for each one):
-
-```bash
-vercel env add JWT_SECRET
-vercel env add DATABASE_URL
-vercel env add CLOUDINARY_CLOUD_NAME
-vercel env add CLOUDINARY_API_KEY
-vercel env add CLOUDINARY_API_SECRET
-```
-
-Each command prompts for the value and which environments to apply it to (Production, Preview, Development).
-
-### Step 6 — First production deploy
+### Step 5 — First production deploy
 
 ```bash
 git add .
@@ -159,7 +143,7 @@ For Next.js projects, Vercel auto-detects settings. Only add `vercel.json` if yo
   "buildCommand": "next build",
   "outputDirectory": ".next",
   "devCommand": "next dev",
-  "installCommand": "npm install",
+  "installCommand": "pnpm install",
   "regions": ["fra1"]
 }
 ```
@@ -178,9 +162,23 @@ When adding vars with `vercel env add`, select all three unless the value differ
 
 ---
 
+## Vercel MCP tools
+
+The project has a Vercel MCP server configured (`.mcp.json`). Use its tools to inspect deployments without leaving the session:
+
+- `list_deployments` — check recent deployment status
+- `get_deployment` — inspect a specific deployment
+- `get_deployment_build_logs` — debug a failed build
+- `get_runtime_logs` — tail live logs
+- `get_project` — view project settings
+
+These are read-only monitoring tools. Deploys are still triggered by `git push`.
+
+---
+
 ## Checklist for initial setup
 
-- [ ] `npm install -g vercel@latest`
+- [ ] `pnpm add -g vercel@latest`
 - [ ] `vercel login`
 - [ ] `vercel link --repo`
 - [ ] `vercel git connect`

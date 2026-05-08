@@ -16,8 +16,14 @@ export const fetcher = async <T>(
   url: string,
   options?: RequestInit,
 ): Promise<T> => {
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+
   const res = await fetch(url, {
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     ...options,
   });
   if (!res.ok) {
@@ -48,6 +54,20 @@ export const use[Resource] = (id: string) => {
     fetcher,
   )
 }
+```
+
+### Protected GET (with auth token)
+
+The default `fetcher` has no Authorization header. For protected GET endpoints, pass it inline:
+
+```ts
+export const useMyPosts = () => {
+  return useSWR<Post[]>('/api/posts?self=true', (url) =>
+    fetcher(url, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    }),
+  );
+};
 ```
 
 ### Create hook (useSWRMutation)

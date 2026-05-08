@@ -10,7 +10,7 @@ Handles image uploads to Cloudinary via a protected Next.js API route.
 ## Setup
 
 ```bash
-npm install cloudinary
+pnpm add cloudinary
 ```
 
 ```env
@@ -34,23 +34,20 @@ cloudinary.config({
 
 export const uploadImage = async (
   file: Buffer,
-  folder: string = 'blog',
-): Promise<string> => {
+  folder: string = 'uploads',
+): Promise<{ url: string; publicId: string }> => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader
       .upload_stream({ folder }, (error, result) => {
         if (error || !result) return reject(error);
-        resolve(result.secure_url);
+        resolve({ url: result.secure_url, publicId: result.public_id });
       })
       .end(file);
   });
 };
 
-export const deleteImage = async (url: string): Promise<void> => {
-  const parts = url.split('/');
-  const folder = parts.at(-2);
-  const filename = parts.at(-1)?.split('.')[0];
-  const publicId = `${folder}/${filename}`;
+// Pass the stored publicId — never re-parse a URL to extract it
+export const deleteImage = async (publicId: string): Promise<void> => {
   await cloudinary.uploader.destroy(publicId);
 };
 ```
@@ -87,9 +84,10 @@ export async function POST(req: Request) {
     }
 
     const buffer = Buffer.from(await file.arrayBuffer());
-    const url = await uploadImage(buffer);
+    const { url, publicId } = await uploadImage(buffer);
 
-    return Response.json({ url });
+    // Return both — caller stores publicId in DB, url for immediate preview
+    return Response.json({ url, publicId });
   } catch (error: unknown) {
     return handleError(error);
   }
@@ -107,7 +105,9 @@ export const useUpload = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const upload = async (file: File): Promise<string | null> => {
+  const upload = async (
+    file: File,
+  ): Promise<{ url: string; publicId: string } | null> => {
     setIsLoading(true);
     setError(null);
 
@@ -129,8 +129,8 @@ export const useUpload = () => {
         throw new Error(data.error ?? 'Upload failed');
       }
 
-      const data: { url: string } = await res.json();
-      return data.url;
+      const data: { url: string; publicId: string } = await res.json();
+      return data;
     } catch (err) {
       setError(err as Error);
       return null;
@@ -153,10 +153,82 @@ uploadImage(buffer, 'blog'); // → cloudinary.com/.../blog/abc123.jpg
 uploadImage(buffer, 'covers'); // → cloudinary.com/.../covers/abc123.jpg
 ```
 
+## `components/ImageUpload.tsx`
+
+```tsx
+'use client';
+
+import { useRef } from 'react';
+import { useUpload } from '@/hooks/api/upload.hooks';
+import { Button } from '@/components/ui/button';
+
+interface ImageUploadProps {
+  onUpload: (result: { url: string; publicId: string }) => void;
+  label?: string;
+}
+
+export function ImageUpload({
+  onUpload,
+  label = 'Upload image',
+}: ImageUploadProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { upload, isLoading, error } = useUpload();
+
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const result = await upload(file);
+    if (result) onUpload(result);
+  };
+
+  return (
+    <div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={handleChange}
+      />
+      <Button
+        type="button"
+        variant="outline"
+        disabled={isLoading}
+        onClick={() => inputRef.current?.click()}
+      >
+        {isLoading ? 'Uploading…' : label}
+      </Button>
+      {error && (
+        <p className="text-destructive mt-1 text-sm">{error.message}</p>
+      )}
+    </div>
+  );
+}
+```
+
+## Rendering images from stored publicId
+
+Never store the full URL in the DB — store `publicId` and construct the URL at render time:
+
+```ts
+// Construct a Cloudinary URL from a stored publicId
+const imageUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_800,f_auto,q_auto/${publicId}`;
+```
+
+Or use the SDK helper:
+
+```ts
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.url(publicId, { width: 800, fetch_format: 'auto', quality: 'auto' });
+```
+
 ## Rules
 
 - Always protect the upload route with `getUserFromRequest`
 - Never set `Content-Type` manually when using `FormData`
 - Always validate file type and size before uploading
-- Store the returned `secure_url` — always use HTTPS
-- Use `deleteImage(url)` when deleting a resource that has an image
+- Store `publicId` in the database — never the full URL
+- Construct image URLs at render time using the `publicId`
+- Call `deleteImage(publicId)` when deleting a resource that has an image
