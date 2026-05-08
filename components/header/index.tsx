@@ -17,12 +17,12 @@ export function Header() {
   return (
     <header className="border-border bg-background/80 sticky top-0 z-40 border-b backdrop-blur">
       <Container>
-        <div className="flex h-14 items-center justify-between">
+        <div className="relative flex h-14 items-center justify-between">
           <Link href="/" className="text-foreground font-semibold">
             Boilerplate
           </Link>
 
-          <nav className="flex items-center gap-6">
+          <nav className="absolute left-1/2 flex -translate-x-1/2 items-center gap-6">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
