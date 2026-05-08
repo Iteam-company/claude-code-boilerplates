@@ -1,6 +1,6 @@
 # Project
 
-Brief description of what this project is.
+Next.js + Neon DB boilerplate with built-in Claude Code configuration — skills, hooks, agents, and CLAUDE.md patterns ready to use out of the box.
 
 # Tech Stack
 
@@ -25,6 +25,7 @@ app/
 ├── (main)/
 │ ├── layout.tsx ← main layout with header & footer
 │ └── page.tsx
+├── api/ ← thin API route handlers (validate → service → respond)
 ├── layout.tsx ← root layout (html, body, providers)
 ├── globals.css
 components/
@@ -33,9 +34,20 @@ components/
 │ ├── header.tsx
 │ ├── footer.tsx
 │ └── sidebar.tsx
+db/
+├── drizzle.ts ← db client + all schema/relations registered here
+├── schema.ts ← re-exports all table schemas
+modules/ ← feature modules (DDD-lite, one folder per entity)
+├── user/
+├── post/
+├── comment/
+└── like/
 lib/
 ├── utils.ts ← cn() and shared utilities
-├── validations/ ← zod schemas
+├── auth.ts ← getUserFromRequest(), JWT helpers
+├── errors/ ← HttpError class + handleError() for routes
+├── fetcher.ts ← client-side fetch utility
+├── routes.ts ← centralized route path constants
 hooks/ ← custom react hooks
 types/ ← shared typescript types
 public/
@@ -47,6 +59,13 @@ public/
 - `pnpm lint` — run eslint
 - `pnpm tsc --noEmit` — type check without building
 - `npx shadcn@latest add <component>` — add shadcn component
+
+## Database
+
+- `pnpm db:generate` — generate SQL migration from schema changes
+- `pnpm db:migrate` — apply pending migrations to the database
+- `pnpm db:push` — sync schema directly to DB without a migration file (dev only)
+- `pnpm db:studio` — open Drizzle Studio to inspect data
 
 # Conventions
 

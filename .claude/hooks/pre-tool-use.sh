@@ -71,4 +71,18 @@ if echo "$TOOL_INPUT" | grep -iE "git\s+branch\s+-D"; then
   exit 2
 fi
 
+# git checkout -- (discard working tree changes)
+if echo "$TOOL_INPUT" | grep -iE "git\s+checkout\s+--\s+"; then
+  echo "Blocked: git checkout -- requires manual execution." >&2
+  echo "Action: Run manually after confirming you want to discard changes." >&2
+  exit 2
+fi
+
+# git clean -f (remove untracked files)
+if echo "$TOOL_INPUT" | grep -iE "git\s+clean\s+.*-f"; then
+  echo "Blocked: git clean -f requires manual execution." >&2
+  echo "Action: Run manually after reviewing untracked files with: git clean -n" >&2
+  exit 2
+fi
+
 exit 0

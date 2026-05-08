@@ -1,30 +1,65 @@
 ---
 name: auth-patterns
-description: Authentication and authorization boundaries, token handling, and session rules. Loaded when touching auth middleware, protected routes, or user session logic.
+description: Authentication and authorization patterns for this project. JWT-based auth via getUserFromRequest() called in route handlers, not middleware. Loaded when touching protected routes, token handling, or user session logic.
 ---
 
 # Auth Patterns
 
-## Boundaries
+## How auth works in this project
 
-- Auth lives in middleware only, never in route handlers or components
-- Session validation on every protected request, no exceptions
-- Never pass raw user object from client — always re-fetch from DB
+Auth is **JWT-based**. Protected routes call `getUserFromRequest(req)` from `lib/auth.ts` at the top of the handler — it verifies the token and returns `{ userId }`, or throws an `HttpError(401)` which `handleError` maps to a 401 response.
 
-## Authorization
+There is no Next.js middleware doing auth globally. Each route is explicitly protected.
 
-- Distinguish authn (who are you) from authz (what can you do)
-- Check resource ownership in DB, never trust client claims
-- Role checks in a single authorize() utility, never inline
+```ts
+import { getUserFromRequest } from '@/lib/auth';
+
+export async function POST(req: Request) {
+  try {
+    const { userId } = getUserFromRequest(req); // throws 401 if invalid/missing
+    // ...
+  } catch (error: unknown) {
+    return handleError(error);
+  }
+}
+```
+
+## Optional auth (public route with user context)
+
+```ts
+let userId: string | undefined;
+try {
+  const user = getUserFromRequest(req);
+  userId = user.userId;
+} catch {
+  // unauthenticated — proceed without userId
+}
+```
+
+## Authorization (ownership checks)
+
+Ownership checks live in the **service layer**, not in routes:
+
+```ts
+// service
+const post = await postRepo.findById(id);
+if (!post) throw new HttpError(404, 'Post not found');
+if (post.authorId !== userId) throw new HttpError(403, 'Forbidden');
+```
+
+- Never trust client-supplied IDs for ownership — always verify in DB
+- 401 = unauthenticated (no/invalid token), 403 = unauthorized (wrong owner)
+- Never return 404 to hide existence of a resource from an authenticated user
 
 ## Tokens & secrets
 
+- JWTs signed with `JWT_SECRET` environment variable
 - Never log tokens, passwords, or session IDs
-- Never store sensitive data in localStorage — use httpOnly cookies
-- Short-lived access tokens + refresh token rotation
+- Never store sensitive fields (e.g. `passwordHash`) in responses — strip before returning
+- Passwords hashed with `bcryptjs` — never store or compare plain text
 
 ## Rules
 
-- Public routes explicitly allowlisted, everything else protected by default
-- On auth failure: 401 if unauthenticated, 403 if unauthorized — never 404 to hide existence
-- Always invalidate sessions server-side on logout
+- Every protected route calls `getUserFromRequest(req)` before `req.json()`
+- Ownership checks always in service, never in routes or repos
+- Never expose `passwordHash` or internal IDs in API responses
