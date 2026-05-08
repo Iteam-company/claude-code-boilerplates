@@ -1,7 +1,6 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
-import { Button } from '../ui/button';
 import { usePathname, useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
 import { LogOutIcon } from 'lucide-react';
@@ -30,16 +29,19 @@ export const Header = () => {
       </header>
       <div className="flex flex-1 flex-row items-center justify-end">
         {isAuthenticated ? (
-          <Button onClick={() => clearToken()}>
-            <LogOutIcon />
-          </Button>
+          <button
+            onClick={() => clearToken()}
+            className="inline-flex items-center justify-center rounded-md border border-black px-3 py-1.5 text-sm transition-colors hover:bg-black/5"
+          >
+            <LogOutIcon className="h-4 w-4" />
+          </button>
         ) : (
-          <Button
+          <button
             onClick={() => router.push(ROUTES.SIGNIN)}
-            className="text-sm"
+            className="rounded-md border border-black px-3 py-1.5 text-sm transition-colors hover:bg-black/5"
           >
             Sign In
-          </Button>
+          </button>
         )}
       </div>
     </div>
