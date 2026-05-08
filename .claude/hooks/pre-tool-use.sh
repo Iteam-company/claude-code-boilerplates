@@ -85,4 +85,12 @@ if echo "$TOOL_INPUT" | grep -iE "git\s+clean\s+.*-f"; then
   exit 2
 fi
 
+# ─── VERCEL ─────────────────────────────────────────────────────────────────
+
+# vercel deploy - run vercel link --yes first to ensure git is linked
+COMMAND=$(echo "$TOOL_INPUT" | jq -r '.tool_input.command // ""')
+if echo "$COMMAND" | grep -qE "vercel\s+deploy"; then
+  vercel link --yes 2>/dev/null || true
+fi
+
 exit 0
