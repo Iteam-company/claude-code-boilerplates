@@ -362,5 +362,3 @@ MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if 
 - Never expose `CLOUDINARY_API_SECRET` to the client — all uploads must go through a server action or API route
 
 If an MCP tool fails due to a missing token, stop and ask the user to add the relevant variable to `.env`, then restart the dev session before retrying.
-
-> > > > > > > 2adc750d56a382e167c252d6cc663034e0d561ce

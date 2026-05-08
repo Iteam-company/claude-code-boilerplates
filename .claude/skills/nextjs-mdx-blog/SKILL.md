@@ -7,6 +7,19 @@ description: Set up and maintain a Next.js MDX blog that renders posts stored as
 
 Renders MDX strings stored in a database using `next-mdx-remote` (client version).
 
+## Setup
+
+```bash
+pnpm add next-mdx-remote @tailwindcss/typography
+```
+
+Add typography plugin to `app/globals.css`:
+
+```css
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+```
+
 ## Stack
 
 - `next-mdx-remote` — client-side MDX rendering (NOT the `/rsc` version)
@@ -41,6 +54,37 @@ const mdxSource = await serialize(post.content);
 // then pass mdxSource to <MDXRemote {...mdxSource} />
 ```
 
+### Serialize on the client with useEffect
+
+`serialize` is async — call it in `useEffect`, not during render:
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { MDXRemote, type MDXRemoteSerializeResult } from 'next-mdx-remote';
+import { serialize } from 'next-mdx-remote/serialize';
+
+export function BlogPostContent({ content }: { content: string }) {
+  const [mdxSource, setMdxSource] = useState<MDXRemoteSerializeResult | null>(
+    null,
+  );
+
+  useEffect(() => {
+    serialize(content).then(setMdxSource);
+  }, [content]);
+
+  if (!mdxSource)
+    return <div className="bg-muted h-64 animate-pulse rounded" />;
+
+  return (
+    <div className="prose prose-neutral dark:prose-invert max-w-none">
+      <MDXRemote {...mdxSource} />
+    </div>
+  );
+}
+```
+
 ## Component structure
 
 ```
@@ -56,3 +100,10 @@ components/
 ```
 
 Public blog pages are Server Components — they call `postService` directly for best performance and SEO. Hooks are only used when client interactivity is needed.
+
+## Rules
+
+- Always wrap MDXRemote output in `prose prose-neutral dark:prose-invert`
+- Never import from `next-mdx-remote/rsc` in a Client Component
+- Serialize inside `useEffect` — never during render
+- Server Component pages call `postService` directly — no hooks needed
