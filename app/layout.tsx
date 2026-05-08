@@ -20,12 +20,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn('', 'font-sans', geist.variable)}>
-      <TooltipProvider>
-        <body className="min-h-dvh">
+      <body className="min-h-dvh">
+        <TooltipProvider>
           {children}
           <Toaster />
-        </body>
-      </TooltipProvider>
+        </TooltipProvider>
+      </body>
     </html>
   );
 }
