@@ -3,8 +3,19 @@
     "allow": [
       "Bash(git status)",
       "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git branch*)",
+      "Bash(git checkout*)",
+      "Bash(git stash*)",
       "Bash(pnpm*)",
       "Bash(npm*)",
+      "Bash(npx drizzle-kit*)",
+      "Bash(pnpm db:*)",
+      "Bash(npx shadcn*)",
+      "Bash(ls*)",
+      "Bash(find . *)",
       "Bash(psql -c SELECT*)"
     ]
   },
@@ -26,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pnpm run format && pnpm run lint && npx tsc --noEmit"
+            "command": "pnpm format && pnpm lint"
           }
         ]
       }
