@@ -20,7 +20,7 @@ Sets up Vercel with Git integration so every `git push` triggers an automatic de
 ### Step 1 — Install Vercel CLI
 
 ```bash
-pnpm add -g vercel@latest
+npm install -g vercel@latest
 ```
 
 ### Step 2 — Login
@@ -143,7 +143,7 @@ For Next.js projects, Vercel auto-detects settings. Only add `vercel.json` if yo
   "buildCommand": "next build",
   "outputDirectory": ".next",
   "devCommand": "next dev",
-  "installCommand": "pnpm install",
+  "installCommand": "npm install",
   "regions": ["fra1"]
 }
 ```
@@ -178,7 +178,7 @@ These are read-only monitoring tools. Deploys are still triggered by `git push`.
 
 ## Checklist for initial setup
 
-- [ ] `pnpm add -g vercel@latest`
+- [ ] `npm install -g vercel@latest`
 - [ ] `vercel login`
 - [ ] `vercel link --repo`
 - [ ] `vercel git connect`

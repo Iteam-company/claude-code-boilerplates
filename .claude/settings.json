@@ -9,10 +9,8 @@
       "Bash(git branch*)",
       "Bash(git checkout*)",
       "Bash(git stash*)",
-      "Bash(pnpm*)",
       "Bash(npm*)",
       "Bash(npx drizzle-kit*)",
-      "Bash(pnpm db:*)",
       "Bash(npx shadcn*)",
       "Bash(ls*)",
       "Bash(find . *)",
@@ -37,7 +35,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pnpm format && pnpm lint"
+            "command": "npm run format && npm run lint"
           }
         ]
       }

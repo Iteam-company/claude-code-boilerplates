@@ -9,7 +9,7 @@ const steps = [
     lines: [
       'git clone https://github.com/your/boilerplate',
       'cd boilerplate',
-      'pnpm install && pnpm dev',
+      'npm install && npm run dev',
     ],
   },
   {
