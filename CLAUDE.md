@@ -194,147 +194,152 @@ export const metadata: Metadata = {
 
 # Backend Architecture
 
-## Architecture Style
+## API Layer (Next.js)
 
-The backend follows a lightweight DDD/module-oriented structure.
+- All API routes are located in `app/api/*`
+- Use App Router (`route.ts`)
+- Routes must be thin: validate → call service → return response
+- Never place business logic inside routes
+- See skill: `nextjs-api-route`
 
-Each feature is isolated inside `modules/<feature>`.
+## Modules (DDD-lite)
 
-Typical module structure:
+All business logic lives in `src/modules/`. Every module has 7 files:
+`schema` → `relations` → `types` → `validation` → `repo` → `service` → `index`
 
-```txt
-modules/
-└── feature/
-    ├── feature.schema.ts
-    ├── feature.relations.ts
-    ├── feature.types.ts
-    ├── feature.validation.ts
-    ├── feature.repo.ts
-    ├── feature.service.ts
-    └── index.ts
-```
+- See skill: `drizzle-module`
 
-## Layer Responsibilities
+## Database (Drizzle)
 
-### API Routes
+- Use Drizzle ORM for all DB access
+- Table naming: plural (`users`, `posts`, `comments`, `likes`)
+- Export naming: `camelCase` + `Table` suffix (`userTable`, `postTable`)
+- Never name exports `UserSchema`
+- Always define `*.relations.ts` alongside every `*.schema.ts`
+- Always register schemas and relations in `db/drizzle.ts`
+- See skill: `drizzle-relations`
 
-Located in:
+## Repository Layer
 
-```txt
-app/api/*
-```
+- Only DB queries — no business logic
+- Always typed via `*.types.ts`
 
-Responsibilities:
+## Service Layer
 
-- authentication
-- request parsing
-- validation
-- calling services
-- returning responses
+- All business logic lives here
+- Throws `HttpError` — never returns error objects
+- Ownership checks belong here, not in routes
+- Must NOT import `Request` or `Response`
 
-Rules:
+## Validation (Zod)
 
-- keep routes thin
-- never place business logic in routes
-- never place DB queries in routes
+- All schemas in `modules/*/*.validation.ts`
+- Always use `safeParse` — never `parse`
+- Schema fields = what the client sends (never `authorId`, `id`, timestamps)
+- `authorId` comes from JWT via `getUserFromRequest` in the route
 
-### Services
+## Types
 
-Contain business logic.
+- Never infer DB types directly in UI
+- Never duplicate types between layers
+- Use `Omit<>` for safe objects (e.g. strip `passwordHash`)
 
-Responsibilities:
+## Auth
 
-- orchestration
-- authorization/ownership checks
-- domain rules
-- throwing domain errors
-
-Rules:
-
-- services must not depend on HTTP primitives
-- services should not know about `Request`/`Response`
-
-### Repositories
-
-Contain database access only.
-
-Responsibilities:
-
-- queries
-- persistence
-- data retrieval
-
-Rules:
-
-- no business logic
-- no HTTP logic
-
-### Validation
-
-Validation lives in module validation files.
-
-Rules:
-
-- validate all external input
-- prefer `safeParse`
-- validate at API boundaries
-
-## Database Rules
-
-- Use Drizzle ORM
-- Define relations explicitly
-- Register schemas and relations in the DB schema object
-- Use migrations for schema changes
-- Keep schemas normalized
-
-Naming:
-
-- tables → plural snake_case
-- columns → snake_case
-
-## TypeScript Rules
-
-- Avoid `any`
-- Prefer explicit types at boundaries
-- Use inference internally where clear
-- Use shared module types for contracts
-
-Naming:
-
-- variables/functions → camelCase
-- types/classes → PascalCase
+- JWT — Bearer token, returned in response body on login/register
+- Extracted via `getUserFromRequest(req)` from `lib/auth.ts`
+- Throws `HttpError(401)` if token missing or invalid
+- Never return `passwordHash`
+- Always sanitize user object: `const { passwordHash: _, ...safeUser } = user`
 
 ## Error Handling
 
-- Centralize error handling
-- Use typed/domain errors
-- Never throw raw strings
-- Avoid silent failures
+- Throw `HttpError(status, message)` from services
+- Always `catch (error: unknown)` — never `any`
+- Always delegate to `handleError(error)` in routes
 
-## Security
+## File Uploads
 
-- Never expose secrets
-- Never store raw passwords
-- Use environment variables
-- Sanitize sensitive fields before returning responses
+- All uploads via `lib/cloudinary.ts` → `POST /api/upload`
+- Protected — requires Bearer token
+- Returns `{ url: string }`
+- See skill: `cloudinary-upload`
 
-## Preferred Patterns
+## Blog (MDX)
 
-- Thin API routes
-- Composition over inheritance
-- Feature/module isolation
-- Small focused functions
-- Shared utilities
-- Server-side data fetching when possible
+- Posts stored as raw MDX strings in the `content` column
+- Public blog pages are Server Components — call `postService` directly
+- Client rendering uses `next-mdx-remote` (non-rsc) + `serialize()`
+- Styled via `@tailwindcss/typography` (`prose` classes)
+- See skill: `nextjs-mdx-blog`
 
-## Anti-Patterns
+## Hooks (SWR)
+
+- All hooks in `hooks/api/*.ts`
+- `useSWR` for reads, `useSWRMutation` for writes
+- Use `fetcher`, `poster`, `putter`, `deleter` from `lib/fetcher.ts`
+- File uploads use manual `fetch` with `FormData` — not `poster`
+- Call `mutate()` in `onSuccess` to keep cache in sync
+- Never use hooks in Server Components
+- See skill: `swr-hooks`
+
+## Database Migrations
+
+```bash
+npx drizzle-kit generate
+npx drizzle-kit push
+```
+
+Always run after schema changes. Never assume a table exists.
+
+## Deployment (Vercel)
+
+- Hosted on Vercel, connected to GitHub via `vercel git connect`
+- Push to `main` → production deployment (automatic)
+- Push to any other branch → preview deployment (automatic)
+- No manual deploy commands needed after initial setup
+- Environment variables managed via `vercel env add` — never commit secrets
+- See skill: `vercel-deploy`
+
+## Naming Conventions
+
+### DB
+
+- Tables → plural (`users`, `posts`)
+- Columns → `snake_case` (`created_at`, `author_id`)
+
+### TypeScript
+
+- Variables → `camelCase`
+- Types → `PascalCase`
+- Table exports → `camelCase` + `Table` suffix (`userTable`)
+
+## Environment Variables
+
+```
+JWT_SECRET=
+DATABASE_URL=
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
+
+## Anti-Patterns (DO NOT DO)
 
 - Business logic in routes
+- DB queries in components
 - DB access inside UI components
+- Using `any`
+- Returning `passwordHash`
+- Manual validation instead of Zod
+- Mixing schema / validation / types
+- Naming Drizzle tables as `UserSchema`
+- Using `db.query.*` with `with` without `*.relations.ts`
+- Fetching in Client Components when a Server Component would do
+- Setting `Content-Type` manually when using `FormData`
 - Massive files/modules
 - Hidden side effects
 - Tight coupling between modules
-- Manual validation in routes/components
 
 # MCP
 
@@ -357,3 +362,5 @@ MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if 
 - Never expose `CLOUDINARY_API_SECRET` to the client — all uploads must go through a server action or API route
 
 If an MCP tool fails due to a missing token, stop and ask the user to add the relevant variable to `.env`, then restart the dev session before retrying.
+
+> > > > > > > 2adc750d56a382e167c252d6cc663034e0d561ce
