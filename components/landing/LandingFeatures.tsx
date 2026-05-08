@@ -1,91 +1,91 @@
 import {
-  Zap,
-  Code2,
+  Rocket,
   Database,
   Shield,
-  Blocks,
-  BookOpen,
-  Cpu,
-  Bot,
-  Server,
-  Layers,
+  ImageIcon,
   FileText,
   Palette,
+  GitBranch,
+  Globe,
+  MessageSquare,
+  Zap,
+  Users,
+  RefreshCw,
 } from 'lucide-react';
 import { Container } from '@/components/Container';
 
 const features = [
   {
-    icon: Bot,
-    title: '12 Claude Code skills',
+    icon: MessageSquare,
+    title: 'Just describe what you want',
     description:
-      'Pre-built skills for modules, routes, auth, migrations, hooks, deployments, and more. Triggered automatically by what you ask.',
+      'Tell Claude "add a contact form" or "build a dashboard" — it knows your project and writes everything from scratch, correctly.',
   },
   {
-    icon: Server,
-    title: '3 MCP servers configured',
+    icon: GitBranch,
+    title: 'Push to deploy, automatically',
     description:
-      'Neon, Vercel, and Cloudinary connected in .mcp.json. Claude can query your DB, inspect deployments, and upload assets without leaving the session.',
-  },
-  {
-    icon: BookOpen,
-    title: 'CLAUDE.md project instructions',
-    description:
-      'Detailed architecture rules so Claude never invents its own patterns. Every convention documented — naming, structure, anti-patterns.',
-  },
-  {
-    icon: Layers,
-    title: 'DDD-lite module structure',
-    description:
-      'Schema → Relations → Types → Validation → Repo → Service → Index. Claude scaffolds all 7 files from a single instruction.',
-  },
-  {
-    icon: Shield,
-    title: 'JWT authentication',
-    description:
-      'Register, login, protected routes, and ownership checks wired up. getUserFromRequest() enforced at the route layer.',
+      'Every git push goes live on Vercel. No deploy commands, no servers to manage — your app updates the moment you push.',
   },
   {
     icon: Database,
-    title: 'Drizzle ORM + Neon DB',
+    title: 'Real database, zero setup',
     description:
-      'Serverless Postgres with typed queries, relations, and migrations. db:generate, db:migrate, db:push all configured.',
+      'Neon serverless Postgres is connected and ready. Claude can create tables, run migrations, and query data — just ask.',
   },
   {
-    icon: Code2,
-    title: 'Thin API route pattern',
+    icon: Shield,
+    title: 'User accounts built in',
     description:
-      'Validate → service → respond. Business logic lives in the service layer. Routes stay clean and testable.',
+      'Login, register, and protected pages are already wired up. Add user-specific features without touching auth logic.',
   },
   {
-    icon: Zap,
-    title: 'SWR data-fetching hooks',
+    icon: ImageIcon,
+    title: 'Image uploads included',
     description:
-      'Auth-aware fetcher with Authorization header included. Typed useSWR and useSWRMutation patterns ready to generate.',
-  },
-  {
-    icon: Blocks,
-    title: 'Zod validation everywhere',
-    description:
-      'Schemas for all inputs. safeParse enforced. Client schema fields only — no authorId, id, or timestamps from the client.',
-  },
-  {
-    icon: Palette,
-    title: 'Tailwind v4 + shadcn UI',
-    description:
-      'CSS-first theming, dark/light mode via next-themes, 20+ shadcn components pre-installed. Customize only in globals.css.',
-  },
-  {
-    icon: Cpu,
-    title: 'Cloudinary image uploads',
-    description:
-      'Upload API route, upload hook, and ImageUpload component. Secured, typed, and returns both url and publicId.',
+      'Users can upload photos and files. Everything routes through Cloudinary — stored in the cloud, served fast worldwide.',
   },
   {
     icon: FileText,
-    title: 'MDX blog support',
+    title: 'Any product type — MVP, SaaS, marketplace',
     description:
-      'next-mdx-remote with serialize pattern, prose styling via @tailwindcss/typography, and Server Component blog pages.',
+      "The structure works for whatever you're building. Claude adapts — dashboards, admin panels, landing pages, content sites, internal tools.",
+  },
+  {
+    icon: Palette,
+    title: 'Beautiful UI out of the box',
+    description:
+      'Dark and light mode, mobile-ready layout, and polished components. Your app looks professional from day one.',
+  },
+  {
+    icon: Globe,
+    title: 'Serverless — scales automatically',
+    description:
+      'No server to provision or maintain. Vercel and Neon scale with your traffic, and you only pay for what you use.',
+  },
+  {
+    icon: Users,
+    title: 'Claude never forgets your app',
+    description:
+      "Pre-loaded project instructions mean Claude understands your app's structure every session — no re-explaining.",
+  },
+  {
+    icon: Zap,
+    title: 'Features in minutes, not days',
+    description:
+      'Describe a feature, Claude scaffolds all the files. What used to take a developer a day takes a single conversation.',
+  },
+  {
+    icon: RefreshCw,
+    title: 'Consistent results every time',
+    description:
+      'Claude follows the same patterns on every build. No surprises, no drift — your app grows cleanly as you add features.',
+  },
+  {
+    icon: Rocket,
+    title: 'Production-ready from the start',
+    description:
+      'Not a toy starter — built with the same stack used in real products. Ready to hand off, scale, or keep building.',
   },
 ];
 
@@ -95,11 +95,11 @@ export function LandingFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            Everything pre-configured. Nothing to figure out.
+            Everything your app needs — already handled.
           </h2>
           <p className="text-muted-foreground mt-4 text-lg">
-            Every pattern Claude needs to build your product is already
-            documented, enforced, and ready to use.
+            From first feature to live deployment, the hard parts are already
+            done for you.
           </p>
         </div>
 

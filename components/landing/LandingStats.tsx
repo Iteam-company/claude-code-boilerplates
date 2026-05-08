@@ -1,10 +1,10 @@
 import { Container } from '@/components/Container';
 
 const stats = [
-  { value: '12', label: 'Claude Code skills' },
-  { value: '3', label: 'MCP servers ready' },
-  { value: '7', label: 'Files per module' },
-  { value: '0', label: 'Config to write' },
+  { value: '~5 min', label: 'from clone to first deploy' },
+  { value: '0', label: 'infrastructure to manage' },
+  { value: '1 push', label: 'to go live on Vercel' },
+  { value: '∞', label: 'features Claude can build' },
 ];
 
 export function LandingStats() {
