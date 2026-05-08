@@ -15,7 +15,7 @@ export function LandingCTA() {
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
-              href="https://github.com"
+              href="https://github.com/Iteam-company/claude-code-boilerplates"
               className="bg-primary text-primary-foreground rounded-md px-8 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
             >
               Get started on GitHub
