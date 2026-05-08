@@ -1,5 +1,6 @@
 'use client';
 
+import { notFound } from 'next/navigation';
 import { useSignin } from '@/hooks/api/signin';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
@@ -42,6 +43,8 @@ export default function SignInPage() {
       router.replace(ROUTES.HOME);
     }
   }, []);
+
+  notFound();
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
