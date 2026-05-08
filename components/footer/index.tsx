@@ -1,10 +1,7 @@
 import Link from 'next/link';
 import { Container } from '@/components/Container';
 
-const footerLinks = [
-  { title: 'Blog', href: '/blog' },
-  { title: 'Sign In', href: '/signin' },
-];
+const footerLinks = [{ title: 'Blog', href: '/blog' }];
 
 export function Footer() {
   return (
