@@ -1,0 +1,95 @@
+export const frontmatter = {
+  title: 'Quick Start: Set Up the Boilerplate in 15 Minutes',
+  date: '2026-05-01',
+  description:
+    'Clone the repo, wire up your database and environment variables, and have a fully working Next.js + Neon DB app running locally in under 15 minutes.',
+  tags: ['setup', 'getting-started', 'neon', 'nextjs'],
+  author: 'Admin',
+};
+
+This boilerplate gives you a production-ready Next.js app with authentication, a PostgreSQL database, and Claude Code configuration already wired up. Here is everything you need to go from zero to running in one sitting.
+
+## Prerequisites
+
+- Node.js 20+
+- A [Neon](https://neon.tech) account (free tier is enough)
+- A GitHub account
+
+## 1. Clone and Install
+
+```bash
+git clone https://github.com/Iteam-company/claude-code-boilerplates my-app
+cd my-app
+npm install
+```
+
+## 2. Create a Neon Database
+
+1. Log in to [console.neon.tech](https://console.neon.tech)
+2. Click **New Project** — give it any name
+3. Copy the **Connection string** from the dashboard (it looks like `postgresql://user:pass@host/dbname?sslmode=require`)
+
+## 3. Configure Environment Variables
+
+Copy the example file and fill in the values:
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and set the following:
+
+```env
+DATABASE_URL=postgresql://user:pass@host/dbname?sslmode=require
+JWT_SECRET=any-long-random-string-you-choose
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+For `JWT_SECRET`, generate a secure random string:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+## 4. Run Migrations
+
+The boilerplate ships with a `users` table schema already written. Push it to your Neon database:
+
+```bash
+npm run db:push
+```
+
+This syncs the Drizzle schema to your database without creating migration files — perfect for initial setup.
+
+## 5. Start the Dev Server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000). You should see the landing page.
+
+## 6. Verify Auth Works
+
+Navigate to `/register` and create an account. Then log in at `/login`. If you land on the dashboard, everything is wired up correctly.
+
+## Project Layout at a Glance
+
+```
+app/           ← Next.js routes and pages
+components/    ← shared UI components
+modules/       ← feature modules (user, post, etc.)
+db/            ← Drizzle client and schema registry
+lib/           ← auth, utils, error handling
+hooks/         ← SWR data-fetching hooks
+```
+
+The `modules/` folder is where you will spend most of your time building features. Each module follows a strict `schema → types → validation → repo → service` chain that keeps business logic isolated and testable.
+
+## What's Next
+
+- Add a new feature module with the `drizzle-module` Claude Code skill
+- Wire up file uploads with Cloudinary (see the `cloudinary-upload` skill)
+- Deploy to Vercel in minutes (see the deployment guide in this blog)
+
+> The fastest path to shipping is understanding the conventions once and then letting Claude Code generate the boilerplate for each new module. You handle the business logic; Claude Code handles the scaffolding.

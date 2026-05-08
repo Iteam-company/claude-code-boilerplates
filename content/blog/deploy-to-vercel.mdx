@@ -1,0 +1,147 @@
+export const frontmatter = {
+  title: 'Deploy Your MVP to Vercel',
+  date: '2026-05-07',
+  description:
+    'Step-by-step guide to deploying this Next.js boilerplate to Vercel — environment variables, automatic preview deployments, and production-ready configuration.',
+  tags: ['vercel', 'deployment', 'devops', 'nextjs'],
+  author: 'Admin',
+};
+
+Vercel is the natural deployment target for this boilerplate. It handles builds, CDN, serverless functions, and preview deployments automatically. Here is how to go from local dev to a live URL.
+
+## Prerequisites
+
+- Your app runs locally with no TypeScript errors (`npx tsc --noEmit`)
+- You have a Vercel account (free tier works)
+- The Vercel CLI is installed: `npm i -g vercel`
+
+## 1. Initial Deploy
+
+From the project root, run:
+
+```bash
+vercel
+```
+
+The CLI will ask a few questions:
+
+- **Set up and deploy?** → Yes
+- **Which scope?** → your personal account or team
+- **Link to existing project?** → No (first time)
+- **Project name** → accept the default or rename it
+- **Directory** → `.` (current directory)
+
+Vercel detects Next.js automatically and sets the correct build command (`npm run build`) and output directory.
+
+## 2. Add Environment Variables
+
+Your app will fail on first deploy because the environment variables are missing. Add them via the CLI:
+
+```bash
+vercel env add DATABASE_URL
+vercel env add JWT_SECRET
+vercel env add NEXT_PUBLIC_BASE_URL
+```
+
+For each one, paste the value and select which environments it applies to — choose **Production**, **Preview**, and **Development**.
+
+For `NEXT_PUBLIC_BASE_URL`, use your Vercel deployment URL (e.g. `https://my-app.vercel.app`).
+
+Then redeploy to pick up the new variables:
+
+```bash
+vercel --prod
+```
+
+## 3. Connect to GitHub for Automatic Deployments
+
+One-time setup — after this, every `git push` triggers a deploy:
+
+```bash
+vercel git connect
+```
+
+Follow the prompts to link your GitHub repository. Once connected:
+
+- **Push to `main`** → production deployment
+- **Push to any other branch** → preview deployment with a unique URL
+
+Preview URLs are shareable — send them to stakeholders for review before merging.
+
+## 4. Verify the Production Build
+
+Before pushing to production, run a local production build to catch issues that only appear in production mode:
+
+```bash
+npm run build
+```
+
+Common issues to watch for:
+
+- Missing `"use client"` on components that use hooks
+- `process.env` variables not prefixed with `NEXT_PUBLIC_` being accessed on the client
+- Dynamic imports that break static generation
+
+Fix all build errors before merging to `main`.
+
+## 5. Database in Production
+
+Your Neon database is accessible from Vercel without any extra configuration — the same `DATABASE_URL` connection string works from Vercel's serverless functions. Neon's serverless driver handles connection pooling automatically.
+
+If you make schema changes after the initial deploy, run migrations before or immediately after deploying the new code:
+
+```bash
+npm run db:migrate
+```
+
+Run this locally — it connects to your production Neon database via `DATABASE_URL` in `.env`. Make sure your local `.env` points to the production database when running migrations against it, then switch back to your dev database afterward.
+
+## 6. Custom Domain (Optional)
+
+In the Vercel dashboard:
+
+1. Go to your project → **Settings** → **Domains**
+2. Add your domain
+3. Follow the DNS instructions (usually a CNAME or A record)
+
+After DNS propagates, update `NEXT_PUBLIC_BASE_URL` to your custom domain:
+
+```bash
+vercel env rm NEXT_PUBLIC_BASE_URL production
+vercel env add NEXT_PUBLIC_BASE_URL
+```
+
+Then redeploy: `vercel --prod`.
+
+## Useful Vercel CLI Commands
+
+| Command               | What It Does                    |
+| --------------------- | ------------------------------- |
+| `vercel`              | Deploy to preview               |
+| `vercel --prod`       | Deploy to production            |
+| `vercel env ls`       | List all environment variables  |
+| `vercel env add NAME` | Add or update a variable        |
+| `vercel logs`         | Tail production function logs   |
+| `vercel dev`          | Run Vercel's dev server locally |
+
+## Monitoring and Logs
+
+Vercel's dashboard shows:
+
+- Build logs for every deployment
+- Function invocation logs (useful for debugging API routes)
+- Analytics (page views, web vitals) on paid plans
+
+For API route errors in production, `vercel logs` is the fastest way to see what is failing.
+
+## Rollbacks
+
+Every deployment is immutable and stored. If a bad deploy reaches production:
+
+1. Go to **Deployments** in the Vercel dashboard
+2. Find the last good deployment
+3. Click **Promote to Production**
+
+This takes effect in seconds with no rebuild needed.
+
+> Vercel's preview deployment system is one of the most underused features in solo and small-team development. Every branch gets a live URL — share it with users for feedback before it ever reaches production.
