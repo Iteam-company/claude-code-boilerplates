@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import { Toaster } from '@/components/ui/sonner';
-import { TooltipProvider } from '@/components/ui/tooltip';
+import { Toaster } from 'sonner';
 import { ThemeProvider } from 'next-themes';
 
 import './globals.css';
@@ -27,10 +26,8 @@ export default function RootLayout({
     >
       <body className="min-h-dvh">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TooltipProvider>
-            {children}
-            <Toaster />
-          </TooltipProvider>
+          {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
