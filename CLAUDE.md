@@ -340,9 +340,20 @@ Naming:
 
 MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if missing:
 
-| Server | Variable       | Where to get it                        |
-| ------ | -------------- | -------------------------------------- |
-| neon   | `NEON_API_KEY` | console.neon.tech → Account → API Keys |
-| vercel | `VERCEL_TOKEN` | vercel.com → Settings → Tokens         |
+| Server     | Variable                | Where to get it                        |
+| ---------- | ----------------------- | -------------------------------------- |
+| neon       | `NEON_API_KEY`          | console.neon.tech → Account → API Keys |
+| vercel     | `VERCEL_TOKEN`          | vercel.com → Settings → Tokens         |
+| cloudinary | `CLOUDINARY_CLOUD_NAME` | cloudinary.com → Settings → API Keys   |
+| cloudinary | `CLOUDINARY_API_KEY`    | cloudinary.com → Settings → API Keys   |
+| cloudinary | `CLOUDINARY_API_SECRET` | cloudinary.com → Settings → API Keys   |
+
+## Cloudinary
+
+- Use the `cloudinary` MCP tools to upload, transform, and manage media assets
+- Always upload user files via the Cloudinary MCP — never store images locally or in the DB
+- Use Cloudinary's transformation URL parameters for resizing/formatting (e.g. `w_800,f_auto,q_auto`)
+- Store only the Cloudinary `public_id` in the database, not full URLs — construct URLs at render time
+- Never expose `CLOUDINARY_API_SECRET` to the client — all uploads must go through a server action or API route
 
 If an MCP tool fails due to a missing token, stop and ask the user to add the relevant variable to `.env`, then restart the dev session before retrying.

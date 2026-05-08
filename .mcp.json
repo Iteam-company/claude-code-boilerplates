@@ -13,6 +13,15 @@
       "env": {
         "VERCEL_TOKEN": "${VERCEL_TOKEN}"
       }
+    },
+    "cloudinary": {
+      "command": "npx",
+      "args": ["-y", "@cloudinary/mcp-server-cloudinary"],
+      "env": {
+        "CLOUDINARY_CLOUD_NAME": "${CLOUDINARY_CLOUD_NAME}",
+        "CLOUDINARY_API_KEY": "${CLOUDINARY_API_KEY}",
+        "CLOUDINARY_API_SECRET": "${CLOUDINARY_API_SECRET}"
+      }
     }
   }
 }
