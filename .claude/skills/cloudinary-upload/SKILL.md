@@ -10,7 +10,7 @@ Handles image uploads to Cloudinary via a protected Next.js API route.
 ## Setup
 
 ```bash
-pnpm add cloudinary
+npm install cloudinary
 ```
 
 ```env

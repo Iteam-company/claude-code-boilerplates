@@ -10,7 +10,7 @@ Renders MDX strings stored in a database using `next-mdx-remote` (client version
 ## Setup
 
 ```bash
-pnpm add next-mdx-remote @tailwindcss/typography
+npm install next-mdx-remote @tailwindcss/typography
 ```
 
 Add typography plugin to `app/globals.css`:
