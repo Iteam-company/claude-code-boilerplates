@@ -29,7 +29,8 @@ export function Header() {
                 href={link.href}
                 className={cn(
                   'hover:text-foreground text-sm transition-colors',
-                  pathname === link.href
+                  pathname === link.href ||
+                    (link.title === 'Blog' && pathname.startsWith('/blog'))
                     ? 'text-foreground font-medium'
                     : 'text-muted-foreground',
                 )}
