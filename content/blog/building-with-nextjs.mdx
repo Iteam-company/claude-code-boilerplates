@@ -1,0 +1,82 @@
+export const frontmatter = {
+  title: 'Building with Next.js App Router',
+  date: '2025-04-15',
+  description:
+    'A practical guide to file-based routing, Server Components, and route groups in the Next.js App Router.',
+  tags: ['nextjs', 'react', 'app-router'],
+  author: 'Admin',
+};
+
+The Next.js App Router changes how you think about routing. Instead of a flat `pages/` directory, you work with a nested `app/` folder where every directory can contain layouts, pages, loading states, and error boundaries.
+
+## Route Groups
+
+Route groups let you organize routes without affecting the URL structure. Wrapping a folder name in parentheses excludes it from the URL:
+
+```
+app/
+├── (marketing)/
+│   ├── layout.tsx   ← shared marketing layout
+│   └── about/
+│       └── page.tsx  ← /about
+└── (app)/
+    ├── layout.tsx   ← shared dashboard layout
+    └── dashboard/
+        └── page.tsx  ← /dashboard
+```
+
+## Server Components by Default
+
+Every component in the App Router is a Server Component unless you opt in with `"use client"`. Server Components can:
+
+- Fetch data directly (no useEffect or SWR needed)
+- Access environment variables without leaking them to the client
+- Import server-only libraries like database clients
+
+```tsx
+// This runs on the server — no "use client" needed
+export default async function PostsPage() {
+  const posts = await db.query.posts.findMany();
+  return <PostList posts={posts} />;
+}
+```
+
+## Layouts and Nested Routing
+
+Layouts wrap child routes and persist across navigation. The root `layout.tsx` wraps your entire application, while nested layouts wrap specific sections.
+
+```tsx
+// app/(main)/layout.tsx — wraps all (main) routes
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <Header />
+      <main>{children}</main>
+      <Footer />
+    </>
+  );
+}
+```
+
+## Metadata API
+
+Every page can export a `metadata` object for static SEO, or a `generateMetadata` function for dynamic metadata:
+
+```ts
+export const metadata: Metadata = {
+  title: 'My Page',
+  description: 'A description for search engines.',
+};
+```
+
+The `title.template` pattern in the root layout ensures consistent title formatting across all pages without duplication.
+
+## Loading and Error States
+
+Place `loading.tsx` and `error.tsx` alongside any `page.tsx` to automatically handle async boundaries. Next.js wraps them in Suspense and error boundaries for you.
+
+> The App Router is a significant shift, but the patterns are consistent once you internalize them. Start with Server Components and reach for `"use client"` only when you need interactivity.
