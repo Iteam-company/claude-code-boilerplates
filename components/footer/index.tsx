@@ -1,11 +1,33 @@
-import { Container } from '../Container';
+import Link from 'next/link';
+import { Container } from '@/components/Container';
 
-export const Footer = () => {
+const footerLinks = [
+  { title: 'Blog', href: '/blog' },
+  { title: 'Sign In', href: '/signin' },
+];
+
+export function Footer() {
   return (
-    <footer className="w-full bg-black text-white">
-      <Container className="py-4">
-        <p>Footer info</p>
+    <footer className="border-border bg-background border-t">
+      <Container>
+        <div className="flex h-14 items-center justify-between">
+          <p className="text-muted-foreground text-sm">
+            © {new Date().getFullYear()} Boilerplate. All rights reserved.
+          </p>
+
+          <nav className="flex items-center gap-4">
+            {footerLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+              >
+                {link.title}
+              </Link>
+            ))}
+          </nav>
+        </div>
       </Container>
     </footer>
   );
-};
+}
