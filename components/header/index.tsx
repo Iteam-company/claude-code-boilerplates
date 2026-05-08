@@ -1,47 +1,47 @@
 'use client';
-import { useAuth } from '@/hooks/useAuth';
+
 import Link from 'next/link';
-import { Button } from '../ui/button';
-import { usePathname, useRouter } from 'next/navigation';
-import { ROUTES } from '@/lib/routes';
-import { LogOutIcon } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ThemeToggle';
+import { Container } from '@/components/Container';
 
-const links = [{ title: 'Home', href: '/' }];
+const navLinks = [
+  { title: 'Home', href: '/' },
+  { title: 'Blog', href: '/blog' },
+];
 
-export const Header = () => {
-  const { isAuthenticated, clearToken } = useAuth();
-  const router = useRouter();
+export function Header() {
   const pathname = usePathname();
 
   return (
-    <div className="relative flex items-center justify-between px-4">
-      <div className="flex-1" />
-      <header className={cn('my-3 rounded-full border border-black px-6 py-1')}>
-        {links.map((link) => (
-          <Link
-            key={link.title}
-            href={link.href}
-            className={cn('border-black', pathname === link.href && 'border-b')}
-          >
-            {link.title}
+    <header className="border-border bg-background/80 sticky top-0 z-40 border-b backdrop-blur">
+      <Container>
+        <div className="flex h-14 items-center justify-between">
+          <Link href="/" className="text-foreground font-semibold">
+            Boilerplate
           </Link>
-        ))}
-      </header>
-      <div className="flex flex-1 flex-row items-center justify-end">
-        {isAuthenticated ? (
-          <Button onClick={() => clearToken()}>
-            <LogOutIcon />
-          </Button>
-        ) : (
-          <Button
-            onClick={() => router.push(ROUTES.SIGNIN)}
-            className="text-sm"
-          >
-            Sign In
-          </Button>
-        )}
-      </div>
-    </div>
+
+          <nav className="flex items-center gap-6">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={cn(
+                  'hover:text-foreground text-sm transition-colors',
+                  pathname === link.href
+                    ? 'text-foreground font-medium'
+                    : 'text-muted-foreground',
+                )}
+              >
+                {link.title}
+              </Link>
+            ))}
+          </nav>
+
+          <ThemeToggle />
+        </div>
+      </Container>
+    </header>
   );
-};
+}
