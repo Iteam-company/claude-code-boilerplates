@@ -7,7 +7,7 @@ const steps = [
     description:
       'Download the boilerplate, add your API keys to a single config file, and start the app. Takes about five minutes.',
     lines: [
-      'git clone https://github.com/your/boilerplate',
+      'git clone https://github.com/Iteam-company/claude-code-boilerplates',
       'cd boilerplate',
       'npm install && npm run dev',
     ],

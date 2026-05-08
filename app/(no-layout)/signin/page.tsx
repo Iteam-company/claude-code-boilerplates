@@ -63,7 +63,7 @@ export default function SignInPage() {
             />
             {errors.email && (
               <p className="mt-1 text-xs text-red-600">
-                {errors.email.message}
+                {errors.email?.message}
               </p>
             )}
           </div>
@@ -78,12 +78,12 @@ export default function SignInPage() {
             />
             {errors.password && (
               <p className="mt-1 text-xs text-red-600">
-                {errors.password.message}
+                {errors.password?.message}
               </p>
             )}
           </div>
 
-          {error && <p className="text-xs text-red-600">{error.message}</p>}
+          {error && <p className="text-xs text-red-600">{error?.message}</p>}
 
           <button
             type="submit"

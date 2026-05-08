@@ -71,7 +71,7 @@ export default function SignUpPage() {
             />
             {errors.email && (
               <p className="mt-1 text-xs text-red-600">
-                {errors.email.message}
+                {errors.email?.message}
               </p>
             )}
           </div>
@@ -86,7 +86,7 @@ export default function SignUpPage() {
             />
             {errors.password && (
               <p className="mt-1 text-xs text-red-600">
-                {errors.password.message}
+                {errors.password?.message}
               </p>
             )}
           </div>
@@ -101,12 +101,12 @@ export default function SignUpPage() {
             />
             {errors.passwordRepeat && (
               <p className="mt-1 text-xs text-red-600">
-                {errors.passwordRepeat.message}
+                {errors.passwordRepeat?.message}
               </p>
             )}
           </div>
 
-          {error && <p className="text-xs text-red-600">{error.message}</p>}
+          {error && <p className="text-xs text-red-600">{error?.message}</p>}
 
           <button
             type="submit"
