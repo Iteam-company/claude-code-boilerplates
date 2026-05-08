@@ -335,3 +335,14 @@ Naming:
 - Hidden side effects
 - Tight coupling between modules
 - Manual validation in routes/components
+
+# MCP
+
+MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if missing:
+
+| Server | Variable       | Where to get it                        |
+| ------ | -------------- | -------------------------------------- |
+| neon   | `NEON_API_KEY` | console.neon.tech → Account → API Keys |
+| vercel | `VERCEL_TOKEN` | vercel.com → Settings → Tokens         |
+
+If an MCP tool fails due to a missing token, stop and ask the user to add the relevant variable to `.env`, then restart the dev session before retrying.
