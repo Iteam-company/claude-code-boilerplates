@@ -7,6 +7,15 @@ import { getAllPosts } from '@/lib/blog';
 export const metadata: Metadata = {
   title: 'Blog',
   description: 'Thoughts on development, design, and building software.',
+  openGraph: {
+    title: 'Blog | Claude Code Boilerplate',
+    description: 'Thoughts on development, design, and building software.',
+    url: '/blog',
+  },
+  twitter: {
+    title: 'Blog | Claude Code Boilerplate',
+    description: 'Thoughts on development, design, and building software.',
+  },
 };
 
 export default async function BlogPage() {

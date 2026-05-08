@@ -23,9 +23,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   if (!slugExists(slug)) return { title: 'Post not found' };
   const mod = (await import(`@/content/blog/${slug}.mdx`)) as MDXModule;
+  const { title, description, date, author } = mod.frontmatter;
   return {
-    title: mod.frontmatter.title,
-    description: mod.frontmatter.description,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `/blog/${slug}`,
+      type: 'article',
+      publishedTime: date,
+      authors: [author],
+    },
+    twitter: {
+      title,
+      description,
+    },
   };
 }
 
