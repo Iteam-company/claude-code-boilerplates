@@ -2,21 +2,21 @@ import { Check } from 'lucide-react';
 import { Container } from '@/components/Container';
 
 const without = [
-  'Write CLAUDE.md from scratch every project',
-  'Claude generates inconsistent module structures',
-  'MCP servers not configured — no DB or deploy context',
-  'No skills — Claude forgets your patterns mid-session',
-  'Spend days setting up auth, DB, and validation',
-  'Claude writes raw fetch instead of your SWR patterns',
+  'Weeks of setup before writing a single feature',
+  'Wrestling with servers, databases, and deployment configs',
+  'Hiring a developer just to build a basic web app',
+  'Claude generates different code every session',
+  'Debugging infrastructure instead of building your product',
+  'Re-explaining your project to Claude every conversation',
 ];
 
 const with_ = [
-  'CLAUDE.md pre-written with your full architecture',
-  'Skills enforce DDD-lite patterns on every module',
-  'Neon, Vercel, Cloudinary MCPs ready in .mcp.json',
-  '12 skills cover the entire development workflow',
-  'Auth, DB, validation, and hooks wired from day one',
-  'Claude generates your exact SWR + fetcher pattern',
+  'Clone and start describing features in minutes',
+  'Push to GitHub — Vercel deploys automatically, every time',
+  'Serverless database scales with you, zero management',
+  'Claude knows your project from the very first message',
+  'User accounts, file uploads, and data tables ready out of the box',
+  'Claude builds consistently — same patterns, every time',
 ];
 
 export function LandingProblem() {
@@ -25,19 +25,20 @@ export function LandingProblem() {
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            Claude Code is powerful. But only once it knows your codebase.
+            Building a web app shouldn&apos;t take months of setup.
           </h2>
           <p className="text-muted-foreground mt-6 text-lg">
-            Without a CLAUDE.md, skills, or MCP servers — Claude invents its own
-            patterns, breaks your architecture, and forgets context between
-            sessions. This boilerplate solves that completely.
+            Most starters leave you fighting with infrastructure before you can
+            build a single feature. This boilerplate skips all of that — Claude
+            handles the code, Vercel handles the hosting, Neon handles the
+            database.
           </p>
         </div>
 
         <div className="mt-16 grid gap-6 md:grid-cols-2">
           <div className="border-destructive/30 bg-destructive/5 rounded-xl border p-6">
             <p className="text-destructive mb-4 text-xs font-semibold tracking-wide uppercase">
-              Without this boilerplate
+              The usual way
             </p>
             <ul className="text-muted-foreground space-y-3 text-sm">
               {without.map((item) => (

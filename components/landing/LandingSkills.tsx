@@ -1,18 +1,21 @@
 import { Container } from '@/components/Container';
 
-const skills = [
-  { name: 'drizzle-module', trigger: '"add a categories module"' },
-  { name: 'nextjs-api-route', trigger: '"add a POST endpoint for posts"' },
-  { name: 'swr-hooks', trigger: '"I need to fetch posts on the client"' },
-  { name: 'drizzle-migrate', trigger: '"run the migration"' },
-  { name: 'drizzle-relations', trigger: '"add a relation between tables"' },
-  { name: 'auth-patterns', trigger: '"protect this route"' },
-  { name: 'cloudinary-upload', trigger: '"add image upload"' },
-  { name: 'vercel-deploy', trigger: '"deploy to Vercel"' },
-  { name: 'nextjs-mdx-blog', trigger: '"set up the MDX blog"' },
-  { name: 'dto-patterns', trigger: '"add types for this module"' },
-  { name: 'ui-patterns', trigger: '"add a hero section"' },
-  { name: 'db-patterns', trigger: '"write a query with relations"' },
+const capabilities = [
+  { what: 'Add a new data type', example: '"add a categories feature"' },
+  { what: 'Create a page or form', example: '"add a contact form page"' },
+  { what: 'Fetch and display data', example: '"show posts on the homepage"' },
+  { what: 'Run a database update', example: '"update the database schema"' },
+  { what: 'Link related data', example: '"connect posts to categories"' },
+  { what: 'Protect a route', example: '"make this page login-only"' },
+  { what: 'Add image upload', example: '"let users upload a profile photo"' },
+  { what: 'Deploy the app', example: '"deploy to Vercel"' },
+  { what: 'Add a pricing page', example: '"add a pricing section with plans"' },
+  {
+    what: 'Add types and validation',
+    example: '"add validation for this form"',
+  },
+  { what: 'Build a UI section', example: '"add a pricing section"' },
+  { what: 'Query the database', example: '"get all posts by this user"' },
 ];
 
 export function LandingSkills() {
@@ -22,39 +25,39 @@ export function LandingSkills() {
         <div className="grid gap-16 md:grid-cols-2 md:items-center">
           <div>
             <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-              Claude knows exactly what to build — every time.
+              Just say what you want. Claude knows how to build it.
             </h2>
             <p className="text-muted-foreground mt-4 text-lg">
-              Skills are context documents that load automatically when you ask
-              Claude to build something. No re-explaining architecture. No
-              drift. Just consistent, pattern-correct code.
+              The boilerplate comes pre-loaded with instructions that tell
+              Claude exactly how your app is structured. No setup, no
+              re-explaining — Claude is ready to build from your very first
+              message.
             </p>
             <p className="text-muted-foreground mt-6 text-sm">
               Say{' '}
               <span className="bg-muted text-foreground rounded px-1.5 py-0.5 font-mono text-xs">
-                &quot;add a categories module&quot;
+                &quot;add a categories feature&quot;
               </span>{' '}
-              and Claude scaffolds all 7 files — schema, relations, types,
-              validation, repo, service, and index — in one shot, following your
-              exact conventions.
+              and Claude creates everything needed — the database table, the
+              page, the form, and all the logic — in one go.
             </p>
           </div>
 
           <div className="border-border bg-card rounded-xl border p-6">
             <p className="text-muted-foreground mb-4 text-xs font-semibold tracking-wide uppercase">
-              12 included skills
+              Things Claude can build for you
             </p>
             <div className="space-y-2">
-              {skills.map((skill) => (
+              {capabilities.map((cap) => (
                 <div
-                  key={skill.name}
+                  key={cap.what}
                   className="border-border flex items-center justify-between gap-4 rounded-lg border px-3 py-2"
                 >
-                  <span className="text-foreground shrink-0 font-mono text-sm font-medium">
-                    {skill.name}
+                  <span className="text-foreground shrink-0 text-sm font-medium">
+                    {cap.what}
                   </span>
                   <span className="text-muted-foreground truncate text-right text-xs">
-                    {skill.trigger}
+                    {cap.example}
                   </span>
                 </div>
               ))}

@@ -7,11 +7,11 @@ export function LandingCTA() {
       <Container>
         <div className="border-border bg-card rounded-2xl border px-8 py-16 text-center">
           <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            Start building with Claude Code today
+            Ready to build your app?
           </h2>
           <p className="text-muted-foreground mt-4 text-lg">
-            Free and open source. Clone the repo and your Claude Code
-            environment is ready in minutes — skills, MCP servers, and all.
+            Free and open source. Clone the repo, open Claude Code, and start
+            describing your app — your first deploy is minutes away.
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Link
@@ -24,7 +24,7 @@ export function LandingCTA() {
               href="#features"
               className="text-foreground text-sm font-semibold underline-offset-4 hover:underline"
             >
-              See all features →
+              See everything included →
             </Link>
           </div>
         </div>
