@@ -1,8 +1,5 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
 import { useSignin } from '@/hooks/api/signin';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
@@ -47,55 +44,62 @@ export default function SignInPage() {
   }, []);
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-1/2">
-      <Card className="min-w-87.5">
-        <CardHeader>
-          <h1 className="text-center text-2xl">Sign In</h1>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-            <div>
-              <Input
-                {...register('email')}
-                type="email"
-                placeholder="Email"
-                disabled={isMutating}
-              />
-              {errors.email && (
-                <p className="text-red-600">{errors.email.message}</p>
-              )}
-            </div>
-
-            <div>
-              <Input
-                {...register('password')}
-                type="password"
-                placeholder="Password"
-                disabled={isMutating}
-              />
-              {errors.password && (
-                <p className="text-red-600">{errors.password.message}</p>
-              )}
-            </div>
-
-            {error && <p className="text-red-600">{error.message}</p>}
-
-            <Button type="submit" className="w-full" disabled={isMutating}>
-              Sign In
-            </Button>
-
-            <Button
-              type="button"
-              variant="ghost"
-              className="w-full"
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="bg-card border-border min-w-[350px] rounded-xl border p-6 shadow-sm">
+        <h1 className="text-foreground mb-6 text-center text-2xl font-semibold">
+          Sign In
+        </h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
+          <div>
+            <input
+              {...register('email')}
+              type="email"
+              placeholder="Email"
               disabled={isMutating}
-              onClick={handleDontHaveAccount}
-            >
-              Don&apos;t have account?
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 disabled:opacity-50"
+            />
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-600">
+                {errors.email.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <input
+              {...register('password')}
+              type="password"
+              placeholder="Password"
+              disabled={isMutating}
+              className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 disabled:opacity-50"
+            />
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-600">
+                {errors.password.message}
+              </p>
+            )}
+          </div>
+
+          {error && <p className="text-xs text-red-600">{error.message}</p>}
+
+          <button
+            type="submit"
+            disabled={isMutating}
+            className="bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            Sign In
+          </button>
+
+          <button
+            type="button"
+            disabled={isMutating}
+            onClick={handleDontHaveAccount}
+            className="text-muted-foreground hover:text-foreground w-full rounded-md px-4 py-2 text-sm transition-colors disabled:opacity-50"
+          >
+            Don&apos;t have account?
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
