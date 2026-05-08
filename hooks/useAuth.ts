@@ -3,12 +3,7 @@ import { useLayoutEffect, useState } from 'react';
 const TOKEN_KEY = 'auth_token';
 
 export const useAuth = () => {
-  const [token, setTokenState] = useState<string | null>(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem(TOKEN_KEY);
-    }
-    return null;
-  });
+  const [token, setTokenState] = useState<string | null>(null);
 
   const setToken = (newToken: string) => {
     localStorage.setItem(TOKEN_KEY, newToken);
