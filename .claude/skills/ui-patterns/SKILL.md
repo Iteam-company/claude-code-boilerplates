@@ -92,9 +92,42 @@ export function Section({ className, children }: SectionProps) {
 
 ## Rules
 
+- **Pages compose, components render** — `page.tsx` files only import and arrange components; never write JSX markup or sections inline inside a page file
+- Extract every distinct section (Hero, Features, Pricing, CTA, etc.) into a named component in `components/`
 - Use CSS variables for colors — never hardcode hex values
 - Never use arbitrary Tailwind color values like `bg-[#fff]`
 - Customize theme only in `app/globals.css`
 - Use `cn()` from `lib/utils` for all className merging
 - Never modify files in `components/ui/` directly
 - Never use MUI, Ant Design, or other component libraries
+
+## Page file structure
+
+```tsx
+// ✅ page.tsx — composes only
+import { Hero } from '@/components/Hero';
+import { Features } from '@/components/Features';
+import { HowItWorks } from '@/components/HowItWorks';
+import { CTA } from '@/components/CTA';
+
+export default function Home() {
+  return (
+    <>
+      <Hero />
+      <Features />
+      <HowItWorks />
+      <CTA />
+    </>
+  );
+}
+
+// ✕ page.tsx — markup inline (forbidden)
+export default function Home() {
+  return (
+    <section className="py-24">
+      <h1>Title</h1>
+      ...
+    </section>
+  );
+}
+```
