@@ -267,11 +267,31 @@ All business logic lives in `src/modules/`. Every module has 7 files:
 
 ## Blog (MDX)
 
-- Posts stored as raw MDX strings in the `content` column
-- Public blog pages are Server Components — call `postService` directly
-- Client rendering uses `next-mdx-remote` (non-rsc) + `serialize()`
-- Styled via `@tailwindcss/typography` (`prose` classes)
+Two supported approaches — **ask the user which one they want before scaffolding**:
+
+### Option A — File-based (`@next/mdx`)
+
+- MDX files live in `content/blog/*.mdx`, discovered at build time via `lib/blog.ts`
+- Frontmatter is a **JS export** (`export const frontmatter = {...}`), never YAML `---` blocks
+- `mdx-components.tsx` at the repo root provides styled element overrides
+- `next.config.ts` wraps config with `createMDX({ options: { remarkPlugins: [['remark-gfm', {}]] } })`
+- **Dev script must use `--no-turbopack`** — Turbopack cannot serialize remark plugin functions
+- Slug pages use `await import('@/content/blog/${slug}.mdx')` to get both the component and frontmatter
+- Use `generateStaticParams` so webpack bundles all slug routes at build time
 - See skill: `nextjs-mdx-blog`
+
+### Option B — DB-based (`next-mdx-remote`)
+
+- MDX stored as a raw string in the `content` DB column
+- Public blog pages are Server Components — call `postService` directly
+- Client rendering uses `next-mdx-remote` (non-rsc variant) + `serialize()` inside `useEffect`
+- See skill: `nextjs-mdx-blog`
+
+### Styling (both approaches)
+
+- Add `@plugin "@tailwindcss/typography"` to `app/globals.css` (Tailwind v4 syntax)
+- Wrap rendered content in `<article className="prose prose-neutral dark:prose-invert max-w-none">`
+- Custom element overrides (headings, code, tables, blockquotes) use CSS variables — `text-foreground`, `bg-muted`, `border-border`, `text-muted-foreground` — never hardcoded hex values
 
 ## Hooks (SWR)
 
