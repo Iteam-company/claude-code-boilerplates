@@ -85,6 +85,7 @@ public/
 - Never use `"use client"` in layout files unless absolutely necessary
 - Fetch data in server components, pass down as props
 - Use Next.js `loading.tsx` and `error.tsx` where appropriate
+- **Split layouts into components and sections** — page files (`page.tsx`) only compose imported components; never write layout markup or sections inline inside a page file. Extract every distinct section into a named component in `components/`.
 
 ## TypeScript
 
