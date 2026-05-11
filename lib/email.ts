@@ -2,7 +2,7 @@ import { Resend } from 'resend';
 
 // Feature flags — toggle these to enable/disable email flows
 export const ENABLE_WELCOME_EMAIL = false;
-export const ENABLE_EMAIL_VERIFICATION = true;
+export const ENABLE_EMAIL_VERIFICATION = false;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
