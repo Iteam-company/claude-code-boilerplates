@@ -266,6 +266,17 @@ All business logic lives in `src/modules/`. Every module has 7 files:
 - Returns `{ url: string }`
 - See skill: `cloudinary-upload`
 
+## Email (Resend + react-email)
+
+- Transactional email via **Resend** (`lib/email.ts`) + **react-email** templates (`emails/`)
+- `emailService.sendEmail({ to, subject, react })` — single send function used across all flows
+- Templates: `WelcomeEmail`, `VerifyEmail`, `ResetPasswordEmail` — each accepts `appName` + a URL prop
+- Feature flags in `lib/email.ts`: `ENABLE_WELCOME_EMAIL`, `ENABLE_EMAIL_VERIFICATION` (both default `false`)
+- Dev sender: `onboarding@resend.dev` (Resend sandbox); production requires a verified domain
+- Always call `emailService` from services, never from routes
+- Always use `React.createElement(Template, props)` in service files — no JSX allowed there
+- See skill: `email-setup`
+
 ## Blog (MDX)
 
 - Posts stored as raw MDX strings in the `content` column
