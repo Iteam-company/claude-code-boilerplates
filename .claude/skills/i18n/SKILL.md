@@ -10,7 +10,7 @@ This project uses [next-intl](https://next-intl.dev) in **without-routing mode**
 ## Setup (already done)
 
 ```bash
-pnpm add next-intl
+npm install next-intl
 ```
 
 ```
