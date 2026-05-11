@@ -3,6 +3,7 @@
 import { useSignin } from '@/hooks/api/signin';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
+import Link from 'next/link';
 import { loginSchema, LoginSchemaType } from '@/modules/user/user.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -90,14 +91,22 @@ export default function SignInPage() {
             Sign In
           </button>
 
-          <button
-            type="button"
-            disabled={isMutating}
-            onClick={handleDontHaveAccount}
-            className="text-muted-foreground hover:text-foreground w-full rounded-md px-4 py-2 text-sm transition-colors disabled:opacity-50"
-          >
-            Don&apos;t have account?
-          </button>
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              disabled={isMutating}
+              onClick={handleDontHaveAccount}
+              className="text-muted-foreground hover:text-foreground rounded-md px-4 py-2 text-sm transition-colors disabled:opacity-50"
+            >
+              Don&apos;t have account?
+            </button>
+            <Link
+              href={ROUTES.FORGOT_PASSWORD}
+              className="text-muted-foreground hover:text-foreground rounded-md px-4 py-2 text-sm transition-colors"
+            >
+              Forgot password?
+            </Link>
+          </div>
         </form>
       </div>
     </div>

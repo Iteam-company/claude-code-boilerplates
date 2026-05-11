@@ -6,7 +6,10 @@ import { ThemeProvider } from 'next-themes';
 
 import './globals.css';
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+const geist = Geist({
+  subsets: ['latin'],
+  variable: '--font-sans',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,7 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn('', 'font-sans', geist.variable)}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={cn('font-sans', geist.variable)}
+    >
       <body className="min-h-dvh">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
