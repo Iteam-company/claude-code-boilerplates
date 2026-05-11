@@ -1,6 +1,6 @@
 ---
-name: stripe-payments
-description: Integrate Stripe payments or subscriptions into a Next.js project — lib setup, checkout session API route (payment and subscription modes), webhook handler, customer portal, and CheckoutButton component. Use this skill whenever the user asks about payments, Stripe, checkout, subscriptions, pricing, billing, plans, or order processing. Always use this skill when adding any payment or subscription feature.
+name: stripe-setup
+description: Integrate Stripe payments or subscriptions into a Next.js project — lib setup, checkout session API route (payment and subscription modes), webhook handler, customer portal, credit system, and CheckoutButton component. Use this skill whenever the user asks about payments, Stripe, checkout, subscriptions, pricing, billing, plans, credits, or order processing. Always use this skill when adding any payment, subscription, or credit feature.
 ---
 
 # Stripe Payments & Subscriptions Skill
