@@ -1,9 +1,9 @@
 ---
-name: drizzle-module
-description: Scaffold a complete Drizzle + Next.js module (schema, relations, types, validation, repo, service, index) following the project's DDD-lite structure. Use this skill whenever the user wants to add a new feature, entity, or resource — e.g. "add a categories module", "I need a tags table", "create a module for X". Always use this skill for new modules — it ensures all 7 files are created consistently and nothing is forgotten.
+name: feature-module
+description: Scaffold a complete feature module (schema, relations, types, validation, repo, service, index) following the project's DDD-lite structure. Use this skill whenever the user wants to add a new feature, entity, or resource — e.g. "add a categories feature", "I need a tags module", "create a module for X", "I want to add X to the app". Always use this skill for new modules — it ensures all 7 files are created consistently and nothing is forgotten.
 ---
 
-# Drizzle Module Skill
+# Feature Module Skill
 
 Scaffolds all 7 files for a new module following the project's DDD-lite pattern.
 
@@ -244,9 +244,8 @@ export * from './[name].service';
 
 After generating all files, remind the user to:
 
-- [ ] Run `npx drizzle-kit generate` to create migration
-- [ ] Run `npx drizzle-kit push` to apply to DB
 - [ ] Register `[name]Table` and `[name]Relations` in `db/drizzle.ts`
 - [ ] Add reverse relations to related modules (e.g. `many([name]Table)` on `postRelations`)
+- [ ] Run `npx drizzle-kit push` (dev) or `npx drizzle-kit generate` + `npx drizzle-kit migrate` (prod)
 - [ ] Create API routes (see `nextjs-api-route` skill)
 - [ ] Create SWR hooks (see `swr-hooks` skill)
