@@ -31,7 +31,7 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="bg-card border-border min-w-[350px] rounded-xl border p-6 text-center shadow-sm">
+      <div className="bg-card border-border min-w-87.5 rounded-xl border p-6 text-center shadow-sm">
         {status === 'loading' && (
           <>
             <h1 className="text-foreground mb-2 text-2xl font-semibold">
