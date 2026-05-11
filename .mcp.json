@@ -22,6 +22,13 @@
         "CLOUDINARY_API_KEY": "${CLOUDINARY_API_KEY}",
         "CLOUDINARY_API_SECRET": "${CLOUDINARY_API_SECRET}"
       }
+    },
+    "stripe": {
+      "command": "npx",
+      "args": ["-y", "@stripe/mcp", "--tools=all"],
+      "env": {
+        "STRIPE_SECRET_KEY": "${STRIPE_SECRET_KEY}"
+      }
     }
   }
 }
