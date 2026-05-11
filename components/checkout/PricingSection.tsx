@@ -1,49 +1,51 @@
+import { getTranslations } from 'next-intl/server';
 import { PricingCard } from './PricingCard';
 
-const PLANS = [
-  {
-    name: 'Pro License',
-    description: 'One-time purchase. Lifetime access.',
-    price: '$49',
-    priceId:
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME ?? 'price_REPLACE_ME',
-    mode: 'payment' as const,
-    features: [
-      { text: 'Full source code access' },
-      { text: 'All current features' },
-      { text: 'Lifetime updates' },
-      { text: 'Community support' },
-    ],
-    ctaLabel: 'Buy License',
-  },
-  {
-    name: 'Pro Plan',
-    description: 'Everything in Pro License, plus ongoing perks.',
-    price: '$19',
-    period: 'month',
-    priceId:
-      process.env.NEXT_PUBLIC_STRIPE_PRICE_SUBSCRIPTION ?? 'price_REPLACE_ME',
-    mode: 'subscription' as const,
-    features: [
-      { text: 'Full source code access' },
-      { text: 'All current + future features' },
-      { text: '100 AI credits / month' },
-      { text: 'Priority support' },
-    ],
-    highlighted: true,
-  },
-];
+export async function PricingSection() {
+  const t = await getTranslations('pricing');
+  const tc = await getTranslations('checkout');
 
-export function PricingSection() {
+  const PLANS = [
+    {
+      name: t('proLicense.name'),
+      description: t('proLicense.description'),
+      price: t('proLicense.price'),
+      priceId:
+        process.env.NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME ?? 'price_REPLACE_ME',
+      mode: 'payment' as const,
+      features: [
+        { text: t('proLicense.feature1') },
+        { text: t('proLicense.feature2') },
+        { text: t('proLicense.feature3') },
+        { text: t('proLicense.feature4') },
+      ],
+      ctaLabel: t('proLicense.cta'),
+    },
+    {
+      name: t('proPlan.name'),
+      description: t('proPlan.description'),
+      price: t('proPlan.price'),
+      period: t('proPlan.period'),
+      priceId:
+        process.env.NEXT_PUBLIC_STRIPE_PRICE_SUBSCRIPTION ?? 'price_REPLACE_ME',
+      mode: 'subscription' as const,
+      features: [
+        { text: t('proPlan.feature1') },
+        { text: t('proPlan.feature2') },
+        { text: t('proPlan.feature3') },
+        { text: t('proPlan.feature4') },
+      ],
+      highlighted: true,
+    },
+  ];
+
   return (
     <section className="mx-auto max-w-4xl px-4 py-20">
       <div className="mb-12 text-center">
         <h1 className="text-foreground text-4xl font-bold tracking-tight">
-          Simple pricing
+          {tc('heading')}
         </h1>
-        <p className="text-muted-foreground mt-3 text-lg">
-          Choose the plan that works for you.
-        </p>
+        <p className="text-muted-foreground mt-3 text-lg">{tc('subheading')}</p>
       </div>
 
       <div className="grid gap-8 md:grid-cols-2">
@@ -53,7 +55,7 @@ export function PricingSection() {
       </div>
 
       <p className="text-muted-foreground mt-10 text-center text-sm">
-        All prices in USD. Subscriptions can be cancelled anytime.
+        {tc('disclaimer')}
       </p>
     </section>
   );

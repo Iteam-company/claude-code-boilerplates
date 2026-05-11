@@ -4,12 +4,14 @@ import { useVerifyEmail } from '@/hooks/api/verify-email';
 import { ROUTES } from '@/lib/routes';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 export default function VerifyEmailPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get('token');
   const { trigger, isMutating, error, data } = useVerifyEmail();
+  const t = useTranslations('verifyEmail');
 
   useEffect(() => {
     if (token) trigger({ token });
@@ -25,9 +27,7 @@ export default function VerifyEmailPage() {
           ? 'loading'
           : 'error';
 
-  const errorMessage = !token
-    ? 'Verification token is missing.'
-    : error?.message;
+  const errorMessage = !token ? t('missingToken') : error?.message;
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -35,25 +35,25 @@ export default function VerifyEmailPage() {
         {status === 'loading' && (
           <>
             <h1 className="text-foreground mb-2 text-2xl font-semibold">
-              Verifying…
+              {t('verifying')}
             </h1>
-            <p className="text-muted-foreground text-sm">Please wait.</p>
+            <p className="text-muted-foreground text-sm">{t('pleaseWait')}</p>
           </>
         )}
 
         {status === 'success' && (
           <>
             <h1 className="text-foreground mb-2 text-2xl font-semibold">
-              Email verified!
+              {t('verified')}
             </h1>
             <p className="text-muted-foreground mb-6 text-sm">
-              Your email has been confirmed. You can now sign in.
+              {t('verifiedDescription')}
             </p>
             <button
               onClick={() => router.push(ROUTES.SIGNIN)}
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-2 text-sm font-medium transition-colors"
             >
-              Sign In
+              {t('signIn')}
             </button>
           </>
         )}
@@ -61,14 +61,14 @@ export default function VerifyEmailPage() {
         {status === 'error' && (
           <>
             <h1 className="text-foreground mb-2 text-2xl font-semibold">
-              Verification failed
+              {t('failed')}
             </h1>
             <p className="text-muted-foreground mb-6 text-sm">{errorMessage}</p>
             <button
               onClick={() => router.push(ROUTES.SIGNIN)}
               className="text-muted-foreground hover:text-foreground text-sm transition-colors"
             >
-              Back to Sign In
+              {t('backToSignIn')}
             </button>
           </>
         )}

@@ -1,10 +1,73 @@
+---
+name: init-project
+description: Initialize a new CLAUDE.md with domain context for a new project. Triggers when CLAUDE.md does not exist or is empty. Asks the user five questions — name, description, business model, modules, constraints — then writes a fully structured CLAUDE.md. Use this skill whenever the user types /init-project or asks to initialize, scaffold, or create a CLAUDE.md from scratch.
+---
+
+# init-project Skill
+
+Use this skill when the user runs `/init-project` or when `CLAUDE.md` does not exist in the project root and the user wants to set up a new project.
+
+---
+
+## Step 1 — Check for existing CLAUDE.md
+
+Before doing anything, check if `CLAUDE.md` already exists and has content:
+
+```bash
+test -s CLAUDE.md && echo "exists" || echo "missing"
+```
+
+- If it **exists and has content** → ask the user if they want to overwrite it. If no, stop.
+- If it **does not exist or is empty** → proceed to Step 2.
+
+---
+
+## Step 2 — Ask five questions
+
+Ask the user these five questions all at once in a numbered list. Wait for them to answer all five before proceeding.
+
+```
+To set up CLAUDE.md, answer 5 questions:
+
+1. **Name** — what is the project called?
+2. **Description** — what does it do? (1–3 sentences)
+3. **Business model** — how does it make money? (SaaS, one-time, marketplace, B2B, B2C, freemium, etc.)
+4. **Modules** — what are the main entities / features? (e.g. users, posts, orders, payments, notifications)
+5. **Constraints** — what should NOT be done, or what is important to avoid? (technical, product, team)
+```
+
+---
+
+## Step 3 — Generate CLAUDE.md
+
+Using the answers, write a `CLAUDE.md` file in the project root. Use the full template below, filling in the placeholders from the user's answers. Do not remove any section — every section is standard boilerplate that applies to all projects in this stack.
+
+````markdown
 # Project
 
-Next.js + Neon DB boilerplate with built-in Claude Code configuration — skills, hooks, agents, and CLAUDE.md patterns ready to use out of the box.
+**{Name}** — {Description}
+
+## Business Model
+
+{Business model — describe how the product makes money, who the customers are, and the pricing/access model.}
+
+## Domain Modules
+
+| Module    | Purpose                                      |
+| --------- | -------------------------------------------- |
+| {module1} | {one-sentence purpose inferred from context} |
+| {module2} | ...                                          |
+
+## Constraints
+
+- {constraint 1}
+- {constraint 2}
+
+---
 
 # Tech Stack
 
-- Next.js 16 (App Router, no src folder)
+- Next.js (App Router, no src folder)
 - React 19
 - TypeScript
 - Tailwind CSS v4
@@ -13,7 +76,6 @@ Next.js + Neon DB boilerplate with built-in Claude Code configuration — skills
 - React Hook Form
 - next-themes (dark/light mode)
 - sonner (toasts)
-- Recharts (charts)
 - Drizzle ORM (PostgreSQL)
 - Neon DB (serverless Postgres)
 - JWT (authentication)
@@ -21,36 +83,34 @@ Next.js + Neon DB boilerplate with built-in Claude Code configuration — skills
 
 # Structure
 
+```
 app/
 ├── (main)/
-│ ├── layout.tsx ← main layout with header & footer
-│ └── page.tsx
-├── api/ ← thin API route handlers (validate → service → respond)
-├── layout.tsx ← root layout (html, body, providers)
+│   ├── layout.tsx        ← main layout with header & footer
+│   └── page.tsx
+├── api/                  ← thin API route handlers (validate → service → respond)
+├── layout.tsx            ← root layout (html, body, providers)
 ├── globals.css
 components/
-├── ui/ ← shadcn components, never modify these directly
-├── layout/ ← header, footer, sidebar
-│ ├── header.tsx
-│ ├── footer.tsx
-│ └── sidebar.tsx
+├── ui/                   ← shadcn components, never modify these directly
+├── layout/               ← header, footer, sidebar
+│   ├── header.tsx
+│   ├── footer.tsx
+│   └── sidebar.tsx
 db/
-├── drizzle.ts ← db client + all schema/relations registered here
-├── schema.ts ← re-exports all table schemas
-modules/ ← feature modules (DDD-lite, one folder per entity)
-├── user/
-├── post/
-├── comment/
-└── like/
+├── drizzle.ts            ← db client + all schema/relations registered here
+├── schema.ts             ← re-exports all table schemas
+modules/                  ← feature modules (DDD-lite, one folder per entity)
 lib/
-├── utils.ts ← cn() and shared utilities
-├── auth.ts ← getUserFromRequest(), JWT helpers
-├── errors/ ← HttpError class + handleError() for routes
-├── fetcher.ts ← client-side fetch utility
-├── routes.ts ← centralized route path constants
-hooks/ ← custom react hooks
-types/ ← shared typescript types
+├── utils.ts              ← cn() and shared utilities
+├── auth.ts               ← getUserFromRequest(), JWT helpers
+├── errors/               ← HttpError class + handleError() for routes
+├── fetcher.ts            ← client-side fetch utility
+├── routes.ts             ← centralized route path constants
+hooks/                    ← custom react hooks
+types/                    ← shared typescript types
 public/
+```
 
 # Commands
 
@@ -97,7 +157,6 @@ public/
 
 - Always use React Hook Form + Zod for forms
 - Define zod schema first, infer the type from it
-- Example:
 
 ```ts
 const schema = z.object({ email: z.string().email() });
@@ -205,7 +264,7 @@ export const metadata: Metadata = {
 
 ## Modules (DDD-lite)
 
-All business logic lives in `src/modules/`. Every module has 7 files:
+All business logic lives in `modules/`. Every module has 7 files:
 `schema` → `relations` → `types` → `validation` → `repo` → `service` → `index`
 
 - See skill: `drizzle-module`
@@ -259,21 +318,6 @@ All business logic lives in `src/modules/`. Every module has 7 files:
 - Always `catch (error: unknown)` — never `any`
 - Always delegate to `handleError(error)` in routes
 
-## File Uploads
-
-- All uploads via `lib/cloudinary.ts` → `POST /api/upload`
-- Protected — requires Bearer token
-- Returns `{ url: string }`
-- See skill: `cloudinary-upload`
-
-## Blog (MDX)
-
-- Posts stored as raw MDX strings in the `content` column
-- Public blog pages are Server Components — call `postService` directly
-- Client rendering uses `next-mdx-remote` (non-rsc) + `serialize()`
-- Styled via `@tailwindcss/typography` (`prose` classes)
-- See skill: `nextjs-mdx-blog`
-
 ## Hooks (SWR)
 
 - All hooks in `hooks/api/*.ts`
@@ -283,24 +327,6 @@ All business logic lives in `src/modules/`. Every module has 7 files:
 - Call `mutate()` in `onSuccess` to keep cache in sync
 - Never use hooks in Server Components
 - See skill: `swr-hooks`
-
-## Database Migrations
-
-```bash
-npx drizzle-kit generate
-npx drizzle-kit push
-```
-
-Always run after schema changes. Never assume a table exists.
-
-## Deployment (Vercel)
-
-- Hosted on Vercel, connected to GitHub via `vercel git connect`
-- Push to `main` → production deployment (automatic)
-- Push to any other branch → preview deployment (automatic)
-- No manual deploy commands needed after initial setup
-- Environment variables managed via `vercel env add` — never commit secrets
-- See skill: `vercel-deploy`
 
 ## Naming Conventions
 
@@ -320,10 +346,17 @@ Always run after schema changes. Never assume a table exists.
 ```
 JWT_SECRET=
 DATABASE_URL=
-CLOUDINARY_CLOUD_NAME=
-CLOUDINARY_API_KEY=
-CLOUDINARY_API_SECRET=
+NEXT_PUBLIC_BASE_URL=
 ```
+
+## Deployment (Vercel)
+
+- Hosted on Vercel, connected to GitHub via `vercel git connect`
+- Push to `main` → production deployment (automatic)
+- Push to any other branch → preview deployment (automatic)
+- No manual deploy commands needed after initial setup
+- Environment variables managed via `vercel env add` — never commit secrets
+- See skill: `vercel-deploy`
 
 ## Anti-Patterns (DO NOT DO)
 
@@ -341,25 +374,24 @@ CLOUDINARY_API_SECRET=
 - Massive files/modules
 - Hidden side effects
 - Tight coupling between modules
+````
 
-# MCP
+---
 
-MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if missing:
+## Step 4 — Confirm
 
-| Server     | Variable                | Where to get it                        |
-| ---------- | ----------------------- | -------------------------------------- |
-| neon       | `NEON_API_KEY`          | console.neon.tech → Account → API Keys |
-| vercel     | `VERCEL_TOKEN`          | vercel.com → Settings → Tokens         |
-| cloudinary | `CLOUDINARY_CLOUD_NAME` | cloudinary.com → Settings → API Keys   |
-| cloudinary | `CLOUDINARY_API_KEY`    | cloudinary.com → Settings → API Keys   |
-| cloudinary | `CLOUDINARY_API_SECRET` | cloudinary.com → Settings → API Keys   |
+After writing the file, tell the user:
 
-## Cloudinary
+```
+CLAUDE.md created. Review the Domain Modules and Constraints sections — the rest is standard boilerplate that applies to all projects.
+```
 
-- Use the `cloudinary` MCP tools to upload, transform, and manage media assets
-- Always upload user files via the Cloudinary MCP — never store images locally or in the DB
-- Use Cloudinary's transformation URL parameters for resizing/formatting (e.g. `w_800,f_auto,q_auto`)
-- Store only the Cloudinary `public_id` in the database, not full URLs — construct URLs at render time
-- Never expose `CLOUDINARY_API_SECRET` to the client — all uploads must go through a server action or API route
+---
 
-If an MCP tool fails due to a missing token, stop and ask the user to add the relevant variable to `.env`, then restart the dev session before retrying.
+## Notes
+
+- Fill in `{Name}`, `{Description}`, `{Business model}` using the user's exact wording — don't paraphrase.
+- For modules: generate a row per module with a one-sentence purpose inferred from context.
+- For constraints: copy faithfully — if the user says "no Redux", write "Do not use Redux".
+- If the user mentioned specific tech (e.g. "we use Supabase instead of Neon"), update the Tech Stack section accordingly.
+- The Domain Modules and Constraints sections are the only parts that change per project. Everything else is the standard stack boilerplate.

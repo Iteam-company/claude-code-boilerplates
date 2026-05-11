@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { CheckoutButton } from './CheckoutButton';
 
 interface PricingFeature {
@@ -16,7 +17,7 @@ interface Props {
   ctaLabel?: string;
 }
 
-export function PricingCard({
+export async function PricingCard({
   name,
   description,
   price,
@@ -27,13 +28,15 @@ export function PricingCard({
   highlighted = false,
   ctaLabel,
 }: Props) {
+  const t = await getTranslations('checkout');
+
   return (
     <div
       className={`flex flex-col rounded-2xl border p-8 ${highlighted ? 'border-primary bg-primary/5 shadow-lg' : 'border-border bg-card'}`}
     >
       {highlighted && (
         <span className="bg-primary text-primary-foreground mb-4 self-start rounded-full px-3 py-1 text-xs font-semibold">
-          Most popular
+          {t('mostPopular')}
         </span>
       )}
       <h3 className="text-foreground text-xl font-bold">{name}</h3>
@@ -75,7 +78,7 @@ export function PricingCard({
           priceId={priceId}
           mode={mode}
           label={
-            ctaLabel ?? (mode === 'subscription' ? 'Subscribe' : 'Buy Now')
+            ctaLabel ?? (mode === 'subscription' ? t('subscribe') : t('buyNow'))
           }
           className={`w-full rounded-md px-6 py-2.5 text-sm font-medium disabled:opacity-50 ${
             highlighted
