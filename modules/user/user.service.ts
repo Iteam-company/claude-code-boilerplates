@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import React from 'react';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { userRepo } from './user.repo';
@@ -8,7 +9,12 @@ import {
   emailService,
   ENABLE_WELCOME_EMAIL,
   ENABLE_EMAIL_VERIFICATION,
+  APP_NAME,
+  BASE_URL,
 } from '@/lib/email';
+import { WelcomeEmail } from '@/emails/welcome-email';
+import { ResetPasswordEmail } from '@/emails/reset-password-email';
+import { VerifyEmail } from '@/emails/verify-email';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -31,11 +37,25 @@ export const userService = {
     if (ENABLE_EMAIL_VERIFICATION) {
       const verificationToken = crypto.randomBytes(32).toString('hex');
       await userRepo.setEmailVerificationToken(user.id, verificationToken);
-      await emailService.sendVerificationEmail(email, verificationToken);
+      await emailService.sendEmail({
+        to: email,
+        subject: `Verify your ${APP_NAME} email`,
+        react: React.createElement(VerifyEmail, {
+          appName: APP_NAME,
+          verifyUrl: `${BASE_URL}/verify-email?token=${verificationToken}`,
+        }),
+      });
     }
 
     if (ENABLE_WELCOME_EMAIL) {
-      await emailService.sendWelcomeEmail(email);
+      await emailService.sendEmail({
+        to: email,
+        subject: `Welcome to ${APP_NAME}!`,
+        react: React.createElement(WelcomeEmail, {
+          appName: APP_NAME,
+          dashboardUrl: `${BASE_URL}/dashboard`,
+        }),
+      });
     }
 
     const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
@@ -79,7 +99,14 @@ export const userService = {
     const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
     await userRepo.setPasswordResetToken(user.id, resetToken, expiresAt);
-    await emailService.sendPasswordResetEmail(email, resetToken);
+    await emailService.sendEmail({
+      to: email,
+      subject: `Reset your ${APP_NAME} password`,
+      react: React.createElement(ResetPasswordEmail, {
+        appName: APP_NAME,
+        resetUrl: `${BASE_URL}/reset-password?token=${resetToken}`,
+      }),
+    });
   },
 
   resetPassword: async (token: string, newPassword: string): Promise<void> => {
