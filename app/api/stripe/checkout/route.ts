@@ -1,3 +1,4 @@
+import Stripe from 'stripe';
 import { stripe } from '@/lib/stripe';
 import { getUserFromRequest } from '@/lib/auth';
 import { handleError, HttpError } from '@/lib/errors';
@@ -34,6 +35,9 @@ export async function POST(req: Request) {
 
     return Response.json({ url: session.url });
   } catch (error: unknown) {
+    if (error instanceof Stripe.errors.StripeError) {
+      return Response.json({ error: error.message }, { status: 400 });
+    }
     return handleError(error);
   }
 }
