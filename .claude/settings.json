@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "pnpm format && pnpm lint"
+            "command": "npm run format && npm run lint"
           }
         ]
       }
