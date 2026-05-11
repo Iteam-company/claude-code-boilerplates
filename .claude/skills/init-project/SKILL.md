@@ -114,18 +114,18 @@ public/
 
 # Commands
 
-- `pnpm dev` — start dev server
-- `pnpm build` — production build
-- `pnpm lint` — run eslint
-- `pnpm tsc --noEmit` — type check without building
+- `npm run dev` — start dev server
+- `npm run build` — production build
+- `npm run lint` — run eslint
+- `npx tsc --noEmit` — type check without building
 - `npx shadcn@latest add <component>` — add shadcn component
 
 ## Database
 
-- `pnpm db:generate` — generate SQL migration from schema changes
-- `pnpm db:migrate` — apply pending migrations to the database
-- `pnpm db:push` — sync schema directly to DB without a migration file (dev only)
-- `pnpm db:studio` — open Drizzle Studio to inspect data
+- `npm run db:generate` — generate SQL migration from schema changes
+- `npm run db:migrate` — apply pending migrations to the database
+- `npm run db:push` — sync schema directly to DB without a migration file (dev only)
+- `npm run db:studio` — open Drizzle Studio to inspect data
 
 # Conventions
 
