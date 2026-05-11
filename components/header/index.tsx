@@ -5,13 +5,16 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
 import { LogOutIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslations } from 'next-intl';
 
-const links = [{ title: 'Home', href: '/' }];
+const links = [{ titleKey: 'home' as const, href: '/' }];
 
 export const Header = () => {
   const { isAuthenticated, clearToken } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const tNav = useTranslations('nav');
+  const tHeader = useTranslations('header');
 
   return (
     <div className="relative flex items-center justify-between px-4">
@@ -19,11 +22,11 @@ export const Header = () => {
       <header className={cn('my-3 rounded-full border border-black px-6 py-1')}>
         {links.map((link) => (
           <Link
-            key={link.title}
+            key={link.titleKey}
             href={link.href}
             className={cn('border-black', pathname === link.href && 'border-b')}
           >
-            {link.title}
+            {tNav(link.titleKey)}
           </Link>
         ))}
       </header>
@@ -40,7 +43,7 @@ export const Header = () => {
             onClick={() => router.push(ROUTES.SIGNIN)}
             className="rounded-md border border-black px-3 py-1.5 text-sm transition-colors hover:bg-black/5"
           >
-            Sign In
+            {tHeader('signIn')}
           </button>
         )}
       </div>

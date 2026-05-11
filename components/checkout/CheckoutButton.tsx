@@ -2,6 +2,7 @@
 
 import { toast } from 'sonner';
 import { useCheckout } from '@/hooks/api/useCheckout';
+import { useTranslations } from 'next-intl';
 
 interface Props {
   priceId: string;
@@ -13,9 +14,10 @@ interface Props {
 export function CheckoutButton({
   priceId,
   mode = 'payment',
-  label = 'Buy Now',
+  label,
   className,
 }: Props) {
+  const t = useTranslations('checkout');
   const { trigger, isMutating } = useCheckout();
 
   const handleClick = async () => {
@@ -23,7 +25,7 @@ export function CheckoutButton({
       const { url } = await trigger({ priceId, mode });
       window.location.href = url;
     } catch {
-      toast.error('Could not start checkout. Please try again.');
+      toast.error(t('checkoutError'));
     }
   };
 
@@ -36,7 +38,7 @@ export function CheckoutButton({
         'bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-2.5 text-sm font-medium disabled:opacity-50'
       }
     >
-      {isMutating ? 'Redirecting…' : label}
+      {isMutating ? t('redirecting') : (label ?? t('buyNow'))}
     </button>
   );
 }
