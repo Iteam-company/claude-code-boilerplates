@@ -32,7 +32,7 @@ export default function ResetPasswordPage() {
   if (!token) {
     return (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="bg-card border-border min-w-[350px] rounded-xl border p-6 text-center shadow-sm">
+        <div className="bg-card border-border min-w-87.5 rounded-xl border p-6 text-center shadow-sm">
           <h1 className="text-foreground mb-2 text-2xl font-semibold">
             Invalid link
           </h1>
@@ -47,7 +47,7 @@ export default function ResetPasswordPage() {
   if (data) {
     return (
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <div className="bg-card border-border min-w-[350px] rounded-xl border p-6 text-center shadow-sm">
+        <div className="bg-card border-border min-w-87.5 rounded-xl border p-6 text-center shadow-sm">
           <h1 className="text-foreground mb-2 text-2xl font-semibold">
             Password updated!
           </h1>
@@ -67,7 +67,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="bg-card border-border min-w-[350px] rounded-xl border p-6 shadow-sm">
+      <div className="bg-card border-border min-w-87.5 rounded-xl border p-6 shadow-sm">
         <h1 className="text-foreground mb-6 text-center text-2xl font-semibold">
           Reset Password
         </h1>
