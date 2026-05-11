@@ -10,7 +10,7 @@ Handles Stripe Checkout sessions (one-time payments and recurring subscriptions)
 ## Setup
 
 ```bash
-pnpm add stripe @stripe/stripe-js
+npm install stripe @stripe/stripe-js
 ```
 
 ```env
@@ -349,7 +349,7 @@ modules/order/
   order.index.ts
 ```
 
-Register the schema in `db/drizzle.ts` and run `pnpm db:generate && pnpm db:migrate`.
+Register the schema in `db/drizzle.ts` and run `npm run db:generate && npm run db:migrate`.
 
 ---
 
@@ -413,4 +413,4 @@ async sync(subscription: Stripe.Subscription)
 async getActiveByUserId(userId: number): Promise<Subscription | null>
 ```
 
-Register the schema in `db/drizzle.ts` and run `pnpm db:generate && pnpm db:migrate`.
+Register the schema in `db/drizzle.ts` and run `npm run db:generate && npm run db:migrate`.

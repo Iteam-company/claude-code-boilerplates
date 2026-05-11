@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "home": "Home"
+  },
+  "header": {
+    "signIn": "Sign In"
+  },
+  "footer": {
+    "info": "Footer info"
+  },
+  "signIn": {
+    "title": "Sign In",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Sign In",
+    "noAccount": "Don't have account?"
+  },
+  "signUp": {
+    "title": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "repeatPassword": "Repeat password",
+    "submit": "Sign Up",
+    "haveAccount": "Already have account?",
+    "passwordsMismatch": "Passwords do not match"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "newPassword": "New password",
+    "submit": "Set New Password",
+    "invalidLink": "Invalid link",
+    "invalidLinkDescription": "This reset link is missing a token.",
+    "updated": "Password updated!",
+    "updatedDescription": "Your password has been reset. You can now sign in.",
+    "signIn": "Sign In"
+  },
+  "verifyEmail": {
+    "verifying": "Verifying…",
+    "pleaseWait": "Please wait.",
+    "verified": "Email verified!",
+    "verifiedDescription": "Your email has been confirmed. You can now sign in.",
+    "failed": "Verification failed",
+    "missingToken": "Verification token is missing.",
+    "signIn": "Sign In",
+    "backToSignIn": "Back to Sign In"
+  },
+  "checkout": {
+    "metaTitle": "Pricing",
+    "metaDescription": "Choose a plan to get started.",
+    "heading": "Simple pricing",
+    "subheading": "Choose the plan that works for you.",
+    "disclaimer": "All prices in USD. Subscriptions can be cancelled anytime.",
+    "mostPopular": "Most popular",
+    "subscribe": "Subscribe",
+    "buyNow": "Buy Now",
+    "redirecting": "Redirecting…",
+    "checkoutError": "Could not start checkout. Please try again.",
+    "manageBilling": "Manage Billing",
+    "opening": "Opening…",
+    "portalError": "Could not open billing portal. Please try again."
+  },
+  "checkoutSuccess": {
+    "metaTitle": "Payment Successful",
+    "metaDescription": "Your payment was processed successfully.",
+    "heading": "Payment successful!",
+    "description": "Thank you for your purchase. You’ll receive a confirmation email shortly.",
+    "backHome": "Back to home"
+  },
+  "pricing": {
+    "proLicense": {
+      "name": "Pro License",
+      "description": "One-time purchase. Lifetime access.",
+      "price": "$49",
+      "feature1": "Full source code access",
+      "feature2": "All current features",
+      "feature3": "Lifetime updates",
+      "feature4": "Community support",
+      "cta": "Buy License"
+    },
+    "proPlan": {
+      "name": "Pro Plan",
+      "description": "Everything in Pro License, plus ongoing perks.",
+      "price": "$19",
+      "period": "month",
+      "feature1": "Full source code access",
+      "feature2": "All current + future features",
+      "feature3": "100 AI credits / month",
+      "feature4": "Priority support"
+    }
+  }
+}

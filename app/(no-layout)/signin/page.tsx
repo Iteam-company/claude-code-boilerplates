@@ -9,11 +9,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useTranslations } from 'next-intl';
 
 export default function SignInPage() {
   const router = useRouter();
   const { token, setToken } = useAuth();
   const { trigger: signin, error, isMutating } = useSignin();
+  const t = useTranslations('signIn');
 
   const {
     handleSubmit,
@@ -48,14 +50,14 @@ export default function SignInPage() {
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="bg-card border-border min-w-87.5 rounded-xl border p-6 shadow-sm">
         <h1 className="text-foreground mb-6 text-center text-2xl font-semibold">
-          Sign In
+          {t('title')}
         </h1>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <div>
             <input
               {...register('email')}
               type="email"
-              placeholder="Email"
+              placeholder={t('email')}
               disabled={isMutating}
               className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 disabled:opacity-50"
             />
@@ -70,7 +72,7 @@ export default function SignInPage() {
             <input
               {...register('password')}
               type="password"
-              placeholder="Password"
+              placeholder={t('password')}
               disabled={isMutating}
               className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 disabled:opacity-50"
             />
@@ -88,7 +90,7 @@ export default function SignInPage() {
             disabled={isMutating}
             className="bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
           >
-            Sign In
+            {t('submit')}
           </button>
 
           <div className="flex items-center justify-between">
@@ -98,13 +100,14 @@ export default function SignInPage() {
               onClick={handleDontHaveAccount}
               className="text-muted-foreground hover:text-foreground rounded-md px-4 py-2 text-sm transition-colors disabled:opacity-50"
             >
-              Don&apos;t have account?
+              {t('noAccount')}
             </button>
+
             <Link
               href={ROUTES.FORGOT_PASSWORD}
               className="text-muted-foreground hover:text-foreground rounded-md px-4 py-2 text-sm transition-colors"
             >
-              Forgot password?
+              {t('forgotPassword')}
             </Link>
           </div>
         </form>

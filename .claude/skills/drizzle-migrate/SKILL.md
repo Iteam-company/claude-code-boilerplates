@@ -7,12 +7,12 @@ description: Run Drizzle ORM migrations — generate a SQL migration from schema
 
 ## When to use which command
 
-| Situation                                          | Command            |
-| -------------------------------------------------- | ------------------ |
-| Changed a schema file, need a migration file       | `pnpm db:generate` |
-| Apply pending migration files to the DB            | `pnpm db:migrate`  |
-| Dev only — sync schema directly, no migration file | `pnpm db:push`     |
-| Inspect DB data visually                           | `pnpm db:studio`   |
+| Situation                                          | Command               |
+| -------------------------------------------------- | --------------------- |
+| Changed a schema file, need a migration file       | `npm run db:generate` |
+| Apply pending migration files to the DB            | `npm run db:migrate`  |
+| Dev only — sync schema directly, no migration file | `npm run db:push`     |
+| Inspect DB data visually                           | `npm run db:studio`   |
 
 **Production workflow:** always `generate` → review → `migrate`  
 **Dev shortcut:** `push` syncs schema instantly, no migration file created
@@ -21,18 +21,18 @@ description: Run Drizzle ORM migrations — generate a SQL migration from schema
 
 ```bash
 # 1. Generate migration SQL from schema diff
-pnpm db:generate
+npm run db:generate
 
 # 2. Review the generated file in migrations/
 # Check it looks correct before applying
 
 # 3. Apply the migration
-pnpm db:migrate
+npm run db:migrate
 ```
 
 ## What each command does
 
-### `pnpm db:generate`
+### `npm run db:generate`
 
 Reads all `modules/**/*.schema.ts` files, diffs against the last migration snapshot, and writes a new `.sql` file to `migrations/`. Does NOT touch the database.
 
@@ -43,15 +43,15 @@ Run this whenever you:
 - Change a column type or constraint
 - Add an index
 
-### `pnpm db:migrate`
+### `npm run db:migrate`
 
 Reads pending migration files from `migrations/` and applies them to the database in order. Safe for production — only runs migrations that haven't been applied yet.
 
-### `pnpm db:push`
+### `npm run db:push`
 
 Directly syncs the current schema to the database without creating migration files. Fast for local dev iteration but **not safe for production** — it can drop columns without warning.
 
-### `pnpm db:studio`
+### `npm run db:studio`
 
 Opens Drizzle Studio at `https://local.drizzle.studio` to browse and edit data in the browser.
 
@@ -61,9 +61,9 @@ Opens Drizzle Studio at `https://local.drizzle.studio` to browse and edit data i
 - [ ] Relations file created: `modules/[name]/[name].relations.ts`
 - [ ] Both registered in `db/drizzle.ts` (table + relations)
 - [ ] Table exported from `db/schema.ts`
-- [ ] Run `pnpm db:generate`
+- [ ] Run `npm run db:generate`
 - [ ] Review migration file in `migrations/`
-- [ ] Run `pnpm db:migrate`
+- [ ] Run `npm run db:migrate`
 
 ## Common errors
 
