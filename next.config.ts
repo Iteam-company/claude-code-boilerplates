@@ -1,15 +1,8 @@
-import createMDX from '@next/mdx';
+import type { NextConfig } from 'next';
+import createNextIntlPlugin from 'next-intl/plugin';
 
-const withMDX = createMDX({
-  options: {
-    remarkPlugins: [['remark-gfm', {}]],
-    rehypePlugins: [],
-  },
-});
+const withNextIntl = createNextIntlPlugin('./i18n/request.ts');
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
-};
+const nextConfig: NextConfig = {};
 
-export default withMDX(nextConfig);
+export default withNextIntl(nextConfig);

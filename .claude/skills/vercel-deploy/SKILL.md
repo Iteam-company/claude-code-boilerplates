@@ -143,7 +143,7 @@ For Next.js projects, Vercel auto-detects settings. Only add `vercel.json` if yo
   "buildCommand": "next build",
   "outputDirectory": ".next",
   "devCommand": "next dev",
-  "installCommand": "npm install",
+  "installCommand": "npm run install",
   "regions": ["fra1"]
 }
 ```

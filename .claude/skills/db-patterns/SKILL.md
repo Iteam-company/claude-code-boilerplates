@@ -51,7 +51,6 @@ await db.delete(postTable).where(eq(postTable.id, id));
 ```bash
 npx drizzle-kit generate   # generate SQL migration from schema changes
 npx drizzle-kit push       # apply migration to DB (dev)
-npx drizzle-kit studio     # open Drizzle Studio to inspect data
 ```
 
 - Never edit existing migration files — always generate a new one
