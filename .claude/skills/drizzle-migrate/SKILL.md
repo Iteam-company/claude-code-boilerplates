@@ -1,75 +1,87 @@
 ---
 name: drizzle-migrate
-description: Run Drizzle ORM migrations — generate a SQL migration from schema changes and apply it to the database. Use this skill whenever the user changes a schema file, adds a new table, or asks to run/apply migrations.
+description: Run Drizzle ORM migrations — generate SQL migrations from schema changes and apply them to the database. Use this skill whenever the user changes a schema file, adds a new table, adds a column, or asks to run/apply/push migrations. Always use this skill before assuming the DB is in sync with the schema.
 ---
 
 # Drizzle Migration Skill
 
-## When to use which command
+## Commands
 
-| Situation                                          | Command               |
-| -------------------------------------------------- | --------------------- |
-| Changed a schema file, need a migration file       | `npm run db:generate` |
-| Apply pending migration files to the DB            | `npm run db:migrate`  |
-| Dev only — sync schema directly, no migration file | `npm run db:push`     |
-| Inspect DB data visually                           | `npm run db:studio`   |
+This project uses `npx drizzle-kit` directly. There are no npm scripts for migrations.
 
-**Production workflow:** always `generate` → review → `migrate`  
-**Dev shortcut:** `push` syncs schema instantly, no migration file created
+| Situation                                            | Command                    |
+| ---------------------------------------------------- | -------------------------- |
+| Changed a schema, need to apply it to DB             | `npx drizzle-kit push`     |
+| Changed a schema, need a migration file (production) | `npx drizzle-kit generate` |
 
-## Full workflow after a schema change
+## Dev workflow (most common)
+
+For local development, `push` is the standard command — it syncs the schema directly to the DB without creating migration files:
 
 ```bash
-# 1. Generate migration SQL from schema diff
-npm run db:generate
-
-# 2. Review the generated file in migrations/
-# Check it looks correct before applying
-
-# 3. Apply the migration
-npm run db:migrate
+npx drizzle-kit push
 ```
 
-## What each command does
+Run this after any schema change:
 
-### `npm run db:generate`
+- Adding a new table
+- Adding or removing a column
+- Changing a column type or constraint
+- Adding an index or unique constraint
 
-Reads all `modules/**/*.schema.ts` files, diffs against the last migration snapshot, and writes a new `.sql` file to `migrations/`. Does NOT touch the database.
+## Production workflow
 
-Run this whenever you:
+For production, generate a migration file first so changes are tracked and reviewed:
 
-- Add a new table (`pgTable`)
-- Add/rename/remove a column
-- Change a column type or constraint
-- Add an index
+```bash
+# 1. Generate SQL migration from schema diff
+npx drizzle-kit generate
 
-### `npm run db:migrate`
+# 2. Review the generated .sql file in migrations/
+# Make sure it looks correct before applying
 
-Reads pending migration files from `migrations/` and applies them to the database in order. Safe for production — only runs migrations that haven't been applied yet.
+# 3. Apply to the database
+npx drizzle-kit migrate
+```
 
-### `npm run db:push`
+## Rules
 
-Directly syncs the current schema to the database without creating migration files. Fast for local dev iteration but **not safe for production** — it can drop columns without warning.
-
-### `npm run db:studio`
-
-Opens Drizzle Studio at `https://local.drizzle.studio` to browse and edit data in the browser.
+- **Never assume the DB is in sync with the schema** — always run `push` or `migrate` after schema changes
+- **Never skip `generate` in production** — `push` can drop columns without warning
+- **Always run `push` after adding a new module** — new tables don't exist until you do
+- `push` is safe for dev, not for production
+- After adding relations (`*.relations.ts`), no migration is needed — relations are TypeScript-only and don't affect the DB schema
 
 ## Checklist after adding a new module
 
-- [ ] Schema file created: `modules/[name]/[name].schema.ts`
-- [ ] Relations file created: `modules/[name]/[name].relations.ts`
-- [ ] Both registered in `db/drizzle.ts` (table + relations)
-- [ ] Table exported from `db/schema.ts`
-- [ ] Run `npm run db:generate`
-- [ ] Review migration file in `migrations/`
-- [ ] Run `npm run db:migrate`
+- [ ] `modules/[name]/[name].schema.ts` created
+- [ ] `modules/[name]/[name].relations.ts` created
+- [ ] Both registered in `db/drizzle.ts`
+- [ ] Run `npx drizzle-kit push` (dev) or `generate` + `migrate` (prod)
 
 ## Common errors
 
-| Error                              | Cause                                       | Fix                                         |
-| ---------------------------------- | ------------------------------------------- | ------------------------------------------- |
-| `Cannot find module`               | `DATABASE_URL` not set                      | Check `.env` file                           |
-| `relation already exists`          | Migration already applied                   | Check `__drizzle_migrations` table          |
-| Schema diff is empty               | Schema file not matched by glob             | Confirm file is in `modules/**/*.schema.ts` |
-| `referencedTable` error at runtime | Relations not registered in `db/drizzle.ts` | See `drizzle-relations` skill               |
+| Error                                   | Cause                                       | Fix                                        |
+| --------------------------------------- | ------------------------------------------- | ------------------------------------------ |
+| `Cannot find module` / connection error | `DATABASE_URL` not set                      | Check `.env` file                          |
+| `relation already exists`               | Migration already applied                   | Check `__drizzle_migrations` table in DB   |
+| Schema diff is empty                    | Schema file not picked up by drizzle config | Check `schema` glob in `drizzle.config.ts` |
+| `referencedTable` error at runtime      | Relations not registered in `db/drizzle.ts` | See `drizzle-relations` skill              |
+| Column missing at runtime               | Schema changed but push not run             | Run `npx drizzle-kit push`                 |
+
+## `drizzle.config.ts` reference
+
+```ts
+import { defineConfig } from 'drizzle-kit';
+
+export default defineConfig({
+  schema: './src/modules/*/*.schema.ts',
+  out: './migrations',
+  dialect: 'postgresql',
+  dbCredentials: {
+    url: process.env.DATABASE_URL!,
+  },
+});
+```
+
+The `schema` glob must match all your `*.schema.ts` files. If it doesn't, `generate` and `push` will silently produce empty diffs.
