@@ -11,8 +11,14 @@ description: UI component structure, styling conventions, and theme usage. Custo
 components/
 ├── ui/           ← shadcn primitives (form controls, dialogs) — never modify directly
 ├── header/       ← site header with nav + theme toggle
-├── footer/       ← site footer
-├── Hero.tsx      ← landing page hero section
+├── footer/       ← site footer (marketing footer with brand, nav, copyright)
+├── landing/      ← marketing landing page sections
+│   ├── Hero.tsx      ← full-width hero with headline, subtitle, dual CTAs
+│   ├── Features.tsx  ← 6-card feature grid with Lucide icons
+│   ├── Pricing.tsx   ← lightweight pricing teaser linking to /checkout
+│   ├── FAQ.tsx       ← custom expand/collapse FAQ (no shadcn Accordion)
+│   ├── CTA.tsx       ← bold bottom CTA with inverted bg-primary background
+│   └── index.ts      ← barrel export
 ├── Container.tsx ← max-width wrapper
 └── ThemeToggle.tsx ← light/dark mode toggle
 app/
@@ -68,13 +74,17 @@ export function Section({ className, children }: SectionProps) {
 
 ## Available base components
 
-| Component     | Usage                                               |
-| ------------- | --------------------------------------------------- |
-| `Container`   | Max-width wrapper (`max-w-5xl`, horizontal padding) |
-| `Header`      | Sticky nav with logo, links, theme toggle           |
-| `Footer`      | Bottom bar with links and copyright                 |
-| `Hero`        | Landing hero with title, subtitle, CTA buttons      |
-| `ThemeToggle` | Light/dark toggle button (uses `resolvedTheme`)     |
+| Component          | Usage                                               |
+| ------------------ | --------------------------------------------------- |
+| `Container`        | Max-width wrapper (`max-w-5xl`, horizontal padding) |
+| `Header`           | Sticky nav with logo, links, theme toggle           |
+| `Footer`           | Marketing footer with brand, nav columns, copyright |
+| `landing/Hero`     | Full-width hero with headline, subtitle, dual CTAs  |
+| `landing/Features` | 6-card feature grid with Lucide icons               |
+| `landing/Pricing`  | Lightweight pricing teaser linking to `/checkout`   |
+| `landing/FAQ`      | Custom expand/collapse FAQ (no shadcn Accordion)    |
+| `landing/CTA`      | Bold bottom CTA with inverted `bg-primary` band     |
+| `ThemeToggle`      | Light/dark toggle button (uses `resolvedTheme`)     |
 
 ## Dark mode
 
