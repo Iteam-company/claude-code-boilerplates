@@ -42,9 +42,9 @@ export async function Features() {
           {features.map(({ key, Icon }) => (
             <div
               key={key}
-              className="border-border bg-card rounded-xl border p-6"
+              className="border-border bg-card group hover:border-primary/40 rounded-xl border p-6 transition-all hover:shadow-md"
             >
-              <Icon className="text-primary h-8 w-8" />
+              <Icon className="text-primary h-8 w-8 transition-transform group-hover:scale-110" />
               <h3 className="text-foreground mt-4 text-lg font-semibold">
                 {t(`items.${key}.title`)}
               </h3>

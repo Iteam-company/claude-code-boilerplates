@@ -3,7 +3,12 @@
     "home": "Home"
   },
   "header": {
-    "signIn": "Sign In"
+    "signIn": "Sign In",
+    "nav": {
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ"
+    }
   },
   "footer": {
     "tagline": "The Next.js boilerplate that ships.",
@@ -26,10 +31,32 @@
       "description": "A production-ready Next.js boilerplate with auth, Stripe payments, email, dark mode, and AI credits built in."
     },
     "hero": {
+      "badge": "Open source · MIT License",
       "headline": "Ship your SaaS in days, not months",
       "subheadline": "A production-ready Next.js boilerplate with auth, Stripe payments, email, dark mode, and AI credits built in. Stop rebuilding foundations — start shipping.",
       "ctaPrimary": "Get started",
-      "ctaSecondary": "See features"
+      "ctaSecondary": "See features",
+      "trust1": "No credit card required",
+      "trust2": "Deploy in minutes",
+      "trust3": "MIT Licensed"
+    },
+    "steps": {
+      "heading": "Up and running in minutes",
+      "subheading": "Three steps from zero to a live app.",
+      "items": {
+        "clone": {
+          "title": "Clone the repo",
+          "description": "Fork from GitHub and install dependencies. You have a full production-grade Next.js app instantly."
+        },
+        "configure": {
+          "title": "Describe what you want",
+          "description": "Open Claude Code and describe your feature. It knows your project structure and writes everything correctly."
+        },
+        "ship": {
+          "title": "Push and go live",
+          "description": "Push to GitHub and Vercel deploys automatically. Your app is live with a real URL in seconds."
+        }
+      }
     },
     "features": {
       "heading": "Everything you need to launch",
@@ -64,7 +91,8 @@
     "pricing": {
       "heading": "Simple, transparent pricing",
       "subheading": "One price, all features. No hidden fees.",
-      "cta": "View full pricing"
+      "cta": "View full pricing",
+      "viewFull": "See full pricing details"
     },
     "faq": {
       "heading": "Frequently asked questions",
@@ -94,7 +122,8 @@
     "cta": {
       "heading": "Ready to ship faster?",
       "subheading": "Join developers using this boilerplate to launch in days, not months.",
-      "button": "Get started now"
+      "button": "Get started now",
+      "github": "View on GitHub"
     }
   },
   "signIn": {
@@ -167,6 +196,36 @@
       "feature4": "Community support",
       "cta": "Buy License"
     },
+    "page": {
+      "metaTitle": "Pricing",
+      "metaDescription": "Simple, transparent pricing. One price, all features. No hidden fees.",
+      "viewFull": "View full pricing",
+      "faq": {
+        "heading": "Common questions",
+        "items": {
+          "q1": {
+            "question": "Is there a free trial?",
+            "answer": "There's no free trial, but the Pro License is a one-time purchase — if it doesn't work as described, contact us within 7 days for a full refund. No questions asked."
+          },
+          "q2": {
+            "question": "Can I cancel the Pro Plan subscription?",
+            "answer": "Yes, cancel anytime from the billing portal. You'll keep access until the end of your current billing period."
+          },
+          "q3": {
+            "question": "What's the difference between the two plans?",
+            "answer": "Pro License is a one-time purchase with lifetime access to the current feature set. Pro Plan is a monthly subscription that includes all future updates and priority support."
+          },
+          "q4": {
+            "question": "Do I need Stripe to use the boilerplate?",
+            "answer": "No. Stripe is optional. The integration is included but dormant until you add your API keys — you can build and ship without enabling payments."
+          },
+          "q5": {
+            "question": "What happens after I buy?",
+            "answer": "You get immediate access to the full source code on GitHub. For the Pro Plan, you'll also receive a confirmation email with billing details."
+          }
+        }
+      }
+    },
     "proPlan": {
       "name": "Pro Plan",
       "description": "Everything in Pro License, plus ongoing perks.",
@@ -175,7 +234,8 @@
       "feature1": "Full source code access",
       "feature2": "All current + future features",
       "feature3": "100 AI credits / month",
-      "feature4": "Priority support"
+      "feature4": "Priority support",
+      "cta": "Start Pro Plan"
     }
   }
 }
