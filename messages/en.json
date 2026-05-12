@@ -6,7 +6,96 @@
     "signIn": "Sign In"
   },
   "footer": {
-    "info": "Footer info"
+    "tagline": "The Next.js boilerplate that ships.",
+    "nav": {
+      "heading": "Product",
+      "features": "Features",
+      "pricing": "Pricing",
+      "faq": "FAQ"
+    },
+    "legal": {
+      "heading": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "copyright": "© {year} Claude Code Boilerplate. All rights reserved."
+  },
+  "landing": {
+    "meta": {
+      "title": "Ship your SaaS in days, not months",
+      "description": "A production-ready Next.js boilerplate with auth, Stripe payments, email, dark mode, and AI credits built in."
+    },
+    "hero": {
+      "headline": "Ship your SaaS in days, not months",
+      "subheadline": "A production-ready Next.js boilerplate with auth, Stripe payments, email, dark mode, and AI credits built in. Stop rebuilding foundations — start shipping.",
+      "ctaPrimary": "Get started",
+      "ctaSecondary": "See features"
+    },
+    "features": {
+      "heading": "Everything you need to launch",
+      "subheading": "Stop rebuilding the same foundations. Start with a complete, production-tested stack.",
+      "items": {
+        "auth": {
+          "title": "Authentication",
+          "description": "JWT-based auth with sign up, sign in, email verification, and password reset out of the box."
+        },
+        "payments": {
+          "title": "Stripe Payments",
+          "description": "One-time purchases and subscriptions with Checkout sessions, webhooks, and a customer portal."
+        },
+        "email": {
+          "title": "Transactional Email",
+          "description": "Welcome, verification, and reset emails via Resend with react-email templates included."
+        },
+        "database": {
+          "title": "Database Ready",
+          "description": "Drizzle ORM with Neon serverless Postgres, typed queries, and migration scripts included."
+        },
+        "darkMode": {
+          "title": "Dark Mode",
+          "description": "Full light and dark mode support via next-themes with CSS variable-based theming throughout."
+        },
+        "i18n": {
+          "title": "Internationalization",
+          "description": "next-intl wired up and ready. Add a new language by dropping in a single JSON file."
+        }
+      }
+    },
+    "pricing": {
+      "heading": "Simple, transparent pricing",
+      "subheading": "One price, all features. No hidden fees.",
+      "cta": "View full pricing"
+    },
+    "faq": {
+      "heading": "Frequently asked questions",
+      "items": {
+        "q1": {
+          "question": "What's included?",
+          "answer": "You get the full Next.js source code with auth, Stripe, email, Drizzle ORM, dark mode, and i18n preconfigured. Everything you need to launch a SaaS."
+        },
+        "q2": {
+          "question": "Do I need a Stripe account?",
+          "answer": "Yes. You'll need a Stripe account to enable payments. The boilerplate includes the full integration — you just add your API keys to .env."
+        },
+        "q3": {
+          "question": "Can I use this for multiple projects?",
+          "answer": "The Pro License grants lifetime access for a single developer. The Pro Plan subscription gives you ongoing updates and priority support."
+        },
+        "q4": {
+          "question": "What database does it use?",
+          "answer": "Neon serverless Postgres with Drizzle ORM. You can swap the database driver if you need to — the repo structure supports any Postgres-compatible database."
+        },
+        "q5": {
+          "question": "Is there a refund policy?",
+          "answer": "If the boilerplate doesn't work as described, contact us within 7 days for a full refund. No questions asked."
+        }
+      }
+    },
+    "cta": {
+      "heading": "Ready to ship faster?",
+      "subheading": "Join developers using this boilerplate to launch in days, not months.",
+      "button": "Get started now"
+    }
   },
   "signIn": {
     "title": "Sign In",

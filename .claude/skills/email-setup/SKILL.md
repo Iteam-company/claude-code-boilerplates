@@ -42,7 +42,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const RESEND_SANDBOX_FROM_EMAIL = 'onboarding@resend.dev';
 export const APP_NAME = 'MyApp';
-export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
 
 interface SendEmailOptions {
   to: string;
@@ -52,7 +53,12 @@ interface SendEmailOptions {
 }
 
 export const emailService = {
-  sendEmail: async ({ to, from = RESEND_SANDBOX_FROM_EMAIL, subject, react }: SendEmailOptions) => {
+  sendEmail: async ({
+    to,
+    from = RESEND_SANDBOX_FROM_EMAIL,
+    subject,
+    react,
+  }: SendEmailOptions) => {
     const { error } = await resend.emails.send({ from, to, subject, react });
     if (error) throw new Error(`Failed to send email: ${error.message}`);
   },
@@ -63,11 +69,11 @@ In development, the default `from` is `onboarding@resend.dev` (Resend's sandbox 
 
 ## Existing templates (`emails/`)
 
-| File | Component | Props |
-|------|-----------|-------|
-| `emails/welcome-email.tsx` | `WelcomeEmail` | `appName`, `dashboardUrl` |
-| `emails/verify-email.tsx` | `VerifyEmail` | `appName`, `verifyUrl` |
-| `emails/reset-password-email.tsx` | `ResetPasswordEmail` | `appName`, `resetUrl` |
+| File                              | Component            | Props                     |
+| --------------------------------- | -------------------- | ------------------------- |
+| `emails/welcome-email.tsx`        | `WelcomeEmail`       | `appName`, `dashboardUrl` |
+| `emails/verify-email.tsx`         | `VerifyEmail`        | `appName`, `verifyUrl`    |
+| `emails/reset-password-email.tsx` | `ResetPasswordEmail` | `appName`, `resetUrl`     |
 
 ## Calling `emailService` from a service
 
@@ -93,7 +99,7 @@ await emailService.sendEmail({
 Toggle email flows in `lib/email.ts` without touching service logic:
 
 ```ts
-export const ENABLE_WELCOME_EMAIL = true;      // send welcome on register
+export const ENABLE_WELCOME_EMAIL = true; // send welcome on register
 export const ENABLE_EMAIL_VERIFICATION = true; // require email verify on login
 ```
 
@@ -104,7 +110,15 @@ The user service reads these flags and guards the relevant `emailService.sendEma
 1. Create `emails/my-email.tsx` using react-email components:
 
 ```tsx
-import { Body, Button, Container, Head, Html, Preview, Text } from '@react-email/components';
+import {
+  Body,
+  Button,
+  Container,
+  Head,
+  Html,
+  Preview,
+  Text,
+} from '@react-email/components';
 
 interface MyEmailProps {
   appName: string;
@@ -117,10 +131,26 @@ export function MyEmail({ appName, actionUrl }: MyEmailProps) {
       <Head />
       <Preview>Action required for {appName}</Preview>
       <Body style={{ backgroundColor: '#f6f9fc', fontFamily: 'sans-serif' }}>
-        <Container style={{ backgroundColor: '#ffffff', borderRadius: '8px', margin: '40px auto', maxWidth: '560px', padding: '40px' }}>
+        <Container
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '8px',
+            margin: '40px auto',
+            maxWidth: '560px',
+            padding: '40px',
+          }}
+        >
           <Text>Hi there,</Text>
           <Text>Click below to complete your action.</Text>
-          <Button href={actionUrl} style={{ backgroundColor: '#0a0a0a', borderRadius: '6px', color: '#ffffff', padding: '12px 24px' }}>
+          <Button
+            href={actionUrl}
+            style={{
+              backgroundColor: '#0a0a0a',
+              borderRadius: '6px',
+              color: '#ffffff',
+              padding: '12px 24px',
+            }}
+          >
             Take Action
           </Button>
         </Container>
@@ -138,18 +168,21 @@ import { MyEmail } from '@/emails/my-email';
 await emailService.sendEmail({
   to: user.email,
   subject: `Action required — ${APP_NAME}`,
-  react: React.createElement(MyEmail, { appName: APP_NAME, actionUrl: `${BASE_URL}/action?token=${token}` }),
+  react: React.createElement(MyEmail, {
+    appName: APP_NAME,
+    actionUrl: `${BASE_URL}/action?token=${token}`,
+  }),
 });
 ```
 
 ## Auth email flows (already implemented)
 
-| Flow | Trigger | Template | Feature flag |
-|------|---------|----------|--------------|
-| Register | `userService.register()` | `VerifyEmail` | `ENABLE_EMAIL_VERIFICATION` |
-| Register | `userService.register()` | `WelcomeEmail` | `ENABLE_WELCOME_EMAIL` |
-| Forgot password | `userService.forgotPassword()` | `ResetPasswordEmail` | always on |
-| Login guard | `userService.login()` | — | `ENABLE_EMAIL_VERIFICATION` |
+| Flow            | Trigger                        | Template             | Feature flag                |
+| --------------- | ------------------------------ | -------------------- | --------------------------- |
+| Register        | `userService.register()`       | `VerifyEmail`        | `ENABLE_EMAIL_VERIFICATION` |
+| Register        | `userService.register()`       | `WelcomeEmail`       | `ENABLE_WELCOME_EMAIL`      |
+| Forgot password | `userService.forgotPassword()` | `ResetPasswordEmail` | always on                   |
+| Login guard     | `userService.login()`          | —                    | `ENABLE_EMAIL_VERIFICATION` |
 
 ## Rules
 
