@@ -132,7 +132,9 @@
     "password": "Password",
     "submit": "Sign In",
     "noAccount": "Don't have account?",
-    "forgotPassword": "Forgot password?"
+    "forgotPassword": "Forgot password?",
+    "successToast": "Signed in successfully!",
+    "errorToast": "Sign in failed. Please check your credentials."
   },
   "signUp": {
     "title": "Sign Up",
@@ -141,7 +143,9 @@
     "repeatPassword": "Repeat password",
     "submit": "Sign Up",
     "haveAccount": "Already have account?",
-    "passwordsMismatch": "Passwords do not match"
+    "passwordsMismatch": "Passwords do not match",
+    "successToast": "Account created successfully!",
+    "errorToast": "Sign up failed. Please try again."
   },
   "resetPassword": {
     "title": "Reset Password",
