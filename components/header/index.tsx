@@ -1,16 +1,62 @@
 'use client';
 import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
 import { LogOutIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 export const Header = () => {
   const { isAuthenticated, clearToken } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const t = useTranslations('header');
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+
+  const isPricing = pathname === ROUTES.PRICING;
+
+  useEffect(() => {
+    if (pathname !== '/') {
+      setActiveSection(null);
+      return;
+    }
+
+    const ids = ['features', 'pricing', 'faq'];
+
+    const update = () => {
+      const mid = window.innerHeight / 2;
+      let found: string | null = null;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const { top, bottom } = el.getBoundingClientRect();
+        if (top <= mid && bottom >= mid) {
+          found = id;
+          break;
+        }
+      }
+      setActiveSection(found);
+    };
+
+    update();
+    document.addEventListener('scroll', update, {
+      passive: true,
+      capture: true,
+    });
+    return () =>
+      document.removeEventListener('scroll', update, { capture: true });
+  }, [pathname]);
+  console.log(activeSection);
+  const navLink = (active: boolean) =>
+    cn(
+      'text-sm transition-colors delay-200',
+      active
+        ? 'text-foreground font-medium'
+        : 'text-muted-foreground hover:text-foreground',
+    );
 
   return (
     <header className="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-sm">
@@ -23,24 +69,28 @@ export const Header = () => {
         </Link>
 
         <nav className="hidden items-center gap-6 md:flex">
-          <a
+          <Link
             href="/#features"
-            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+            className={navLink(activeSection === 'features')}
           >
             {t('nav.features')}
-          </a>
-          <Link
-            href={ROUTES.PRICING}
-            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+          </Link>
+          <button
+            onClick={() => {
+              const el = document.getElementById('pricing');
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+              } else {
+                router.push(ROUTES.PRICING);
+              }
+            }}
+            className={navLink(isPricing || activeSection === 'pricing')}
           >
             {t('nav.pricing')}
-          </Link>
-          <a
-            href="/#faq"
-            className="text-muted-foreground hover:text-foreground text-sm transition-colors"
-          >
+          </button>
+          <Link href="/#faq" className={navLink(activeSection === 'faq')}>
             {t('nav.faq')}
-          </a>
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">

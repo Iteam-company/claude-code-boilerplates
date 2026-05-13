@@ -10,11 +10,13 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
+import { PasswordInput } from '@/components/PasswordInput';
 
 export default function SignInPage() {
   const router = useRouter();
   const { token, setToken } = useAuth();
-  const { trigger: signin, error, isMutating } = useSignin();
+  const { trigger: signin, isMutating } = useSignin();
   const t = useTranslations('signIn');
 
   const {
@@ -27,13 +29,19 @@ export default function SignInPage() {
   });
 
   const onSubmit = async (data: LoginSchemaType) => {
-    const result = await signin(data);
+    try {
+      const result = await signin(data);
 
-    if (result.token) {
-      setToken(result.token);
+      if (result.token) {
+        setToken(result.token);
+      }
+
+      toast.success(t('successToast'));
+      router.push(ROUTES.HOME);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : t('errorToast');
+      toast.error(message);
     }
-
-    router.push(ROUTES.HOME);
   };
 
   const handleDontHaveAccount = () => {
@@ -69,12 +77,10 @@ export default function SignInPage() {
           </div>
 
           <div>
-            <input
+            <PasswordInput
               {...register('password')}
-              type="password"
               placeholder={t('password')}
               disabled={isMutating}
-              className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 disabled:opacity-50"
             />
             {errors.password && (
               <p className="mt-1 text-xs text-red-600">
@@ -82,8 +88,6 @@ export default function SignInPage() {
               </p>
             )}
           </div>
-
-          {error && <p className="text-xs text-red-600">{error.message}</p>}
 
           <button
             type="submit"
