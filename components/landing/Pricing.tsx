@@ -16,6 +16,7 @@ export async function Pricing() {
       description: tPlans('proLicense.description'),
       price: tPlans('proLicense.price'),
       period: null,
+      cta: tPlans('proLicense.cta'),
       features: [
         tPlans('proLicense.feature1'),
         tPlans('proLicense.feature2'),
@@ -30,6 +31,7 @@ export async function Pricing() {
       description: tPlans('proPlan.description'),
       price: tPlans('proPlan.price'),
       period: tPlans('proPlan.period'),
+      cta: tPlans('proPlan.cta'),
       features: [
         tPlans('proPlan.feature1'),
         tPlans('proPlan.feature2'),
@@ -57,9 +59,16 @@ export async function Pricing() {
               key={plan.key}
               className={cn(
                 'flex flex-col rounded-xl border p-8',
-                plan.highlighted ? 'border-primary' : 'border-border bg-card',
+                plan.highlighted
+                  ? 'border-primary shadow-lg'
+                  : 'border-border bg-card',
               )}
             >
+              {plan.highlighted && (
+                <div className="bg-primary/10 text-primary mb-4 self-start rounded-full px-3 py-0.5 text-xs font-semibold">
+                  Most popular
+                </div>
+              )}
               <h3 className="text-foreground text-xl font-bold">{plan.name}</h3>
               <p className="text-muted-foreground mt-2 text-sm">
                 {plan.description}
@@ -82,15 +91,26 @@ export async function Pricing() {
                   </li>
                 ))}
               </ul>
+              <Link
+                href={ROUTES.CHECKOUT}
+                className={cn(
+                  'mt-8 rounded-md px-6 py-2.5 text-center text-sm font-medium transition-colors',
+                  plan.highlighted
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'border-border hover:bg-muted border',
+                )}
+              >
+                {plan.cta}
+              </Link>
             </div>
           ))}
         </div>
         <div className="mt-10 text-center">
           <Link
-            href={ROUTES.CHECKOUT}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-8 py-3 text-sm font-medium transition-colors"
+            href={ROUTES.PRICING}
+            className="text-muted-foreground hover:text-foreground text-sm underline-offset-4 hover:underline"
           >
-            {t('cta')}
+            {t('viewFull')} →
           </Link>
         </div>
       </Container>
