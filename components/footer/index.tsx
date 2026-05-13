@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { Container } from '@/components/Container';
+import { ROUTES } from '@/lib/routes';
 
 export async function Footer() {
   const t = await getTranslations('footer');
@@ -22,23 +23,23 @@ export async function Footer() {
             <ul className="mt-3 space-y-2">
               <li>
                 <a
-                  href="#features"
+                  href="/#features"
                   className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                 >
                   {t('nav.features')}
                 </a>
               </li>
               <li>
-                <a
-                  href="#pricing"
+                <Link
+                  href={ROUTES.PRICING}
                   className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                 >
                   {t('nav.pricing')}
-                </a>
+                </Link>
               </li>
               <li>
                 <a
-                  href="#faq"
+                  href="/#faq"
                   className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                 >
                   {t('nav.faq')}
