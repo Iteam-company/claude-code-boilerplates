@@ -45,15 +45,6 @@ export const invitationService = {
     const token = crypto.randomBytes(32).toString('hex');
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
-    await invitationRepo.create({
-      orgId,
-      email,
-      role,
-      token,
-      invitedByUserId,
-      expiresAt,
-    });
-
     const inviter = await userRepo.findById(invitedByUserId);
 
     await emailService.sendEmail({
@@ -64,6 +55,15 @@ export const invitationService = {
         invitedByEmail: inviter?.email ?? 'A team member',
         acceptUrl: `${BASE_URL}/accept-invite?token=${token}`,
       }),
+    });
+
+    await invitationRepo.create({
+      orgId,
+      email,
+      role,
+      token,
+      invitedByUserId,
+      expiresAt,
     });
   },
 
