@@ -7,7 +7,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-dvh flex-col overflow-y-scroll">
+    <div className="flex h-dvh flex-col overflow-y-scroll scroll-smooth">
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
