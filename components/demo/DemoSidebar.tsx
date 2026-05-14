@@ -6,6 +6,8 @@ import { useOrg } from '@/hooks/useOrg';
 import { ROUTES } from '@/lib/routes';
 import { LayoutDashboard, Mail, Settings, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useOrganizations } from '@/hooks/api/useOrganizations';
+import { MANAGER_ROLES } from '@/modules/orgMember/orgMember.types';
 
 const navItem = (active: boolean) =>
   cn(
@@ -18,6 +20,12 @@ const navItem = (active: boolean) =>
 export const DemoSidebar = () => {
   const pathname = usePathname();
   const { orgId } = useOrg();
+  const { data: orgs } = useOrganizations();
+
+  const org = orgs?.find((o) => o.id === orgId);
+  const canManage = MANAGER_ROLES.includes(
+    org?.role as (typeof MANAGER_ROLES)[number],
+  );
 
   return (
     <aside className="bg-sidebar border-sidebar-border flex w-56 shrink-0 flex-col border-r">
@@ -50,13 +58,15 @@ export const DemoSidebar = () => {
               <Users className="h-4 w-4" />
               Members
             </Link>
-            <Link
-              href={ROUTES.DEMO_ORG_INVITATIONS(orgId)}
-              className={navItem(pathname.includes('/invitations'))}
-            >
-              <Mail className="h-4 w-4" />
-              Invitations
-            </Link>
+            {canManage && (
+              <Link
+                href={ROUTES.DEMO_ORG_INVITATIONS(orgId)}
+                className={navItem(pathname.includes('/invitations'))}
+              >
+                <Mail className="h-4 w-4" />
+                Invitations
+              </Link>
+            )}
           </>
         )}
       </nav>

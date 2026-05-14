@@ -5,12 +5,17 @@ import { useAuth } from '@/hooks/useAuth';
 import { useOrganizations, useCurrentOrg } from '@/hooks/api/useOrganizations';
 import { ROUTES } from '@/lib/routes';
 import { Building2, Mail, Settings, Users } from 'lucide-react';
+import { MANAGER_ROLES } from '@/modules/orgMember/orgMember.types';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
   const { data: orgs } = useOrganizations();
   const { data: currentOrg } = useCurrentOrg();
   const router = useRouter();
+
+  const canManage = MANAGER_ROLES.includes(
+    currentOrg?.role as (typeof MANAGER_ROLES)[number],
+  );
 
   if (!isAuthenticated) {
     return (
@@ -74,13 +79,15 @@ export default function DashboardPage() {
           label="Members"
           onClick={() => router.push(ROUTES.DEMO_ORG_MEMBERS(currentOrg.id))}
         />
-        <QuickLink
-          icon={<Mail className="h-5 w-5" />}
-          label="Invitations"
-          onClick={() =>
-            router.push(ROUTES.DEMO_ORG_INVITATIONS(currentOrg.id))
-          }
-        />
+        {canManage && (
+          <QuickLink
+            icon={<Mail className="h-5 w-5" />}
+            label="Invitations"
+            onClick={() =>
+              router.push(ROUTES.DEMO_ORG_INVITATIONS(currentOrg.id))
+            }
+          />
+        )}
         <QuickLink
           icon={<Settings className="h-5 w-5" />}
           label="Settings"

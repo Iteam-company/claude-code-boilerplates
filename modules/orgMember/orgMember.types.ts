@@ -1,6 +1,8 @@
 import { OrgRole } from './orgMember.schema';
 import { Organization } from '@/modules/organization/organization.types';
 
+export const MANAGER_ROLES = ['owner', 'admin'] as const satisfies OrgRole[];
+
 export interface OrgMember {
   id: string;
   orgId: string;
