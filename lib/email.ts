@@ -16,7 +16,7 @@ interface SendEmailOptions {
   to: string;
   from?: string;
   subject: string;
-  react: React.ReactNode;
+  react: React.ReactElement;
 }
 
 export const emailService = {

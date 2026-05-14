@@ -6,7 +6,7 @@ import { ROUTES } from '@/lib/routes';
 import Link from 'next/link';
 import { loginSchema, LoginSchemaType } from '@/modules/user/user.validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslations } from 'next-intl';
@@ -15,6 +15,8 @@ import { PasswordInput } from '@/components/PasswordInput';
 
 export default function SignInPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const from = searchParams.get('from');
   const { token, setToken } = useAuth();
   const { trigger: signin, isMutating } = useSignin();
   const t = useTranslations('signIn');
@@ -37,7 +39,7 @@ export default function SignInPage() {
       }
 
       toast.success(t('successToast'));
-      router.push(ROUTES.HOME);
+      router.push(from ?? ROUTES.HOME);
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : t('errorToast');
       toast.error(message);

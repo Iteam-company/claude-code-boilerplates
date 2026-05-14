@@ -5,6 +5,18 @@ import { subscriptionTable } from '@/modules/subscription/subscription.schema';
 import { subscriptionRelations } from '@/modules/subscription/subscription.relations';
 import { creditTransactionTable } from '@/modules/credit/credit.schema';
 import { creditTransactionRelations } from '@/modules/credit/credit.relations';
+import { organizationTable } from '@/modules/organization/organization.schema';
+import { organizationRelations } from '@/modules/organization/organization.relations';
+import {
+  orgMemberTable,
+  orgRoleEnum,
+} from '@/modules/orgMember/orgMember.schema';
+import { orgMemberRelations } from '@/modules/orgMember/orgMember.relations';
+import {
+  invitationTable,
+  invitationStatusEnum,
+} from '@/modules/invitation/invitation.schema';
+import { invitationRelations } from '@/modules/invitation/invitation.relations';
 
 export const schema = {
   userTable,
@@ -14,4 +26,12 @@ export const schema = {
   subscriptionRelations,
   creditTransactionTable,
   creditTransactionRelations,
+  organizationTable,
+  organizationRelations,
+  orgMemberTable,
+  orgRoleEnum,
+  orgMemberRelations,
+  invitationTable,
+  invitationStatusEnum,
+  invitationRelations,
 };
