@@ -25,6 +25,7 @@ export default function AcceptInvitePage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setToken } = useAuth();
+
   const token = searchParams.get('token');
 
   const [details, setDetails] = useState<InvitationDetails | null>(null);
@@ -32,41 +33,57 @@ export default function AcceptInvitePage() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const invalidTokenError = !token ? 'Invalid invitation link.' : null;
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
 
   useEffect(() => {
-    if (!token) {
-      setLoadError('Invalid invitation link.');
-      return;
-    }
+    if (!token) return;
+
     fetch(`/api/invitations/${token}`)
       .then((r) => r.json())
       .then((data) => {
-        if (data.error)
+        if (data.error) {
           setLoadError('This invitation is invalid or has expired.');
-        else setDetails(data);
+        } else {
+          setDetails(data);
+        }
       })
-      .catch(() => setLoadError('Failed to load invitation.'));
+      .catch(() => {
+        setLoadError('Failed to load invitation.');
+      });
   }, [token]);
 
   const acceptExisting = async () => {
     if (!token) return;
+
     setIsSubmitting(true);
     setSubmitError(null);
+
     try {
       const res = await fetch(`/api/invitations/${token}/accept`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({}),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Failed to accept invitation');
+
+      if (!res.ok) {
+        throw new Error(data.error ?? 'Failed to accept invitation');
+      }
+
       setToken(data.token);
-      router.push(ROUTES.HOME);
+
+      router.push(ROUTES.DEMO_DASHBOARD);
     } catch (e: unknown) {
       setSubmitError(e instanceof Error ? e.message : 'Something went wrong');
     } finally {
@@ -76,18 +93,30 @@ export default function AcceptInvitePage() {
 
   const onSubmit = async (form: FormData) => {
     if (!token) return;
+
     setIsSubmitting(true);
     setSubmitError(null);
+
     try {
       const res = await fetch(`/api/invitations/${token}/accept`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: form.password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: form.password,
+        }),
       });
+
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? 'Failed to accept invitation');
+
+      if (!res.ok) {
+        throw new Error(data.error ?? 'Failed to accept invitation');
+      }
+
       setToken(data.token);
-      router.push(ROUTES.HOME);
+
+      router.push(ROUTES.DEMO_DASHBOARD);
     } catch (e: unknown) {
       setSubmitError(e instanceof Error ? e.message : 'Something went wrong');
     } finally {
@@ -98,8 +127,10 @@ export default function AcceptInvitePage() {
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
       <div className="bg-card border-border min-w-87.5 rounded-xl border p-6 shadow-sm">
-        {loadError ? (
-          <p className="text-center text-sm text-red-600">{loadError}</p>
+        {invalidTokenError || loadError ? (
+          <p className="text-center text-sm text-red-600">
+            {invalidTokenError || loadError}
+          </p>
         ) : !details ? (
           <p className="text-muted-foreground text-center text-sm">
             Loading invitation…
@@ -144,6 +175,7 @@ export default function AcceptInvitePage() {
                     disabled={isSubmitting}
                     className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 disabled:opacity-50"
                   />
+
                   {errors.passwordRepeat && (
                     <p className="mt-1 text-xs text-red-600">
                       {errors.passwordRepeat.message}
