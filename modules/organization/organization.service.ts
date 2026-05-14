@@ -2,6 +2,7 @@ import { organizationRepo } from './organization.repo';
 import { orgMemberRepo } from '@/modules/orgMember/orgMember.repo';
 import { HttpError } from '@/lib/errors/http-error';
 import { Organization, UpdateOrganizationInput } from './organization.types';
+import type { OrgRole } from '@/modules/orgMember/orgMember.schema';
 
 const generateSlug = (name: string) =>
   name
@@ -36,13 +37,16 @@ export const organizationService = {
     return memberships.map((m) => ({ ...m.organization, role: m.role }));
   },
 
-  getById: async (id: string, userId: string): Promise<Organization> => {
+  getById: async (
+    id: string,
+    userId: string,
+  ): Promise<Organization & { role: OrgRole }> => {
     const org = await organizationRepo.findById(id);
     if (!org) throw new HttpError(404, 'Organization not found');
     const member = await orgMemberRepo.findByOrgAndUser(id, userId);
     if (!member)
       throw new HttpError(403, 'You are not a member of this organization');
-    return org;
+    return { ...org, role: member.role };
   },
 
   update: async (

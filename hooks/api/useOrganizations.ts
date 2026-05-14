@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import { useSWRConfig } from 'swr';
 import { authFetcher } from '@/lib/fetcher';
+import { useOrg } from '@/hooks/useOrg';
 import type {
   Organization,
   UpdateOrganizationInput,
@@ -16,6 +17,16 @@ export const useOrganizations = () =>
   useSWR<OrgWithRole[]>(ORGS_KEY, (url: string) =>
     authFetcher<OrgWithRole[]>(url),
   );
+
+export const useOrganization = (id: string | null) =>
+  useSWR<OrgWithRole>(id ? `/api/organizations/${id}` : null, (url: string) =>
+    authFetcher<OrgWithRole>(url),
+  );
+
+export const useCurrentOrg = () => {
+  const { orgId } = useOrg();
+  return useOrganization(orgId);
+};
 
 export const useCreateOrganization = () => {
   const { mutate } = useSWRConfig();

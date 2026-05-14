@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 import { useSWRConfig } from 'swr';
 import {
-  useOrganizations,
+  useOrganization,
   useUpdateOrganization,
   useDeleteOrganization,
 } from '@/hooks/api/useOrganizations';
@@ -24,15 +24,13 @@ interface Props {
 }
 
 export const OrgSettingsForm = ({ orgId }: Props) => {
-  const { data: orgs } = useOrganizations();
+  const { data: org } = useOrganization(orgId);
   const { trigger: update, isMutating: isUpdating } =
     useUpdateOrganization(orgId);
   const { trigger: del, isMutating: isDeleting } = useDeleteOrganization(orgId);
   const { orgId: currentOrgId, clearOrg } = useOrg();
   const { mutate } = useSWRConfig();
   const router = useRouter();
-
-  const org = orgs?.find((o) => o.id === orgId);
   const canEdit = org?.role === 'owner' || org?.role === 'admin';
   const isOwner = org?.role === 'owner';
 
