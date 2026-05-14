@@ -305,6 +305,16 @@ Two supported approaches — **ask the user which one they want before scaffoldi
 - Wrap rendered content in `<article className="prose prose-neutral dark:prose-invert max-w-none">`
 - Custom element overrides (headings, code, tables, blockquotes) use CSS variables — `text-foreground`, `bg-muted`, `border-border`, `text-muted-foreground` — never hardcoded hex values
 
+## AI Features (Claude / Anthropic)
+
+- SDK client lives in `lib/claude.ts` — never instantiate `Anthropic` inline
+- Streaming chat: `POST /api/ai/chat` → Server-Sent Events consumed by `useAiChat` hook
+- Tool use / agentic loop: `POST /api/ai/agent` — loop until `stop_reason !== 'tool_use'`
+- Always deduct credits **before** calling Claude — fail fast on `402 Insufficient credits`
+- Use `cachedSystem()` from `lib/claude.ts` for system prompts > 1 000 tokens (cuts cost up to 90 %)
+- `AI_CREDITS_PER_MESSAGE` env var controls cost per call without a redeploy
+- See skill: `claude-feature`
+
 ## Hooks (SWR)
 
 - All hooks in `hooks/api/*.ts`
@@ -359,6 +369,8 @@ STRIPE_PUBLISHABLE_KEY=
 STRIPE_WEBHOOK_SECRET=
 NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME=price_REPLACE_ME
 NEXT_PUBLIC_STRIPE_PRICE_SUBSCRIPTION=price_REPLACE_ME
+ANTHROPIC_API_KEY=
+AI_CREDITS_PER_MESSAGE=10
 ```
 
 ## Anti-Patterns (DO NOT DO)
