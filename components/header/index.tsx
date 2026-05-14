@@ -8,7 +8,6 @@ import { useTranslations } from 'next-intl';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
-import { useOrg } from '@/hooks/useOrg';
 
 export const Header = () => {
   const { isAuthenticated, clearToken } = useAuth();
@@ -16,7 +15,6 @@ export const Header = () => {
   const pathname = usePathname();
   const t = useTranslations('header');
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const { clearOrg } = useOrg();
 
   const isPricing = pathname === ROUTES.PRICING;
 
