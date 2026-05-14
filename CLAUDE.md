@@ -414,6 +414,7 @@ MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if 
 | cloudinary | `CLOUDINARY_CLOUD_NAME` | cloudinary.com → Settings → API Keys   |
 | cloudinary | `CLOUDINARY_API_KEY`    | cloudinary.com → Settings → API Keys   |
 | cloudinary | `CLOUDINARY_API_SECRET` | cloudinary.com → Settings → API Keys   |
+| resend     | `RESEND_API_KEY`        | resend.com → Settings → API Keys       |
 
 ## Cloudinary
 
