@@ -361,6 +361,19 @@ NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME=price_REPLACE_ME
 NEXT_PUBLIC_STRIPE_PRICE_SUBSCRIPTION=price_REPLACE_ME
 ```
 
+## Multi-Tenancy (Organizations)
+
+Three modules: `organization`, `orgMember`, `invitation`. Role hierarchy: `owner > admin > member`.
+
+- Slug is auto-generated from org name — client only sends `name`
+- `orgRoleEnum` defined once in `orgMember.schema.ts`, imported by `invitation.schema.ts`
+- Org context stored as `current_org_id` in localStorage, sent as `X-Org-Id` header via `authFetcher`
+- Use React Context (`OrgProvider`) for org state — plain `useState` per component won't propagate across layout
+- On sign-out: call `clearOrg()` alongside `clearToken()` to reset context state
+- Public invite routes (`/api/invitations/[token]/*`) have no auth — token possession proves ownership
+- Install `@react-email/render` — required by Resend to render React email templates at runtime
+- See skill: `multi-tenancy`
+
 ## Anti-Patterns (DO NOT DO)
 
 - Business logic in routes
