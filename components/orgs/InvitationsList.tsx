@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { Mail, Trash2 } from 'lucide-react';
 import { useInvitations } from '@/hooks/api/useInvitations';
 import { useOrganization } from '@/hooks/api/useOrganizations';
+import { MANAGER_ROLES } from '@/modules/orgMember/orgMember.types';
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -24,7 +25,9 @@ export const InvitationsList = ({ orgId }: Props) => {
   const { data: org } = useOrganization(orgId);
   const [isSending, setIsSending] = useState(false);
 
-  const canManage = org?.role === 'owner' || org?.role === 'admin';
+  const canManage = MANAGER_ROLES.includes(
+    org?.role as (typeof MANAGER_ROLES)[number],
+  );
 
   const {
     register,

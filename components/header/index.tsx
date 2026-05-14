@@ -8,6 +8,7 @@ import { useTranslations } from 'next-intl';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import { useOrg } from '@/hooks/useOrg';
 
 export const Header = () => {
   const { isAuthenticated, clearToken } = useAuth();
@@ -15,6 +16,7 @@ export const Header = () => {
   const pathname = usePathname();
   const t = useTranslations('header');
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const { clearOrg } = useOrg();
 
   const isPricing = pathname === ROUTES.PRICING;
 
@@ -49,7 +51,7 @@ export const Header = () => {
     return () =>
       document.removeEventListener('scroll', update, { capture: true });
   }, [pathname]);
-  console.log(activeSection);
+
   const navLink = (active: boolean) =>
     cn(
       'text-sm transition-colors delay-200',
@@ -57,6 +59,10 @@ export const Header = () => {
         ? 'text-foreground font-medium'
         : 'text-muted-foreground hover:text-foreground',
     );
+
+  const handleSignOut = () => {
+    clearToken();
+  };
 
   return (
     <header className="border-border bg-background/80 sticky top-0 z-50 border-b backdrop-blur-sm">
@@ -105,7 +111,7 @@ export const Header = () => {
           <ThemeToggle />
           {isAuthenticated ? (
             <button
-              onClick={() => clearToken()}
+              onClick={handleSignOut}
               className="border-border hover:bg-muted inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-sm transition-colors"
             >
               <LogOutIcon className="h-4 w-4" />

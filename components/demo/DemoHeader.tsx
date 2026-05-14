@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { useOrg } from '@/hooks/useOrg';
+
 import { ROUTES } from '@/lib/routes';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { OrgSwitcher } from './OrgSwitcher';
@@ -13,12 +13,10 @@ const FROM = `?from=${ROUTES.DEMO_DASHBOARD}`;
 
 export const DemoHeader = () => {
   const { isAuthenticated, clearToken } = useAuth();
-  const { clearOrg } = useOrg();
   const router = useRouter();
 
   const handleSignOut = () => {
     clearToken();
-    clearOrg();
     router.push(ROUTES.DEMO_DASHBOARD);
   };
 

@@ -14,6 +14,7 @@ import {
 } from '@/hooks/api/useOrganizations';
 import { useOrg } from '@/hooks/useOrg';
 import { ROUTES } from '@/lib/routes';
+import { MANAGER_ROLES } from '@/modules/orgMember/orgMember.types';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required').max(255),
@@ -120,8 +121,9 @@ export const OrgSettingsForm = ({ orgId }: Props) => {
   const { mutate } = useSWRConfig();
   const router = useRouter();
 
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const canEdit = org?.role === 'owner' || org?.role === 'admin';
+  const canEdit = MANAGER_ROLES.includes(
+    org?.role as (typeof MANAGER_ROLES)[number],
+  );
   const isOwner = org?.role === 'owner';
 
   const {
