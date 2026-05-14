@@ -26,6 +26,8 @@ export const orgMemberService = {
     const target = await orgMemberRepo.findById(memberId);
     if (!target || target.orgId !== orgId)
       throw new HttpError(404, 'Member not found');
+    if (target.userId === requesterId)
+      throw new HttpError(403, 'You cannot change your own role');
     if (target.role === 'owner')
       throw new HttpError(403, 'Cannot change the owner role');
     if (newRole === 'owner')
