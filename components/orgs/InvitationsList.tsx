@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { toast } from 'sonner';
 import { Mail, Trash2 } from 'lucide-react';
 import { useInvitations } from '@/hooks/api/useInvitations';
-import { useOrganizations } from '@/hooks/api/useOrganizations';
+import { useOrganization } from '@/hooks/api/useOrganizations';
 
 const schema = z.object({
   email: z.string().email('Invalid email'),
@@ -21,10 +21,9 @@ interface Props {
 
 export const InvitationsList = ({ orgId }: Props) => {
   const { data: invitations, isLoading, mutate } = useInvitations(orgId);
-  const { data: orgs } = useOrganizations();
+  const { data: org } = useOrganization(orgId);
   const [isSending, setIsSending] = useState(false);
 
-  const org = orgs?.find((o) => o.id === orgId);
   const canManage = org?.role === 'owner' || org?.role === 'admin';
 
   const {

@@ -1,6 +1,4 @@
-import { createContext, useContext, useLayoutEffect, useState } from 'react';
-
-const ORG_KEY = 'current_org_id';
+import { createContext, useContext } from 'react';
 
 interface OrgContextValue {
   orgId: string | null;

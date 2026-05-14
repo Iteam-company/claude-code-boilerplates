@@ -1,17 +1,16 @@
 'use client';
 
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 import { OrgContext } from '@/hooks/useOrg';
 
 const ORG_KEY = 'current_org_id';
 
 export const OrgProvider = ({ children }: { children: React.ReactNode }) => {
-  const [orgId, setOrgIdState] = useState<string | null>(null);
+  const [orgId, setOrgIdState] = useState<string | null>(() => {
+    if (typeof window === 'undefined') return null;
 
-  useLayoutEffect(() => {
-    const stored = localStorage.getItem(ORG_KEY);
-    if (stored) setOrgIdState(stored);
-  }, []);
+    return localStorage.getItem(ORG_KEY);
+  });
 
   const setOrg = (id: string) => {
     localStorage.setItem(ORG_KEY, id);

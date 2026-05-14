@@ -2,18 +2,15 @@
 
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
-import { useOrg } from '@/hooks/useOrg';
-import { useOrganizations } from '@/hooks/api/useOrganizations';
+import { useOrganizations, useCurrentOrg } from '@/hooks/api/useOrganizations';
 import { ROUTES } from '@/lib/routes';
 import { Building2, Mail, Settings, Users } from 'lucide-react';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
-  const { orgId } = useOrg();
   const { data: orgs } = useOrganizations();
+  const { data: currentOrg } = useCurrentOrg();
   const router = useRouter();
-
-  const currentOrg = orgs?.find((o) => o.id === orgId);
 
   if (!isAuthenticated) {
     return (

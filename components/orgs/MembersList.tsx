@@ -3,7 +3,7 @@
 import { toast } from 'sonner';
 import { Trash2 } from 'lucide-react';
 import { useMembers } from '@/hooks/api/useMembers';
-import { useOrganizations } from '@/hooks/api/useOrganizations';
+import { useOrganization } from '@/hooks/api/useOrganizations';
 import type { OrgMemberWithUser } from '@/modules/orgMember/orgMember.types';
 import type { OrgRole } from '@/modules/orgMember/orgMember.schema';
 
@@ -119,9 +119,8 @@ function MemberRow({
 
 export const MembersList = ({ orgId }: Props) => {
   const { data: members, isLoading, mutate } = useMembers(orgId);
-  const { data: orgs } = useOrganizations();
+  const { data: org } = useOrganization(orgId);
 
-  const org = orgs?.find((o) => o.id === orgId);
   const canManage = org?.role === 'owner' || org?.role === 'admin';
   const isOwner = org?.role === 'owner';
   const currentUserId =
