@@ -120,6 +120,7 @@ export const OrgSettingsForm = ({ orgId }: Props) => {
   const { orgId: currentOrgId, clearOrg } = useOrg();
   const { mutate } = useSWRConfig();
   const router = useRouter();
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const canEdit = MANAGER_ROLES.includes(
     org?.role as (typeof MANAGER_ROLES)[number],
