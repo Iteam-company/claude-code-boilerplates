@@ -30,7 +30,10 @@ export function BlogPost({ slug }: Props) {
 
     if (inline || !match) {
       return (
-        <code className={className} {...rest}>
+        <code
+          className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm"
+          {...rest}
+        >
           {children}
         </code>
       );
