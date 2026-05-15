@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -127,4 +128,25 @@
     @apply font-sans;
     scroll-behavior: smooth;
   }
+
+  /* Remove backtick marks prose adds around inline code */
+  .prose :where(code)::before,
+  .prose :where(code)::after {
+    content: none;
+  }
+}
+
+@keyframes nav-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-label-animate {
+  animation: nav-label-in 0.2s ease-out both;
 }
