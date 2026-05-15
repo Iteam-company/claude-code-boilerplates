@@ -4,3 +4,6 @@ export { Features } from './Features';
 export { Pricing } from './Pricing';
 export { FAQ } from './FAQ';
 export { CTA } from './CTA';
+export { LandingStats } from './LandingStats';
+export { LandingProblem } from './LandingProblem';
+export { LandingSkills } from './LandingSkills';
