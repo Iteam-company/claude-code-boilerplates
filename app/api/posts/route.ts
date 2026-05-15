@@ -2,9 +2,22 @@ import { postService, createPostSchema } from '@/modules/post';
 import { handleError } from '@/lib/errors';
 import { getUserFromRequest } from '@/lib/auth';
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const posts = await postService.getAll();
+    const { searchParams } = new URL(req.url);
+    const self = searchParams.get('self') === 'true';
+
+    let authorId: string | undefined;
+    if (self) {
+      const user = getUserFromRequest(req);
+      authorId = user.id;
+    }
+
+    const posts = await postService.getAll({
+      authorId,
+      published: self ? undefined : true,
+    });
+
     return Response.json(posts);
   } catch (error: unknown) {
     return handleError(error);

@@ -1,7 +1,9 @@
 import { db } from '@/db/drizzle';
 import { postTable } from './post.schema';
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import { CreatePostInput, UpdatePostInput } from './post.types';
+
+type FindAllFilter = { authorId?: string; published?: boolean };
 
 export const postRepo = {
   create: async (data: CreatePostInput) => {
@@ -9,9 +11,14 @@ export const postRepo = {
     return post;
   },
 
-  findAll: async () => {
+  findAll: async (filter?: FindAllFilter) => {
+    const conditions = [];
+    if (filter?.published !== undefined)
+      conditions.push(eq(postTable.published, filter.published));
+    if (filter?.authorId !== undefined)
+      conditions.push(eq(postTable.authorId, filter.authorId));
     return db.query.postTable.findMany({
-      where: eq(postTable.published, true),
+      where: conditions.length > 0 ? and(...conditions) : undefined,
       columns: { content: false },
       orderBy: (post, { desc }) => [desc(post.createdAt)],
     });

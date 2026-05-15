@@ -11,8 +11,14 @@ export const postService = {
     return postRepo.create(data);
   },
 
-  getAll: async () => {
-    return postRepo.findAll();
+  getAll: async (filter?: { authorId?: string; published?: boolean }) => {
+    return postRepo.findAll(filter);
+  },
+
+  getById: async (id: string) => {
+    const post = await postRepo.findById(id);
+    if (!post) throw new HttpError(404, 'Post not found');
+    return post;
   },
 
   getBySlug: async (slug: string) => {

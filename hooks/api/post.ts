@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
-import { api } from '@/lib/fetcher';
+import { api, authApi } from '@/lib/fetcher';
 import {
   PostSummary,
   Post,
@@ -13,7 +13,7 @@ export const usePosts = () => {
 };
 
 export const usePost = (slug: string) => {
-  return useSWR<Post>(`/api/posts/${slug}`, api.get);
+  return useSWR<Post>(`/api/posts/slug/${slug}`, api.get);
 };
 
 export const useCreatePost = () => {
@@ -32,4 +32,8 @@ export const useUpdatePost = (id: string) => {
 
 export const useDeletePost = (id: string) => {
   return useSWRMutation<void, Error, string>(`/api/posts/${id}`, api.delete);
+};
+
+export const useSelfPosts = () => {
+  return useSWR<PostSummary[]>('/api/posts?self=true', authApi.get);
 };
