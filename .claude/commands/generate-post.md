@@ -16,6 +16,7 @@ Generate a blog post and save it to the database.
    - `description`: one sentence capturing the post's value
    - `content`: full MDX — use headings, code blocks, and prose
    - If a similar post exists, meaningfully differentiate or reference it inline by title
+   - **ASCII only**: use only ASCII characters in all fields. Replace em dashes with `--`, curly/smart quotes with straight quotes (`"`/`'`), ellipsis with `...`, and any other non-ASCII character with its closest ASCII equivalent. Never output Unicode beyond U+007F.
 
 5. Read `AI_API_KEY` from `.env` (do not hardcode it).
 
