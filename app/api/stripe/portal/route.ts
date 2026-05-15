@@ -3,6 +3,7 @@ import { stripe } from '@/lib/stripe';
 import { getUserFromRequest } from '@/lib/auth';
 import { handleError, HttpError } from '@/lib/errors';
 import { subscriptionRepo } from '@/modules/subscription/subscription.repo';
+import { getBaseUrl } from '@/lib/utils';
 
 export async function POST(req: Request) {
   try {
@@ -12,7 +13,7 @@ export async function POST(req: Request) {
     if (!subscription?.stripeCustomerId)
       throw new HttpError(400, 'No billing account found');
 
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+    const baseUrl = getBaseUrl();
     const session = await stripe.billingPortal.sessions.create({
       customer: subscription.stripeCustomerId,
       return_url: `${baseUrl}/account`,
