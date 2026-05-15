@@ -17,6 +17,7 @@ import {
   invitationStatusEnum,
 } from '@/modules/invitation/invitation.schema';
 import { invitationRelations } from '@/modules/invitation/invitation.relations';
+import { postTable } from '@/modules/post';
 
 export const schema = {
   userTable,
@@ -34,4 +35,5 @@ export const schema = {
   invitationTable,
   invitationStatusEnum,
   invitationRelations,
+  postTable,
 };
