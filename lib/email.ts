@@ -9,8 +9,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const RESEND_SANBOX_FROM_EMAIL = 'onboarding@resend.dev';
 export const APP_NAME = 'MyApp';
-export const BASE_URL =
-  process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000';
+export const BASE_URL = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : 'http://localhost:3000';
 
 interface SendEmailOptions {
   to: string;
