@@ -103,6 +103,7 @@ export function Section({ className, children }: SectionProps) {
 ## Rules
 
 - **Pages compose, components render** — `page.tsx` files only import and arrange components; never write JSX markup or sections inline inside a page file
+- **Split large components** — when a component exceeds ~150 lines or owns mixed concerns, extract pieces. See skill: `component-splitting`
 - Extract every distinct section (Hero, Features, Pricing, CTA, etc.) into a named component in `components/`
 - Use CSS variables for colors — never hardcode hex values
 - Never use arbitrary Tailwind color values like `bg-[#fff]`

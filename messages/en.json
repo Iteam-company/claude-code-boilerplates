@@ -5,9 +5,15 @@
   "header": {
     "signIn": "Sign In",
     "nav": {
+      "product": "Product",
       "features": "Features",
+      "featuresDesc": "Everything included out of the box",
       "pricing": "Pricing",
-      "faq": "FAQ"
+      "pricingDesc": "Simple, transparent plans",
+      "faq": "FAQ",
+      "faqDesc": "Common questions answered",
+      "blog": "Blog",
+      "demo": "Demo"
     }
   },
   "footer": {
