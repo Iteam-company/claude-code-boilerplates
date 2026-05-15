@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { format, parseISO } from 'date-fns';
-import type { Post } from '@/lib/blog';
+import { format } from 'date-fns';
+import type { PostSummary } from '@/modules/post';
 
 interface Props {
-  post: Post;
+  post: PostSummary;
   index: number;
 }
 
@@ -23,22 +23,12 @@ export function PostListItem({ post, index }: Props) {
               {post.title}
             </Link>
             <span className="text-muted-foreground text-sm">
-              {format(parseISO(post.date), 'MMM d, yyyy')}
+              {format(post.createdAt, 'MMM d, yyyy')}
             </span>
           </div>
-          <p className="text-muted-foreground mb-3 text-sm leading-relaxed">
+          <p className="text-muted-foreground text-sm leading-relaxed">
             {post.description}
           </p>
-          <div className="flex flex-wrap gap-1.5">
-            {post.tags.map((tag) => (
-              <span
-                key={tag}
-                className="bg-muted text-muted-foreground rounded-md px-2 py-0.5 font-mono text-xs"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </li>
