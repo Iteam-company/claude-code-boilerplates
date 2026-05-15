@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import useSWRMutation from 'swr/mutation';
 import { useSWRConfig } from 'swr';
-import { authFetcher } from '@/lib/fetcher';
+import { authApi } from '@/lib/fetcher';
 import { useOrg } from '@/hooks/useOrg';
 import type {
   Organization,
@@ -14,14 +14,10 @@ export type OrgWithRole = Organization & { role: OrgRole };
 const ORGS_KEY = '/api/organizations';
 
 export const useOrganizations = () =>
-  useSWR<OrgWithRole[]>(ORGS_KEY, (url: string) =>
-    authFetcher<OrgWithRole[]>(url),
-  );
+  useSWR<OrgWithRole[]>(ORGS_KEY, authApi.get);
 
 export const useOrganization = (id: string | null) =>
-  useSWR<OrgWithRole>(id ? `/api/organizations/${id}` : null, (url: string) =>
-    authFetcher<OrgWithRole>(url),
-  );
+  useSWR<OrgWithRole>(id ? `/api/organizations/${id}` : null, authApi.get);
 
 export const useCurrentOrg = () => {
   const { orgId } = useOrg();
@@ -32,11 +28,7 @@ export const useCreateOrganization = () => {
   const { mutate } = useSWRConfig();
   return useSWRMutation<Organization, Error, string, { name: string }>(
     ORGS_KEY,
-    (url, { arg }) =>
-      authFetcher<Organization>(url, {
-        method: 'POST',
-        body: JSON.stringify(arg),
-      }),
+    authApi.post<{ name: string }, Organization>,
     { onSuccess: () => mutate(ORGS_KEY) },
   );
 };
@@ -45,11 +37,7 @@ export const useUpdateOrganization = (id: string) => {
   const { mutate } = useSWRConfig();
   return useSWRMutation<Organization, Error, string, UpdateOrganizationInput>(
     `/api/organizations/${id}`,
-    (url, { arg }) =>
-      authFetcher<Organization>(url, {
-        method: 'PUT',
-        body: JSON.stringify(arg),
-      }),
+    authApi.put<UpdateOrganizationInput, Organization>,
     { onSuccess: () => mutate(ORGS_KEY) },
   );
 };
@@ -58,7 +46,7 @@ export const useDeleteOrganization = (id: string) => {
   const { mutate } = useSWRConfig();
   return useSWRMutation<void, Error, string>(
     `/api/organizations/${id}`,
-    (url) => authFetcher<void>(url, { method: 'DELETE' }),
+    authApi.delete,
     { onSuccess: () => mutate(ORGS_KEY) },
   );
 };

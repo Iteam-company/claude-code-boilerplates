@@ -22,6 +22,13 @@
       "when": 1778662832504,
       "tag": "0002_military_valkyrie",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1778846347962,
+      "tag": "0003_numerous_wrecking_crew",
+      "breakpoints": true
     }
   ]
 }

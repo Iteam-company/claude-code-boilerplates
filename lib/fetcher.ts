@@ -1,55 +1,60 @@
-const getAuthHeaders = (): Record<string, string> => {
+type Headers = Record<string, string>;
+type MutationArg<TArg> = { arg: TArg };
+
+interface ApiError {
+  error?: string;
+  message?: string;
+}
+
+const AUTH_KEYS: [storageKey: string, header: string, prefix?: string][] = [
+  ['auth_token', 'Authorization', 'Bearer'],
+  ['current_org_id', 'X-Org-Id'],
+];
+
+const getAuthHeaders = (): Headers => {
   if (typeof window === 'undefined') return {};
-  const headers: Record<string, string> = {};
-  const token = localStorage.getItem('auth_token');
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-  const orgId = localStorage.getItem('current_org_id');
-  if (orgId) headers['X-Org-Id'] = orgId;
-  return headers;
+  return Object.fromEntries(
+    AUTH_KEYS.flatMap(([storageKey, header, prefix]) => {
+      const value = localStorage.getItem(storageKey);
+      return value ? [[header, prefix ? `${prefix} ${value}` : value]] : [];
+    }),
+  );
 };
 
-export const fetcher = async <T>(
-  url: string,
-  options?: RequestInit,
-): Promise<T> => {
-  const res = await fetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options?.headers as Record<string, string>),
-    },
-  });
+const createApi = (getHeaders: () => Headers) => {
+  const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...getHeaders(),
+        ...(options?.headers as Headers),
+      },
+    });
 
-  if (!res.ok) {
-    const error = await res.json().catch(() => ({ message: res.statusText }));
-    throw new Error(error.error ?? 'Something went wrong');
-  }
+    if (!res.ok) {
+      const err: ApiError = await res
+        .json()
+        .catch(() => ({ message: res.statusText }));
+      throw new Error(err.error ?? err.message ?? 'Something went wrong');
+    }
 
-  if (res.status === 204) return undefined as T;
-  return res.json();
+    if (res.status === 204) return undefined as T;
+    return res.json() as Promise<T>;
+  };
+
+  return {
+    get: <T>(url: string, options?: RequestInit) => request<T>(url, options),
+    post: <TArg, TRes>(url: string, { arg }: MutationArg<TArg>) =>
+      request<TRes>(url, { method: 'POST', body: JSON.stringify(arg) }),
+    put: <TArg, TRes>(url: string, { arg }: MutationArg<TArg>) =>
+      request<TRes>(url, { method: 'PUT', body: JSON.stringify(arg) }),
+    delete: (url: string) => request<void>(url, { method: 'DELETE' }),
+  };
 };
 
-export const poster = <TArg, TResponse>(url: string, { arg }: { arg: TArg }) =>
-  fetcher<TResponse>(url, { method: 'POST', body: JSON.stringify(arg) });
+/** Unauthenticated API client */
+export const api = createApi(() => ({}));
 
-export const authFetcher = <T>(
-  url: string,
-  options?: RequestInit,
-): Promise<T> =>
-  fetcher<T>(url, {
-    ...options,
-    headers: {
-      ...getAuthHeaders(),
-      ...(options?.headers as Record<string, string>),
-    },
-  });
-
-export const authPoster = <TArg, TResponse>(
-  url: string,
-  { arg }: { arg: TArg },
-) => authFetcher<TResponse>(url, { method: 'POST', body: JSON.stringify(arg) });
-
-export const authPutter = <TArg, TResponse>(
-  url: string,
-  { arg }: { arg: TArg },
-) => authFetcher<TResponse>(url, { method: 'PUT', body: JSON.stringify(arg) });
+/** Authenticated API client — reads auth_token + current_org_id from localStorage */
+export const authApi = createApi(getAuthHeaders);

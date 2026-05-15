@@ -1,4 +1,4 @@
-import { poster } from '@/lib/fetcher';
+import { api } from '@/lib/fetcher';
 import { VerifyEmailSchemaType } from '@/modules/user';
 import useSWRMutation from 'swr/mutation';
 
@@ -10,6 +10,6 @@ export const useVerifyEmail = () => {
     VerifyEmailSchemaType
   >(
     '/api/auth/verify-email',
-    poster<VerifyEmailSchemaType, { message: string }>,
+    api.post<VerifyEmailSchemaType, { message: string }>,
   );
 };
