@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
@@ -9,7 +9,7 @@ import { AuthCard } from '@/components/auth/AuthCard';
 import { NewUserInviteForm } from '@/components/invitation/NewUserInviteForm';
 import { ExistingUserAccept } from '@/components/invitation/ExistingUserAccept';
 
-export default function AcceptInvitePage() {
+function AcceptInviteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { setToken } = useAuth();
@@ -73,5 +73,19 @@ export default function AcceptInvitePage() {
         </>
       )}
     </AuthCard>
+  );
+}
+
+export default function AcceptInvitePage() {
+  return (
+    <Suspense
+      fallback={
+        <AuthCard>
+          <p className="text-muted-foreground text-center text-sm">Loading…</p>
+        </AuthCard>
+      }
+    >
+      <AcceptInviteContent />
+    </Suspense>
   );
 }
