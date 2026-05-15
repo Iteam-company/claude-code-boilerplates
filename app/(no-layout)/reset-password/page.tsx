@@ -1,11 +1,12 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { AuthCard } from '@/components/auth/AuthCard';
 import { ResetPasswordForm } from '@/components/auth/ResetPasswordForm';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const searchParams = useSearchParams();
   const token = searchParams.get('token') ?? '';
   const t = useTranslations('resetPassword');
@@ -29,5 +30,19 @@ export default function ResetPasswordPage() {
     <AuthCard>
       <ResetPasswordForm token={token} />
     </AuthCard>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <AuthCard>
+          <p className="text-muted-foreground text-center text-sm">Loading…</p>
+        </AuthCard>
+      }
+    >
+      <ResetPasswordContent />
+    </Suspense>
   );
 }

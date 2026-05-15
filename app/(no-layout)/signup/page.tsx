@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
 import { AuthCard } from '@/components/auth/AuthCard';
 import { SignUpForm } from '@/components/auth/SignUpForm';
 
-export default function SignUpPage() {
+function SignUpContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { token } = useAuth();
@@ -20,5 +20,19 @@ export default function SignUpPage() {
     <AuthCard>
       <SignUpForm redirectTo={searchParams.get('from') ?? undefined} />
     </AuthCard>
+  );
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense
+      fallback={
+        <AuthCard>
+          <p className="text-muted-foreground text-center text-sm">Loading…</p>
+        </AuthCard>
+      }
+    >
+      <SignUpContent />
+    </Suspense>
   );
 }
