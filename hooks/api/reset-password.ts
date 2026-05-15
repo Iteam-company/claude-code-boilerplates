@@ -1,4 +1,4 @@
-import { poster } from '@/lib/fetcher';
+import { api } from '@/lib/fetcher';
 import { ResetPasswordSchemaType } from '@/modules/user';
 import useSWRMutation from 'swr/mutation';
 
@@ -10,6 +10,6 @@ export const useResetPassword = () => {
     ResetPasswordSchemaType
   >(
     '/api/auth/reset-password',
-    poster<ResetPasswordSchemaType, { message: string }>,
+    api.post<ResetPasswordSchemaType, { message: string }>,
   );
 };
