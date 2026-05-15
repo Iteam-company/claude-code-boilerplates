@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --no-turbopack",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -15,8 +15,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@mdx-js/loader": "^3.1.1",
-    "@mdx-js/react": "^3.1.1",
     "@neondatabase/serverless": "^1.1.0",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.0.8",

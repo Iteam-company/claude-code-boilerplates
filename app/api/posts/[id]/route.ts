@@ -1,6 +1,6 @@
 import { postService, updatePostSchema } from '@/modules/post';
 import { handleError } from '@/lib/errors';
-import { getUserFromRequest } from '@/lib/auth';
+import { getCallerFromRequest, getUserFromRequest } from '@/lib/auth';
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -16,7 +16,7 @@ export async function GET(_req: Request, { params }: Params) {
 
 export async function PUT(req: Request, { params }: Params) {
   try {
-    getUserFromRequest(req);
+    getCallerFromRequest(req);
 
     const { id } = await params;
     const body = await req.json();
