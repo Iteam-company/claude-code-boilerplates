@@ -6,6 +6,7 @@ import { useOrganizations, useCurrentOrg } from '@/hooks/api/useOrganizations';
 import { ROUTES } from '@/lib/routes';
 import { Building2, Mail, Settings, Users } from 'lucide-react';
 import { MANAGER_ROLES } from '@/modules/orgMember/orgMember.types';
+import { QuickLink } from '@/components/demo/QuickLink';
 
 export default function DashboardPage() {
   const { isAuthenticated } = useAuth();
@@ -95,25 +96,5 @@ export default function DashboardPage() {
         />
       </div>
     </div>
-  );
-}
-
-function QuickLink({
-  icon,
-  label,
-  onClick,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      className="bg-card border-border hover:bg-muted flex items-center gap-3 rounded-lg border p-4 text-left transition-colors"
-    >
-      <span className="text-primary">{icon}</span>
-      <span className="text-foreground text-sm font-medium">{label}</span>
-    </button>
   );
 }

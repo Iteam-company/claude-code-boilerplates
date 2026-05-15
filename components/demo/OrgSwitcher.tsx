@@ -1,33 +1,22 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useOrg } from '@/hooks/useOrg';
 import { useOrganizations } from '@/hooks/api/useOrganizations';
 import { ROUTES } from '@/lib/routes';
 import { Building2, Check, ChevronDown, Plus } from 'lucide-react';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 export const OrgSwitcher = () => {
   const { orgId, setOrg } = useOrg();
   const { data: orgs } = useOrganizations();
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
-  }, []);
-
-  useEffect(() => {
-    if (!orgId && orgs && orgs.length > 0) {
-      setOrg(orgs[0].id);
-    }
+    if (!orgId && orgs && orgs.length > 0) setOrg(orgs[0].id);
   }, [orgs, orgId, setOrg]);
 
   const currentOrg = orgs?.find((o) => o.id === orgId);
