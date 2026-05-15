@@ -86,6 +86,7 @@ public/
 - Fetch data in server components, pass down as props
 - Use Next.js `loading.tsx` and `error.tsx` where appropriate
 - **Split layouts into components and sections** — page files (`page.tsx`) only compose imported components; never write layout markup or sections inline inside a page file. Extract every distinct section into a named component in `components/`.
+- **Split large components** — when a component exceeds ~150 lines or owns mixed concerns (state + effects + layout), extract it. Isolate stateful logic to leaf components to minimise re-renders. Co-locate siblings in a subfolder (`components/header/index.tsx` + `ProductDropdown.tsx`). See skill: `component-splitting`
 
 ## TypeScript
 
