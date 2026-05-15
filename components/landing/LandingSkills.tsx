@@ -20,7 +20,7 @@ const capabilities = [
 
 export function LandingSkills() {
   return (
-    <section className="border-border bg-muted/40 border-b py-24">
+    <section id="skills" className="border-border bg-muted/40 border-b py-24">
       <Container>
         <div className="grid gap-16 md:grid-cols-2 md:items-center">
           <div>

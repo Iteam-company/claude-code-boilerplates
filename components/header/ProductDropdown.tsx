@@ -2,14 +2,20 @@
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
-import { ChevronDown, Zap, CreditCard, HelpCircle } from 'lucide-react';
+import {
+  ChevronDown,
+  Zap,
+  CreditCard,
+  HelpCircle,
+  BotMessageSquare,
+} from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import { useRef, useState } from 'react';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
-const SECTION_IDS = ['features', 'pricing', 'faq'];
+const SECTION_IDS = ['features', 'skills', 'pricing', 'faq'];
 
 export const ProductDropdown = () => {
   const router = useRouter();
@@ -25,6 +31,7 @@ export const ProductDropdown = () => {
   const isActive =
     isPricing ||
     activeSection === 'features' ||
+    activeSection === 'skills' ||
     activeSection === 'pricing' ||
     activeSection === 'faq';
 
@@ -48,11 +55,13 @@ export const ProductDropdown = () => {
     ? t('nav.pricing')
     : activeSection === 'features'
       ? t('nav.features')
-      : activeSection === 'pricing'
-        ? t('nav.pricing')
-        : activeSection === 'faq'
-          ? t('nav.faq')
-          : t('nav.product');
+      : activeSection === 'skills'
+        ? t('nav.skills')
+        : activeSection === 'pricing'
+          ? t('nav.pricing')
+          : activeSection === 'faq'
+            ? t('nav.faq')
+            : t('nav.product');
 
   return (
     <div
@@ -103,6 +112,25 @@ export const ProductDropdown = () => {
               </div>
               <div className="text-muted-foreground mt-1 text-xs leading-snug">
                 {t('nav.featuresDesc')}
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/#skills"
+            onClick={() => setOpen(false)}
+            className={cn(
+              'flex items-start gap-3 rounded-lg px-3 py-2.5 transition-colors',
+              activeSection === 'skills' ? 'bg-muted' : 'hover:bg-muted/60',
+            )}
+          >
+            <BotMessageSquare className="text-muted-foreground mt-0.5 h-4 w-4 shrink-0" />
+            <div>
+              <div className="text-foreground text-sm leading-none font-medium">
+                {t('nav.skills')}
+              </div>
+              <div className="text-muted-foreground mt-1 text-xs leading-snug">
+                {t('nav.skillsDesc')}
               </div>
             </div>
           </Link>
