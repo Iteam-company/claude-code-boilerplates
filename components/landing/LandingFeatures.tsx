@@ -11,10 +11,17 @@ import {
   Zap,
   Users,
   RefreshCw,
+  type LucideIcon,
 } from 'lucide-react';
 import { Container } from '@/components/Container';
 
-const features = [
+interface Feature {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+}
+
+const features: Feature[] = [
   {
     icon: MessageSquare,
     title: 'Just describe what you want',
@@ -89,6 +96,18 @@ const features = [
   },
 ];
 
+function FeatureCard({ icon: Icon, title, description }: Feature) {
+  return (
+    <div className="border-border bg-card rounded-xl border p-6 transition-shadow hover:shadow-md">
+      <div className="bg-primary/10 mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg">
+        <Icon className="text-primary h-5 w-5" />
+      </div>
+      <h3 className="text-foreground font-semibold">{title}</h3>
+      <p className="text-muted-foreground mt-2 text-sm">{description}</p>
+    </div>
+  );
+}
+
 export function LandingFeatures() {
   return (
     <section id="features" className="border-border border-b py-24">
@@ -104,25 +123,9 @@ export function LandingFeatures() {
         </div>
 
         <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <div
-                key={feature.title}
-                className="border-border bg-card rounded-xl border p-6 transition-shadow hover:shadow-md"
-              >
-                <div className="bg-primary/10 mb-4 inline-flex h-10 w-10 items-center justify-center rounded-lg">
-                  <Icon className="text-primary h-5 w-5" />
-                </div>
-                <h3 className="text-foreground font-semibold">
-                  {feature.title}
-                </h3>
-                <p className="text-muted-foreground mt-2 text-sm">
-                  {feature.description}
-                </p>
-              </div>
-            );
-          })}
+          {features.map((feature) => (
+            <FeatureCard key={feature.title} {...feature} />
+          ))}
         </div>
       </Container>
     </section>

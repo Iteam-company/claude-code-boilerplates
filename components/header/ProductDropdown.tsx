@@ -5,17 +5,21 @@ import { ROUTES } from '@/lib/routes';
 import { ChevronDown, Zap, CreditCard, HelpCircle } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useActiveSection } from '@/hooks/useActiveSection';
+import { useClickOutside } from '@/hooks/useClickOutside';
+
+const SECTION_IDS = ['features', 'pricing', 'faq'];
 
 export const ProductDropdown = () => {
   const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('header');
 
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const activeSection = useActiveSection(SECTION_IDS);
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const ref = useClickOutside<HTMLDivElement>(() => setOpen(false));
 
   const isPricing = pathname === ROUTES.PRICING;
   const isActive =
@@ -23,48 +27,6 @@ export const ProductDropdown = () => {
     activeSection === 'features' ||
     activeSection === 'pricing' ||
     activeSection === 'faq';
-
-  useEffect(() => {
-    if (pathname !== '/') {
-      setActiveSection(null);
-      return;
-    }
-
-    const ids = ['features', 'pricing', 'faq'];
-
-    const update = () => {
-      const mid = window.innerHeight / 2;
-      let found: string | null = null;
-      for (const id of ids) {
-        const el = document.getElementById(id);
-        if (!el) continue;
-        const { top, bottom } = el.getBoundingClientRect();
-        if (top <= mid && bottom >= mid) {
-          found = id;
-          break;
-        }
-      }
-      setActiveSection(found);
-    };
-
-    update();
-    document.addEventListener('scroll', update, {
-      passive: true,
-      capture: true,
-    });
-    return () =>
-      document.removeEventListener('scroll', update, { capture: true });
-  }, [pathname]);
-
-  useEffect(() => {
-    const onClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', onClickOutside);
-    return () => document.removeEventListener('mousedown', onClickOutside);
-  }, []);
 
   const openMenu = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -78,11 +40,8 @@ export const ProductDropdown = () => {
   const handlePricingClick = () => {
     setOpen(false);
     const el = document.getElementById('pricing');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      router.push(ROUTES.PRICING);
-    }
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    else router.push(ROUTES.PRICING);
   };
 
   const label = isPricing

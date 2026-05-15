@@ -1,17 +1,14 @@
 'use client';
-import { useAuth } from '@/hooks/useAuth';
 import Link from 'next/link';
-import { useRouter, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { ROUTES } from '@/lib/routes';
-import { LogOutIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { ProductDropdown } from './ProductDropdown';
+import { AuthButton } from './AuthButton';
 
 export const Header = () => {
-  const { isAuthenticated, clearToken } = useAuth();
-  const router = useRouter();
   const pathname = usePathname();
   const t = useTranslations('header');
 
@@ -35,7 +32,6 @@ export const Header = () => {
 
         <nav className="hidden items-center gap-6 md:flex">
           <ProductDropdown />
-
           <Link
             href={ROUTES.BLOG}
             className={navLink(
@@ -44,7 +40,6 @@ export const Header = () => {
           >
             {t('nav.blog')}
           </Link>
-
           <Link
             href={ROUTES.DEMO}
             className={navLink(
@@ -65,21 +60,7 @@ export const Header = () => {
             GitHub
           </a>
           <ThemeToggle />
-          {isAuthenticated ? (
-            <button
-              onClick={clearToken}
-              className="border-border hover:bg-muted inline-flex items-center justify-center rounded-md border px-3 py-1.5 text-sm transition-colors"
-            >
-              <LogOutIcon className="h-4 w-4" />
-            </button>
-          ) : (
-            <button
-              onClick={() => router.push(ROUTES.SIGNIN)}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-1.5 text-sm font-medium transition-colors"
-            >
-              {t('signIn')}
-            </button>
-          )}
+          <AuthButton />
         </div>
       </div>
     </header>

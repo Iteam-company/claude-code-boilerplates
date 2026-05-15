@@ -1,123 +1,24 @@
 'use client';
 
-import { useSignin } from '@/hooks/api/signin';
+import { useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
-import Link from 'next/link';
-import { loginSchema, LoginSchemaType } from '@/modules/user/user.validation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { useTranslations } from 'next-intl';
-import { toast } from 'sonner';
-import { PasswordInput } from '@/components/PasswordInput';
+import { AuthCard } from '@/components/auth/AuthCard';
+import { SignInForm } from '@/components/auth/SignInForm';
 
 export default function SignInPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const from = searchParams.get('from');
-  const { token, setToken } = useAuth();
-  const { trigger: signin, isMutating } = useSignin();
-  const t = useTranslations('signIn');
-
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<LoginSchemaType>({
-    resolver: zodResolver(loginSchema),
-    shouldUnregister: true,
-  });
-
-  const onSubmit = async (data: LoginSchemaType) => {
-    try {
-      const result = await signin(data);
-
-      if (result.token) {
-        setToken(result.token);
-      }
-
-      toast.success(t('successToast'));
-      router.push(from ?? ROUTES.HOME);
-    } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : t('errorToast');
-      toast.error(message);
-    }
-  };
-
-  const handleDontHaveAccount = () => {
-    router.push(ROUTES.SIGNUP);
-  };
+  const { token } = useAuth();
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && token) {
-      router.replace(ROUTES.HOME);
-    }
+    if (typeof window !== 'undefined' && token) router.replace(ROUTES.HOME);
   }, []);
 
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className="bg-card border-border min-w-87.5 rounded-xl border p-6 shadow-sm">
-        <h1 className="text-foreground mb-6 text-center text-2xl font-semibold">
-          {t('title')}
-        </h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
-          <div>
-            <input
-              {...register('email')}
-              type="email"
-              placeholder={t('email')}
-              disabled={isMutating}
-              className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2 disabled:opacity-50"
-            />
-            {errors.email && (
-              <p className="mt-1 text-xs text-red-600">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <PasswordInput
-              {...register('password')}
-              placeholder={t('password')}
-              disabled={isMutating}
-            />
-            {errors.password && (
-              <p className="mt-1 text-xs text-red-600">
-                {errors.password.message}
-              </p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={isMutating}
-            className="bg-primary text-primary-foreground hover:bg-primary/90 w-full rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
-          >
-            {t('submit')}
-          </button>
-
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              disabled={isMutating}
-              onClick={handleDontHaveAccount}
-              className="text-muted-foreground hover:text-foreground rounded-md px-4 py-2 text-sm transition-colors disabled:opacity-50"
-            >
-              {t('noAccount')}
-            </button>
-
-            <Link
-              href={ROUTES.FORGOT_PASSWORD}
-              className="text-muted-foreground hover:text-foreground rounded-md px-4 py-2 text-sm transition-colors"
-            >
-              {t('forgotPassword')}
-            </Link>
-          </div>
-        </form>
-      </div>
-    </div>
+    <AuthCard>
+      <SignInForm redirectTo={searchParams.get('from') ?? undefined} />
+    </AuthCard>
   );
 }
