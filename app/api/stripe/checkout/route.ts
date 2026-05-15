@@ -4,6 +4,7 @@ import { getUserFromRequest } from '@/lib/auth';
 import { handleError, HttpError } from '@/lib/errors';
 import { checkoutSchema } from '@/modules/order/order.validation';
 import { userRepo } from '@/modules/user/user.repo';
+import { getBaseUrl } from '@/lib/utils';
 
 export async function POST(req: Request) {
   try {
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
       throw new HttpError(400, parsed.error.issues[0].message);
 
     const { priceId, mode, quantity, type, credits } = parsed.data;
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
+    const baseUrl = getBaseUrl();
 
     const user = await userRepo.findById(userId);
     if (!user) throw new HttpError(404, 'User not found');
