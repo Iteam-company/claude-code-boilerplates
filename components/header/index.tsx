@@ -6,7 +6,6 @@ import { useTranslations } from 'next-intl';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 import { ProductDropdown } from './ProductDropdown';
-import { AuthButton } from './AuthButton';
 
 export const Header = () => {
   const pathname = usePathname();
@@ -60,7 +59,6 @@ export const Header = () => {
             GitHub
           </a>
           <ThemeToggle />
-          <AuthButton />
         </div>
       </div>
     </header>
