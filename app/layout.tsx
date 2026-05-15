@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 
 import './globals.css';
+import { OrgProvider } from '@/components/demo/OrgProvider';
 
 const geist = Geist({
   subsets: ['latin'],
@@ -34,8 +35,10 @@ export default async function RootLayout({
       <body className="min-h-dvh">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextIntlClientProvider messages={messages}>
-            {children}
-            <Toaster />
+            <OrgProvider>
+              {children}
+              <Toaster />
+            </OrgProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
