@@ -1,6 +1,6 @@
 import { postService, createPostSchema } from '@/modules/post';
 import { handleError } from '@/lib/errors';
-import { getUserFromRequest } from '@/lib/auth';
+import { getUserFromRequest, getCallerFromRequest } from '@/lib/auth';
 
 export async function GET(req: Request) {
   try {
@@ -26,7 +26,7 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const { id: userId } = getUserFromRequest(req);
+    const { id: userId } = getCallerFromRequest(req);
 
     const body = await req.json();
     const parsed = createPostSchema.safeParse(body);

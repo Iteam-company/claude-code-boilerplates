@@ -426,3 +426,29 @@ MCP servers are configured in `.mcp.json`. Required tokens — add to `.env` if 
 - Never expose `CLOUDINARY_API_SECRET` to the client — all uploads must go through a server action or API route
 
 If an MCP tool fails due to a missing token, stop and ask the user to add the relevant variable to `.env`, then restart the dev session before retrying.
+
+# Blog Style Guide
+
+Used by Claude Code when generating blog posts via the `/generate-post` skill.
+
+## Theme
+
+[Describe the blog's focus area, e.g. "Next.js and modern full-stack development for product-minded developers"]
+
+## Voice & Style
+
+[Describe the tone, e.g. "Practical and direct. Code-first. No fluff. Assume the reader is a senior developer building real products."]
+
+## Keywords to include
+
+- [keyword 1]
+- [keyword 2]
+
+## Topics to avoid (stop words)
+
+- [topic 1]
+- [topic 2]
+
+## Additional instructions
+
+[Any extra constraints, e.g. "Always include a working code example. Keep posts under 1200 words. End with a clear takeaway."]
