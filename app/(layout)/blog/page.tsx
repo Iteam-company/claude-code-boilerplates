@@ -1,7 +1,5 @@
 import type { Metadata } from 'next';
-import { Container } from '@/components/Container';
-import { getAllPosts } from '@/lib/blog';
-import { PostListItem } from '@/components/blog/PostListItem';
+import { BlogList } from '@/components/blog/BlogList';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -17,25 +15,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage() {
-  const posts = await getAllPosts();
-
-  return (
-    <Container className="py-16">
-      <div className="mb-12">
-        <h1 className="text-foreground text-3xl font-bold tracking-tight">
-          Blog{' '}
-          <span className="text-muted-foreground text-lg font-normal">
-            {posts.length} posts
-          </span>
-        </h1>
-      </div>
-
-      <ol className="space-y-0">
-        {posts.map((post, index) => (
-          <PostListItem key={post.slug} post={post} index={index} />
-        ))}
-      </ol>
-    </Container>
-  );
+export default function BlogPage() {
+  return <BlogList />;
 }
