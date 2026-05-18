@@ -3,15 +3,18 @@ import { BlogList } from '@/components/blog/BlogList';
 
 export const metadata: Metadata = {
   title: 'Blog',
-  description: 'Thoughts on development, design, and building software.',
+  description:
+    'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.',
   openGraph: {
     title: 'Blog | Claude Code Boilerplate',
-    description: 'Thoughts on development, design, and building software.',
+    description:
+      'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.',
     url: '/blog',
   },
   twitter: {
     title: 'Blog | Claude Code Boilerplate',
-    description: 'Thoughts on development, design, and building software.',
+    description:
+      'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.',
   },
 };
 
