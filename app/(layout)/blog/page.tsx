@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { BlogList } from '@/components/blog/BlogList';
+import { postService } from '@/modules/post';
 
 export const metadata: Metadata = {
   title: 'Blog',
@@ -18,6 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  return <BlogList />;
+export default async function BlogPage() {
+  const posts = await postService.getAll({ published: true });
+  return <BlogList posts={posts} />;
 }

@@ -9,18 +9,17 @@ import {
   oneLight,
 } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useTheme } from 'next-themes';
-import { usePost } from '@/hooks/api/post';
 import { Container } from '@/components/Container';
 import type { ComponentProps } from 'react';
+import type { Post } from '@/modules/post';
 
 interface Props {
-  slug: string;
+  post: Post;
 }
 
 type CodeProps = ComponentProps<'code'> & { inline?: boolean };
 
-export function BlogPost({ slug }: Props) {
-  const { data: post, isLoading, error } = usePost(slug);
+export function BlogPost({ post }: Props) {
   const { resolvedTheme } = useTheme();
 
   const CodeBlock = ({ inline, className, children, ...rest }: CodeProps) => {
@@ -64,42 +63,28 @@ export function BlogPost({ slug }: Props) {
           ← All posts
         </Link>
 
-        {isLoading && (
-          <div className="text-muted-foreground mt-8 text-sm">Loading…</div>
-        )}
-
-        {error && (
-          <div className="text-destructive mt-8 text-sm">
-            Failed to load post. Please try again.
+        <header className="mt-8 mb-10">
+          <h1 className="text-foreground mb-4 text-3xl font-bold tracking-tight md:text-4xl">
+            {post.title}
+          </h1>
+          <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-sm">
+            <time dateTime={new Date(post.createdAt).toISOString()}>
+              {format(new Date(post.createdAt), 'MMMM d, yyyy')}
+            </time>
           </div>
-        )}
+        </header>
 
-        {post && (
-          <>
-            <header className="mt-8 mb-10">
-              <h1 className="text-foreground mb-4 text-3xl font-bold tracking-tight md:text-4xl">
-                {post.title}
-              </h1>
-              <div className="text-muted-foreground flex flex-wrap items-center gap-3 text-sm">
-                <time dateTime={new Date(post.createdAt).toISOString()}>
-                  {format(new Date(post.createdAt), 'MMMM d, yyyy')}
-                </time>
-              </div>
-            </header>
-
-            <article className="prose prose-neutral dark:prose-invert max-w-none">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  pre: ({ children }) => <>{children}</>,
-                  code: CodeBlock,
-                }}
-              >
-                {post.content}
-              </ReactMarkdown>
-            </article>
-          </>
-        )}
+        <article className="prose prose-neutral dark:prose-invert max-w-none">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              pre: ({ children }) => <>{children}</>,
+              code: CodeBlock,
+            }}
+          >
+            {post.content}
+          </ReactMarkdown>
+        </article>
       </div>
     </Container>
   );
