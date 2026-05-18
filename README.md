@@ -1,12 +1,31 @@
-# Claude Code Boilerplate
+# Claude Code Boilerplate -- Next.js Full-Stack SaaS Starter with AI-Assisted Development
 
-A production-ready Next.js + Neon DB starter with built-in Claude Code configuration — skills, hooks, agents, and CLAUDE.md patterns ready to use out of the box.
+A production-ready Next.js 16 + Neon DB starter pre-wired for Claude Code. Skip the boilerplate setup and start shipping features on day one -- auth, payments, blog, email, file uploads, and AI chat are already built in.
 
-## What is this?
+## What problem does this solve?
 
-This boilerplate gives you a full-stack Next.js application pre-wired for AI-assisted development with Claude Code. Instead of spending time setting up tooling, conventions, and AI workflows, you get all of that on day one — and you can start shipping features immediately.
+Every new SaaS project starts the same way: wire up authentication, add a database, configure Stripe, set up email, integrate file uploads, and then finally write the feature you actually wanted to build. This boilerplate does all of that before you write a single line of code.
 
-It demonstrates real patterns used in production SaaS apps: authentication, multi-tenant organizations, Stripe payments, blog with MDX, transactional email, file uploads, AI chat — all following a consistent DDD-lite module architecture.
+It also solves the "Claude Code doesn't know my conventions" problem. The `.claude/` folder ships with a detailed `CLAUDE.md`, 22 ready-to-use skills, safety hooks, and sub-agents -- so Claude Code understands your stack from the first prompt and you never have to explain your folder structure or naming conventions again.
+
+## Who is this for?
+
+- Developers building a **multi-tenant SaaS** who want auth, roles, and billing pre-wired
+- Teams using **Claude Code** who want a starting point with mature AI-assisted development workflows
+- Engineers who want a **full-stack Next.js App Router** project with real DDD-lite architecture, not a toy example
+- Anyone who's built `create-next-app` projects and spent the first week writing the same auth/payments boilerplate every time
+
+## Why not create-next-app?
+
+`create-next-app` gives you a blank canvas. This gives you a production-grade foundation with:
+
+- JWT auth + multi-tenant organizations already working
+- Stripe one-time and subscription payments wired up
+- Drizzle ORM + Neon DB with migrations ready
+- Claude Code `.claude/` configuration that enforces your conventions automatically
+- 22 skills Claude can invoke to scaffold new features in seconds
+
+You can remove what you don't need -- it's much faster than adding what you do.
 
 ## Tech Stack
 
@@ -27,18 +46,18 @@ It demonstrates real patterns used in production SaaS apps: authentication, mult
 
 ### Feature modules
 
-| Module         | Description                                |
-| -------------- | ------------------------------------------ |
-| `user`         | Registration, login, JWT auth, profile     |
-| `organization` | Multi-tenant org management                |
-| `orgMember`    | Role-based membership (owner/admin/member) |
-| `invitation`   | Email-based org invitations                |
-| `post`         | MDX blog stored in DB                      |
-| `subscription` | Stripe subscription billing                |
-| `order`        | One-time payments                          |
-| `credit`       | AI credit system                           |
+- [x] **User** -- registration, login, JWT auth, profile
+- [x] **Organization** -- multi-tenant org management
+- [x] **OrgMember** -- role-based membership (owner / admin / member)
+- [x] **Invitation** -- email-based org invitations
+- [x] **Post** -- MDX blog stored in DB with AI-assisted publishing
+- [x] **Subscription** -- Stripe subscription billing
+- [x] **Order** -- one-time payments
+- [x] **Credit** -- AI credit system
 
 ### Claude Code configuration (`.claude/`)
+
+The `.claude/` folder is what makes this boilerplate different from everything else in 2026. Claude Code loads it automatically and follows your project conventions from the first prompt.
 
 | Item                    | Purpose                                                                  |
 | ----------------------- | ------------------------------------------------------------------------ |
@@ -123,7 +142,7 @@ Open [http://localhost:3000](http://localhost:3000).
 claude
 ```
 
-Claude will load `CLAUDE.md` automatically and know the full project conventions from the start.
+Claude loads `CLAUDE.md` automatically and knows your full project conventions from the start -- folder structure, naming rules, architecture patterns, and which anti-patterns to avoid.
 
 ## Using Claude Code Skills
 
@@ -150,40 +169,6 @@ Scaffolds all 7 module files: schema, relations, types, validation, repo, servic
 ```
 /stripe-setup
 ```
-
-**Generate a blog post and save it to the DB:**
-
-```
-/generate-post <title> — <brief>
-```
-
-## The `/generate-post` Skill
-
-This skill lets Claude write and publish a full MDX blog post directly to your database in one command.
-
-### How it works
-
-1. Reads the **Blog Style Guide** from `CLAUDE.md` to match your tone and keywords
-2. Fetches existing posts from `GET /api/posts` to avoid duplicate content
-3. Generates a full MDX post with headings, code blocks, and prose
-4. POSTs to `POST /api/posts` using your `AI_API_KEY`
-5. Reports back the created slug and title
-
-### Usage
-
-```
-/generate-post Server Actions vs API Routes — when to use each in Next.js App Router
-```
-
-```
-/generate-post Role Hierarchies in Multi-Tenant SaaS — owner, admin, member explained
-```
-
-Posts are saved with `published: false` by default — review them in Drizzle Studio before publishing.
-
-### Customizing the style guide
-
-Edit the `# Blog Style Guide` section in `CLAUDE.md` to define your blog's voice, target audience, must-include keywords, and topics to avoid. The skill reads this section every time it runs.
 
 ## MCP Servers
 
@@ -212,8 +197,8 @@ npm run db:studio    # Open Drizzle Studio
 
 ## Deploy
 
-Push to `main` → automatic production deploy on Vercel.
-Push to any other branch → preview deployment.
+Push to `main` -- automatic production deploy on Vercel.
+Push to any other branch -- preview deployment.
 
 Initial setup:
 
@@ -230,9 +215,32 @@ See the `/vercel-deploy` skill for a guided walkthrough.
 All conventions are documented in `CLAUDE.md` and followed automatically by Claude Code:
 
 - Server components by default; `"use client"` only when needed
-- API routes are thin: validate → service → respond
+- API routes are thin: validate -> service -> respond
 - Business logic lives in service layer only
 - Zod for all validation; always `safeParse`, never `parse`
 - `HttpError` thrown from services, caught in routes via `handleError()`
 - Never return `passwordHash`; always strip with `Omit<>`
 - CSS variables for colors; never hardcoded hex values
+
+## FAQ
+
+**Does this work with the Next.js App Router?**
+Yes -- the entire project uses App Router. There are no Pages Router files.
+
+**Can I use this without Stripe?**
+Yes. The `subscription` and `order` modules are self-contained. Remove the routes and modules you don't need, or just ignore them -- they don't affect the rest of the app.
+
+**Can I use this without multi-tenancy?**
+Yes. The `organization`, `orgMember`, and `invitation` modules are independent. Skip them if you're building a single-tenant app.
+
+**What database does it use?**
+Neon DB (serverless Postgres) via Drizzle ORM. You can point `DATABASE_URL` at any Postgres instance -- local, Supabase, Railway, etc.
+
+**Do I need Claude Code to use this boilerplate?**
+No -- it's a standard Next.js project. Claude Code is optional, but the `.claude/` configuration is what makes the AI-assisted workflow powerful.
+
+**How is this different from other Next.js SaaS starters?**
+Most starters give you the feature modules. This one also gives you a complete Claude Code setup -- CLAUDE.md conventions, skills, safety hooks, and sub-agents -- so your AI assistant understands the project from day one and never drifts from your architecture.
+
+**Is this production-ready?**
+The patterns are production-grade (DDD-lite modules, proper error handling, Zod validation, no business logic in routes). The starter itself is a template -- you still need to audit security, add monitoring, and configure your own secrets before shipping.
