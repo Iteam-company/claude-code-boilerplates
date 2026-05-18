@@ -9,87 +9,102 @@ export default function OgImage() {
   return new ImageResponse(
     <div
       style={{
-        background: '#09090b',
+        background:
+          'linear-gradient(135deg, #09090b 0%, #0f0f12 50%, #0c0c10 100%)',
         width: '100%',
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',
-        justifyContent: 'flex-end',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: '80px',
+        position: 'relative',
       }}
     >
+      {/* subtle glow */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          width: '600px',
+          height: '300px',
+          background:
+            'radial-gradient(ellipse, rgba(99,102,241,0.12) 0%, transparent 70%)',
+          display: 'flex',
+        }}
+      />
+
+      {/* top label */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '16px',
-          marginBottom: '32px',
+          gap: '8px',
+          marginBottom: '40px',
+          background: 'rgba(255,255,255,0.05)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          borderRadius: '100px',
+          padding: '8px 20px',
         }}
       >
-        <div
+        <span
           style={{
-            width: '48px',
-            height: '48px',
-            borderRadius: '12px',
-            background: '#ffffff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '24px',
+            color: '#71717a',
+            fontSize: '18px',
+            letterSpacing: '0.05em',
           }}
         >
-          ⚡
-        </div>
-        <span style={{ color: '#a1a1aa', fontSize: '20px', fontWeight: 500 }}>
           claude-code-boilerplates
         </span>
       </div>
 
+      {/* title */}
       <div
         style={{
           color: '#ffffff',
-          fontSize: '64px',
+          fontSize: '72px',
           fontWeight: 700,
-          lineHeight: 1.1,
-          letterSpacing: '-2px',
+          lineHeight: 1.05,
+          letterSpacing: '-2.5px',
+          textAlign: 'center',
           marginBottom: '24px',
+          display: 'flex',
         }}
       >
         Claude Code Boilerplate
       </div>
 
+      {/* subtitle */}
       <div
         style={{
           color: '#71717a',
-          fontSize: '28px',
+          fontSize: '26px',
           fontWeight: 400,
           lineHeight: 1.4,
-          maxWidth: '800px',
+          textAlign: 'center',
+          maxWidth: '760px',
+          marginBottom: '56px',
+          display: 'flex',
         }}
       >
         Next.js 16 + Neon DB starter pre-wired for Claude Code
       </div>
 
-      <div
-        style={{
-          position: 'absolute',
-          top: '80px',
-          right: '80px',
-          display: 'flex',
-          gap: '12px',
-        }}
-      >
-        {['Auth', 'Payments', 'Blog', 'AI'].map((tag) => (
+      {/* tags */}
+      <div style={{ display: 'flex', gap: '12px' }}>
+        {['Auth', 'Payments', 'Blog', 'AI Chat', 'Multi-tenancy'].map((tag) => (
           <div
             key={tag}
             style={{
-              background: '#18181b',
-              border: '1px solid #27272a',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: '8px',
-              padding: '8px 16px',
+              padding: '10px 20px',
               color: '#a1a1aa',
-              fontSize: '16px',
+              fontSize: '17px',
+              display: 'flex',
             }}
           >
             {tag}
