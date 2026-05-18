@@ -4,6 +4,8 @@ import { BlogPost } from '@/components/blog/BlogPost';
 import { postService } from '@/modules/post';
 import { getBaseUrl } from '@/lib/utils';
 
+export const revalidate = 3600;
+
 interface Props {
   params: Promise<{ slug: string }>;
 }

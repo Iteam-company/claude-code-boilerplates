@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { BlogList } from '@/components/blog/BlogList';
 import { postService } from '@/modules/post';
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: 'Blog',
   description:
