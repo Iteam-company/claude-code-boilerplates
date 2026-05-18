@@ -69,7 +69,30 @@ The `.claude/` folder is what makes this boilerplate different from everything e
 
 ### Skills available
 
-`feature-module`, `nextjs-api-route`, `drizzle-relations`, `drizzle-migrate`, `swr-hooks`, `claude-feature`, `stripe-setup`, `email-setup`, `cloudinary-upload`, `vercel-deploy`, `multi-tenancy`, `nextjs-mdx-blog`, `auth-patterns`, `api-patterns`, `db-patterns`, `ui-patterns`, `component-splitting`, `dto-patterns`, `landing-page`, `pwa`, `i18n`, `init-project`
+| Skill                 | What it does                                                                            |
+| --------------------- | --------------------------------------------------------------------------------------- |
+| `feature-module`      | Scaffold all 7 module files: schema, relations, types, validation, repo, service, index |
+| `nextjs-api-route`    | Add a thin API route wired to the service layer                                         |
+| `drizzle-relations`   | Add Drizzle `relations()` block and register in `db/drizzle.ts`                         |
+| `drizzle-migrate`     | Generate and apply a migration after schema changes                                     |
+| `swr-hooks`           | Generate `useSWR` read hooks and `useSWRMutation` write hooks for a module              |
+| `claude-feature`      | Add a streaming AI chat endpoint + `useAiChat` hook                                     |
+| `stripe-setup`        | Wire up Stripe checkout, webhooks, and subscription sync                                |
+| `email-setup`         | Add Resend + react-email transactional email for a flow                                 |
+| `cloudinary-upload`   | Add file upload route + client hook via Cloudinary                                      |
+| `vercel-deploy`       | Guided Vercel deploy walkthrough with env vars                                          |
+| `multi-tenancy`       | Add org, orgMember, and invitation modules with role-based access                       |
+| `nextjs-mdx-blog`     | Add MDX blog (file-based or DB-based) with Tailwind typography                          |
+| `auth-patterns`       | JWT auth patterns: registration, login, protected routes                                |
+| `api-patterns`        | API route conventions: validation, error handling, response shape                       |
+| `db-patterns`         | Drizzle ORM patterns: queries, relations, migrations                                    |
+| `ui-patterns`         | Component conventions: server vs client, shadcn usage, theming                          |
+| `component-splitting` | Extract oversized components into co-located subfolders                                 |
+| `dto-patterns`        | DTO conventions: Omit, never return passwordHash, layer boundaries                      |
+| `landing-page`        | Scaffold a marketing landing page with sections and CTAs                                |
+| `pwa`                 | Add PWA manifest and service worker                                                     |
+| `i18n`                | Add next-intl with locale routing and translation files                                 |
+| `init-project`        | First-run setup: env vars, DB, and Vercel link                                          |
 
 ## Getting Started
 
@@ -170,6 +193,47 @@ Scaffolds all 7 module files: schema, relations, types, validation, repo, servic
 /stripe-setup
 ```
 
+## Typical dev session
+
+This is what using the boilerplate looks like day-to-day:
+
+```
+# 1. Start the dev server
+npm run dev
+
+# 2. Open Claude Code in the same directory
+claude
+```
+
+Inside Claude Code, Claude already knows your stack. A typical session to add a new `task` feature:
+
+```
+/feature-module task
+```
+
+Claude scaffolds 7 files in `modules/task/` -- schema, relations, types, validation, repo, service, index -- and registers the table in `db/drizzle.ts`.
+
+```
+/nextjs-api-route GET /api/tasks
+/nextjs-api-route POST /api/tasks
+```
+
+Claude adds thin route handlers following the validate → service → respond pattern. Then:
+
+```bash
+npm run db:generate && npm run db:migrate
+```
+
+Back in Claude Code:
+
+```
+/swr-hooks task
+```
+
+Claude generates `hooks/api/useTask.ts` with `useTasks()`, `useCreateTask()`, `useUpdateTask()`, `useDeleteTask()` -- all calling `mutate()` on success.
+
+Then you describe the UI in plain English and Claude builds it using your existing shadcn components, CSS variables, and layout conventions -- without you repeating a single rule.
+
 ## MCP Servers
 
 Configured in `.mcp.json`. Add the relevant tokens to `.env`:
@@ -244,3 +308,16 @@ Most starters give you the feature modules. This one also gives you a complete C
 
 **Is this production-ready?**
 The patterns are production-grade (DDD-lite modules, proper error handling, Zod validation, no business logic in routes). The starter itself is a template -- you still need to audit security, add monitoring, and configure your own secrets before shipping.
+
+**What is a skill?**
+A skill is a markdown file in `.claude/skills/` that Claude Code reads and executes as a multi-step instruction set. Running `/feature-module task` tells Claude to read the `feature-module` skill file and follow its steps -- scaffolding 7 module files, updating `db/drizzle.ts`, and following your naming conventions automatically.
+
+**What version of Claude Code do I need?**
+Any version that supports the `.claude/` folder convention (available since Claude Code 1.x). Skills, hooks, and `CLAUDE.md` all use standard Claude Code features with no special plugins required.
+
+**Can I use this with Cursor, GitHub Copilot, or other AI tools?**
+Yes for the code -- it's a standard Next.js project. The `.claude/` folder is Claude Code-specific. You can adapt `CLAUDE.md` as a rules file for Cursor, but the skills and hooks only run inside Claude Code.
+
+## License
+
+MIT
