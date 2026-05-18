@@ -433,22 +433,27 @@ Used by Claude Code when generating blog posts via the `/generate-post` skill.
 
 ## Theme
 
-[Describe the blog's focus area, e.g. "Next.js and modern full-stack development for product-minded developers"]
+Next.js full-stack development with Claude Code and AI-assisted workflows. Focus on practical patterns for building SaaS products: authentication, payments, database, email, file uploads, and AI features. Posts should help developers ship faster by understanding the conventions and tools already built into this boilerplate.
 
 ## Voice & Style
 
-[Describe the tone, e.g. "Practical and direct. Code-first. No fluff. Assume the reader is a senior developer building real products."]
+Practical and direct. Code-first. No filler sentences. Assume the reader is building a real product and wants to understand the pattern quickly and apply it. Show the actual code, explain the key decision, move on. Write like a senior engineer explaining something to a teammate, not a tutorial blogger padding word count.
 
 ## Keywords to include
 
-- [keyword 1]
-- [keyword 2]
+- Claude Code
+- Next.js App Router
+- Drizzle ORM
+- Neon DB
+- SaaS boilerplate
+- full-stack TypeScript
 
 ## Topics to avoid (stop words)
 
-- [topic 1]
-- [topic 2]
+- Generic "introduction to React" or "what is TypeScript" content
+- Posts that only cover concepts without a code example
+- Anything already covered by the official Next.js or Drizzle docs verbatim
 
 ## Additional instructions
 
-[Any extra constraints, e.g. "Always include a working code example. Keep posts under 1200 words. End with a clear takeaway."]
+Always include at least one working code example. Keep posts under 1200 words. End with a concrete takeaway or next step the reader can apply immediately. Use ASCII characters only -- no smart quotes, em dashes, or Unicode beyond U+007F.

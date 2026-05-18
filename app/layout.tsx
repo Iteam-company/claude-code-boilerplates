@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Geist } from 'next/font/google';
-import { cn } from '@/lib/utils';
+import { cn, getBaseUrl } from '@/lib/utils';
 import { Toaster } from 'sonner';
 import { ThemeProvider } from 'next-themes';
 import { NextIntlClientProvider } from 'next-intl';
@@ -14,13 +14,7 @@ const geist = Geist({
   variable: '--font-sans',
 });
 
-const baseUrl =
-  process.env.NEXT_PUBLIC_BASE_URL ??
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000');
+const baseUrl = getBaseUrl();
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
