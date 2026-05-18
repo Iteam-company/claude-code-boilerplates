@@ -23,7 +23,7 @@ export function PostListItem({ post, index }: Props) {
               {post.title}
             </Link>
             <span className="text-muted-foreground text-sm">
-              {format(post.createdAt, 'MMM d, yyyy')}
+              {format(new Date(post.createdAt), 'MMM d, yyyy')}
             </span>
           </div>
           <p className="text-muted-foreground text-sm leading-relaxed">
