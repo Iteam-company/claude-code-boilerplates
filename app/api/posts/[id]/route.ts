@@ -1,6 +1,6 @@
 import { postService, updatePostSchema } from '@/modules/post';
 import { handleError } from '@/lib/errors';
-import { getCallerFromRequest, getUserFromRequest } from '@/lib/auth';
+import { getCallerFromRequest } from '@/lib/auth';
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -35,7 +35,7 @@ export async function PUT(req: Request, { params }: Params) {
 
 export async function DELETE(_req: Request, { params }: Params) {
   try {
-    getUserFromRequest(_req);
+    getCallerFromRequest(_req);
 
     const { id } = await params;
     await postService.delete(id);
