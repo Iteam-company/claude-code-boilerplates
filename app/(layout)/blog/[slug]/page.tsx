@@ -17,6 +17,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: post.title,
       description: post.description,
+      alternates: { canonical: `/blog/${slug}` },
       openGraph: {
         title: post.title,
         description: post.description,
@@ -24,6 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         type: 'article',
         publishedTime: post.createdAt.toISOString(),
         modifiedTime: post.updatedAt.toISOString(),
+        authors: ['Claude Code Boilerplate'],
       },
       twitter: {
         title: post.title,
@@ -59,8 +61,33 @@ export default async function BlogPostPage({ params }: Props) {
     datePublished: post!.createdAt.toISOString(),
     dateModified: post!.updatedAt.toISOString(),
     url: `${base}/blog/${slug}`,
+    image: {
+      '@type': 'ImageObject',
+      url: `${base}/blog/${slug}/opengraph-image`,
+      width: 1200,
+      height: 630,
+    },
     author: org,
     publisher: org,
+  };
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: base },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: `${base}/blog`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: post!.title,
+        item: `${base}/blog/${slug}`,
+      },
+    ],
   };
 
   return (
@@ -68,6 +95,10 @@ export default async function BlogPostPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
       <BlogPost post={post!} />
     </>

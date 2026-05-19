@@ -5,12 +5,19 @@ import { cn } from '@/lib/utils';
 interface Props {
   page: number;
   totalPages: number;
+  query?: string;
 }
 
-export function BlogPagination({ page, totalPages }: Props) {
+export function BlogPagination({ page, totalPages, query }: Props) {
   if (totalPages <= 1) return null;
 
-  const href = (p: number) => (p === 1 ? '/blog' : `/blog?page=${p}`);
+  const href = (p: number) => {
+    const params = new URLSearchParams();
+    if (query) params.set('q', query);
+    if (p > 1) params.set('page', String(p));
+    const qs = params.toString();
+    return qs ? `/blog?${qs}` : '/blog';
+  };
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 

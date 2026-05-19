@@ -24,6 +24,12 @@ export type UpdatePostInput = Partial<Omit<CreatePostInput, 'authorId'>> & {
   published?: boolean;
 };
 
+export type PostFilter = {
+  authorId?: string;
+  published?: boolean;
+  query?: string;
+};
+
 export type PaginatedPosts = {
   posts: PostSummary[];
   total: number;
