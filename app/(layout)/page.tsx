@@ -11,6 +11,7 @@ import {
   LandingProblem,
   LandingSkills,
 } from '@/components/landing';
+import { getBaseUrl } from '@/lib/utils';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('landing.meta');
@@ -21,8 +22,22 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Home() {
+  const base = getBaseUrl();
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Claude Code Boilerplate',
+    url: base,
+    description:
+      'Production-ready Next.js starter pre-wired for Claude Code — auth, payments, blog, email, and AI chat built in.',
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Hero />
       <LandingStats />
       <LandingProblem />
