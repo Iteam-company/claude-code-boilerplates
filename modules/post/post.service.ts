@@ -1,5 +1,5 @@
 import { postRepo } from './post.repo';
-import { CreatePostInput, UpdatePostInput } from './post.types';
+import { CreatePostInput, PostFilter, UpdatePostInput } from './post.types';
 import { HttpError } from '@/lib/errors/http-error';
 
 const PAGE_SIZE = 6;
@@ -13,14 +13,11 @@ export const postService = {
     return postRepo.create(data);
   },
 
-  getAll: async (filter?: { authorId?: string; published?: boolean }) => {
+  getAll: async (filter?: PostFilter) => {
     return postRepo.findAll(filter);
   },
 
-  getPaginated: async (
-    filter: { authorId?: string; published?: boolean } | undefined,
-    page: number,
-  ) => {
+  getPaginated: async (filter: PostFilter | undefined, page: number) => {
     const safePage = Math.max(1, page);
     const { posts, total } = await postRepo.findPaginated(
       filter,

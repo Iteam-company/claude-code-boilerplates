@@ -1,9 +1,30 @@
 import { db } from '@/db/drizzle';
 import { postTable } from './post.schema';
 import { eq, and, sql } from 'drizzle-orm';
-import { CreatePostInput, UpdatePostInput } from './post.types';
+import { CreatePostInput, PostFilter, UpdatePostInput } from './post.types';
 
-type FindAllFilter = { authorId?: string; published?: boolean };
+function buildConditions(filter?: PostFilter) {
+  const conditions = [];
+  if (filter?.published !== undefined)
+    conditions.push(eq(postTable.published, filter.published));
+  if (filter?.authorId !== undefined)
+    conditions.push(eq(postTable.authorId, filter.authorId));
+  if (filter?.query?.trim()) {
+    const tsquery = filter.query
+      .trim()
+      .split(/\s+/)
+      .map((w) => w.replace(/[^a-z0-9]/gi, ''))
+      .filter(Boolean)
+      .map((w) => `${w}:*`)
+      .join(' & ');
+    if (tsquery) {
+      conditions.push(
+        sql`to_tsvector('english', ${postTable.title} || ' ' || ${postTable.description}) @@ to_tsquery('english', ${tsquery})`,
+      );
+    }
+  }
+  return conditions;
+}
 
 export const postRepo = {
   create: async (data: CreatePostInput) => {
@@ -11,12 +32,8 @@ export const postRepo = {
     return post;
   },
 
-  findAll: async (filter?: FindAllFilter) => {
-    const conditions = [];
-    if (filter?.published !== undefined)
-      conditions.push(eq(postTable.published, filter.published));
-    if (filter?.authorId !== undefined)
-      conditions.push(eq(postTable.authorId, filter.authorId));
+  findAll: async (filter?: PostFilter) => {
+    const conditions = buildConditions(filter);
     return db.query.postTable.findMany({
       where: conditions.length > 0 ? and(...conditions) : undefined,
       columns: { content: false },
@@ -25,16 +42,12 @@ export const postRepo = {
   },
 
   findPaginated: async (
-    filter: FindAllFilter | undefined,
+    filter: PostFilter | undefined,
     page: number,
     limit: number,
   ) => {
     const offset = (page - 1) * limit;
-    const conditions = [];
-    if (filter?.published !== undefined)
-      conditions.push(eq(postTable.published, filter.published));
-    if (filter?.authorId !== undefined)
-      conditions.push(eq(postTable.authorId, filter.authorId));
+    const conditions = buildConditions(filter);
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
     const [posts, countResult] = await Promise.all([
