@@ -1,14 +1,13 @@
 import { ImageResponse } from 'next/og';
 import { postService } from '@/modules/post';
+import { NextRequest } from 'next/server';
 
-export const size = { width: 1200, height: 630 };
-export const contentType = 'image/png';
+export const runtime = 'nodejs';
 
-export default async function Image({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export async function GET(
+  _req: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
   const { slug } = await params;
   let title = slug;
   try {
@@ -28,11 +27,19 @@ export default async function Image({
         justifyContent: 'space-between',
       }}
     >
-      <div style={{ fontSize: 20, color: '#94a3b8', fontFamily: 'sans-serif' }}>
+      <div
+        style={{
+          display: 'flex',
+          fontSize: 20,
+          color: '#94a3b8',
+          fontFamily: 'sans-serif',
+        }}
+      >
         Claude Code Boilerplate
       </div>
       <div
         style={{
+          display: 'flex',
           fontSize: 64,
           fontWeight: 700,
           color: '#f8fafc',
@@ -42,10 +49,17 @@ export default async function Image({
       >
         {title}
       </div>
-      <div style={{ fontSize: 18, color: '#475569', fontFamily: 'sans-serif' }}>
-        claudecodeBoilerplate.dev/blog/{slug}
+      <div
+        style={{
+          display: 'flex',
+          fontSize: 18,
+          color: '#475569',
+          fontFamily: 'sans-serif',
+        }}
+      >
+        {`claudecodeBoilerplate.dev/blog/${slug}`}
       </div>
     </div>,
-    { ...size },
+    { width: 1200, height: 630 },
   );
 }
