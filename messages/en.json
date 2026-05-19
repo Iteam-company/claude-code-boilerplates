@@ -23,8 +23,15 @@
     "nav": {
       "heading": "Product",
       "features": "Features",
+      "skills": "Just say what you want",
       "pricing": "Pricing",
       "faq": "FAQ"
+    },
+    "explore": {
+      "heading": "Explore",
+      "blog": "Blog",
+      "demo": "Demo",
+      "github": "GitHub"
     },
     "legal": {
       "heading": "Legal",

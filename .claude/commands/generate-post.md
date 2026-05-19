@@ -15,6 +15,7 @@ Generate a blog post and save it to the database.
    - `title`: from the user's input
    - `description`: one sentence capturing the post's value
    - `content`: full MDX — use headings, code blocks, and prose
+   - **Never put multi-item lists inside a single inline code tag.** File trees, directory structures, and lists of items must use a fenced code block (each item on its own line) or a markdown list — never a long `` `item1 item2 item3...` `` string.
    - If a similar post exists, meaningfully differentiate or reference it inline by title
    - **ASCII only**: use only ASCII characters in all fields. Replace em dashes with `--`, curly/smart quotes with straight quotes (`"`/`'`), ellipsis with `...`, and any other non-ASCII character with its closest ASCII equivalent. Never output Unicode beyond U+007F.
 

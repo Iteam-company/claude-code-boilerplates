@@ -23,3 +23,10 @@ export type CreatePostInput = {
 export type UpdatePostInput = Partial<Omit<CreatePostInput, 'authorId'>> & {
   published?: boolean;
 };
+
+export type PaginatedPosts = {
+  posts: PostSummary[];
+  total: number;
+  page: number;
+  totalPages: number;
+};

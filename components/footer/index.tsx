@@ -9,7 +9,7 @@ export async function Footer() {
   return (
     <footer className="border-border bg-card border-t">
       <Container className="py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           <div>
             <span className="text-foreground text-lg font-bold">
               Claude Code Boilerplate
@@ -21,8 +21,21 @@ export async function Footer() {
             heading={t('nav.heading')}
             links={[
               { label: t('nav.features'), href: '/#features' },
+              { label: t('nav.skills'), href: '/#skills' },
               { label: t('nav.pricing'), href: ROUTES.PRICING },
               { label: t('nav.faq'), href: '/#faq' },
+            ]}
+          />
+
+          <FooterLinkList
+            heading={t('explore.heading')}
+            links={[
+              { label: t('explore.blog'), href: ROUTES.BLOG },
+              { label: t('explore.demo'), href: ROUTES.DEMO },
+              {
+                label: t('explore.github'),
+                href: 'https://github.com/Iteam-company/claude-code-boilerplates',
+              },
             ]}
           />
 

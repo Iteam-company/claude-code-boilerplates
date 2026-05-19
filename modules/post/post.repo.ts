@@ -1,6 +1,6 @@
 import { db } from '@/db/drizzle';
 import { postTable } from './post.schema';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, sql } from 'drizzle-orm';
 import { CreatePostInput, UpdatePostInput } from './post.types';
 
 type FindAllFilter = { authorId?: string; published?: boolean };
@@ -22,6 +22,36 @@ export const postRepo = {
       columns: { content: false },
       orderBy: (post, { desc }) => [desc(post.createdAt)],
     });
+  },
+
+  findPaginated: async (
+    filter: FindAllFilter | undefined,
+    page: number,
+    limit: number,
+  ) => {
+    const offset = (page - 1) * limit;
+    const conditions = [];
+    if (filter?.published !== undefined)
+      conditions.push(eq(postTable.published, filter.published));
+    if (filter?.authorId !== undefined)
+      conditions.push(eq(postTable.authorId, filter.authorId));
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+    const [posts, countResult] = await Promise.all([
+      db.query.postTable.findMany({
+        where: whereClause,
+        columns: { content: false },
+        orderBy: (post, { desc }) => [desc(post.createdAt)],
+        limit,
+        offset,
+      }),
+      db
+        .select({ count: sql<number>`cast(count(*) as int)` })
+        .from(postTable)
+        .where(whereClause),
+    ]);
+
+    return { posts, total: countResult[0].count };
   },
 
   findBySlug: async (slug: string) => {
