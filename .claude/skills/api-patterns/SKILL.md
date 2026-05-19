@@ -12,7 +12,7 @@ Routes follow: **auth → parse → validate → service → respond**
 ```ts
 export async function POST(req: Request) {
   try {
-    const { userId } = getUserFromRequest(req); // 1. auth
+    const { id: userId } = getUserFromRequest(req); // 1. auth
     const body = await req.json(); // 2. parse
     const parsed = schema.safeParse(body); // 3. validate
     if (!parsed.success) {

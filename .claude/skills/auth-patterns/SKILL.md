@@ -7,7 +7,7 @@ description: Authentication and authorization patterns for this project. JWT-bas
 
 ## How auth works in this project
 
-Auth is **JWT-based**. Protected routes call `getUserFromRequest(req)` from `lib/auth.ts` at the top of the handler — it verifies the token and returns `{ userId }`, or throws an `HttpError(401)` which `handleError` maps to a 401 response.
+Auth is **JWT-based**. Protected routes call `getUserFromRequest(req)` from `lib/auth.ts` at the top of the handler — it verifies the token and returns `{ id }`, or throws an `HttpError(401)` which `handleError` maps to a 401 response.
 
 There is no Next.js middleware doing auth globally. Each route is explicitly protected.
 
@@ -16,7 +16,7 @@ import { getUserFromRequest } from '@/lib/auth';
 
 export async function POST(req: Request) {
   try {
-    const { userId } = getUserFromRequest(req); // throws 401 if invalid/missing
+    const { id: userId } = getUserFromRequest(req); // throws 401 if invalid/missing
     // ...
   } catch (error: unknown) {
     return handleError(error);
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 let userId: string | undefined;
 try {
   const user = getUserFromRequest(req);
-  userId = user.userId;
+  userId = user.id;
 } catch {
   // unauthenticated — proceed without userId
 }

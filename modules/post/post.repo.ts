@@ -1,6 +1,6 @@
 import { db } from '@/db/drizzle';
 import { postTable } from './post.schema';
-import { eq, and, sql } from 'drizzle-orm';
+import { eq, and, sql, arrayContains } from 'drizzle-orm';
 import { CreatePostInput, PostFilter, UpdatePostInput } from './post.types';
 
 function buildConditions(filter?: PostFilter) {
@@ -9,6 +9,7 @@ function buildConditions(filter?: PostFilter) {
     conditions.push(eq(postTable.published, filter.published));
   if (filter?.authorId !== undefined)
     conditions.push(eq(postTable.authorId, filter.authorId));
+  if (filter?.tag) conditions.push(arrayContains(postTable.tags, [filter.tag]));
   if (filter?.query?.trim()) {
     const tsquery = filter.query
       .trim()
@@ -90,5 +91,12 @@ export const postRepo = {
 
   delete: async (id: string) => {
     await db.delete(postTable).where(eq(postTable.id, id));
+  },
+
+  findAllTags: async (): Promise<string[]> => {
+    const result = await db.execute(
+      sql`SELECT DISTINCT unnest(tags) as tag FROM posts WHERE published = true ORDER BY tag`,
+    );
+    return (result.rows as { tag: string }[]).map((r) => r.tag);
   },
 };

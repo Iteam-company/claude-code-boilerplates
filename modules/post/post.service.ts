@@ -69,4 +69,8 @@ export const postService = {
     }
     return postRepo.delete(id);
   },
+
+  getTags: async (): Promise<string[]> => {
+    return postRepo.findAllTags();
+  },
 };

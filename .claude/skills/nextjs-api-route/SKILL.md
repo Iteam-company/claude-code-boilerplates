@@ -95,7 +95,7 @@ export async function GET(req: Request) {
 let userId: string | undefined;
 try {
   const user = getUserFromRequest(req);
-  userId = user.userId;
+  userId = user.id;
 } catch {
   // not logged in — proceed without userId
 }
@@ -181,9 +181,9 @@ type Params = { params: Promise<{ id: string }> };
 
 export async function DELETE(_req: Request, { params }: Params) {
   try {
-    getUserFromRequest(_req);
+    const { id: userId } = getUserFromRequest(_req);
     const { id } = await params;
-    await postService.delete(id);
+    await postService.delete(id, userId);
     return new Response(null, { status: 204 });
   } catch (error: unknown) {
     return handleError(error);

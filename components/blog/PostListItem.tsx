@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import type { PostSummary } from '@/modules/post';
 
 interface Props {
   post: PostSummary;
   index: number;
+  activeTag?: string;
 }
 
-export function PostListItem({ post, index }: Props) {
+export function PostListItem({ post, index, activeTag }: Props) {
   return (
     <li className="border-border border-t py-8 first:border-t-0">
       <div className="flex gap-6">
@@ -29,6 +31,24 @@ export function PostListItem({ post, index }: Props) {
           <p className="text-muted-foreground text-sm leading-relaxed">
             {post.description}
           </p>
+          {post.tags.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/blog?tag=${encodeURIComponent(tag)}`}
+                  className={cn(
+                    'rounded-full border px-2 py-0.5 text-xs transition-colors',
+                    tag === activeTag
+                      ? 'border-foreground bg-foreground text-background'
+                      : 'border-border text-muted-foreground hover:border-foreground hover:text-foreground',
+                  )}
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </li>

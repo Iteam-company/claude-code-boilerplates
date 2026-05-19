@@ -6,6 +6,7 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const self = searchParams.get('self') === 'true';
+    const tag = searchParams.get('tag') || undefined;
 
     let authorId: string | undefined;
     if (self) {
@@ -16,6 +17,7 @@ export async function GET(req: Request) {
     const posts = await postService.getAll({
       authorId,
       published: self ? undefined : true,
+      tag,
     });
 
     return Response.json(posts);
