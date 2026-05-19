@@ -5,6 +5,8 @@ description: Generate and customize marketing landing page sections for a Next.j
 
 # Landing Page Skill
 
+**Requires i18n:** This skill uses `next-intl` (`getTranslations`/`useTranslations`). If i18n is not yet set up, run the `i18n` skill first.
+
 The boilerplate ships with a complete marketing landing page at `app/(layout)/page.tsx` composed of 5 sections. All components live in `components/landing/`.
 
 ## Section anatomy

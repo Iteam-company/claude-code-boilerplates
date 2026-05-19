@@ -373,12 +373,12 @@ modules/subscription/
 ### `subscription.schema.ts`
 
 ```ts
-import { pgTable, text, timestamp, integer } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, text, timestamp, boolean } from 'drizzle-orm/pg-core';
 import { userTable } from '@/modules/user/user.schema';
 
 export const subscriptionTable = pgTable('subscriptions', {
-  id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  userId: integer('user_id')
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id')
     .notNull()
     .references(() => userTable.id, { onDelete: 'cascade' }),
   stripeCustomerId: text('stripe_customer_id').notNull(),
@@ -386,7 +386,7 @@ export const subscriptionTable = pgTable('subscriptions', {
   stripePriceId: text('stripe_price_id').notNull(),
   status: text('status').notNull(), // 'active' | 'past_due' | 'canceled' | 'trialing'
   currentPeriodEnd: timestamp('current_period_end', { withTimezone: true }),
-  cancelAtPeriodEnd: integer('cancel_at_period_end').notNull().default(0),
+  cancelAtPeriodEnd: boolean('cancel_at_period_end').notNull().default(false),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
@@ -400,7 +400,7 @@ export const subscriptionTable = pgTable('subscriptions', {
 
 ```ts
 // Called from checkout.session.completed (mode=subscription)
-async activate(userId: number, session: Stripe.Checkout.Session)
+async activate(userId: string, session: Stripe.Checkout.Session)
 
 // Called from invoice.paid
 async renewBySubscriptionId(stripeSubscriptionId: string)
@@ -412,7 +412,7 @@ async markPastDue(stripeSubscriptionId: string)
 async sync(subscription: Stripe.Subscription)
 
 // Used by portal redirect — look up active sub for user
-async getActiveByUserId(userId: number): Promise<Subscription | null>
+async getActiveByUserId(userId: string): Promise<Subscription | null>
 ```
 
 Register the schema in `db/drizzle.ts` and run `npm run db:generate && npm run db:migrate`.

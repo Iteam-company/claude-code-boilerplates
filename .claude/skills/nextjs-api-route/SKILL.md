@@ -17,7 +17,7 @@ import { getUserFromRequest } from '@/lib/auth'; // only if protected
 export async function POST(req: Request) {
   try {
     // 1. Auth (if protected)
-    const { userId } = getUserFromRequest(req);
+    const { id: userId } = getUserFromRequest(req);
 
     // 2. Parse + validate body
     const body = await req.json();
@@ -27,7 +27,10 @@ export async function POST(req: Request) {
     }
 
     // 3. Call service
-    const result = await someService.method({ ...parsed.data, userId });
+    const result = await someService.method({
+      ...parsed.data,
+      authorId: userId,
+    });
 
     // 4. Return response
     return Response.json(result, { status: 201 });
@@ -121,7 +124,7 @@ import { getUserFromRequest } from '@/lib/auth';
 
 export async function POST(req: Request) {
   try {
-    const { userId } = getUserFromRequest(req);
+    const { id: userId } = getUserFromRequest(req);
     const body = await req.json();
 
     const parsed = createPostSchema.safeParse(body);
@@ -152,7 +155,7 @@ export async function GET(req: Request) {
     let authorId: string | undefined;
     if (self) {
       const user = getUserFromRequest(req);
-      authorId = user.userId;
+      authorId = user.id;
     }
 
     const posts = await postService.getAll({

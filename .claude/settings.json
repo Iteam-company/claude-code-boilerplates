@@ -14,7 +14,8 @@
       "Bash(npx shadcn*)",
       "Bash(ls*)",
       "Bash(find . *)",
-      "Bash(psql -c SELECT*)"
+      "Bash(grep*)",
+      "Bash(curl *)"
     ]
   },
   "hooks": {
@@ -35,7 +36,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npm run format && npm run lint"
+            "command": "npm run format; npm run lint"
           }
         ]
       }
