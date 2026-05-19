@@ -6,14 +6,16 @@ interface Props {
   page: number;
   totalPages: number;
   query?: string;
+  tag?: string;
 }
 
-export function BlogPagination({ page, totalPages, query }: Props) {
+export function BlogPagination({ page, totalPages, query, tag }: Props) {
   if (totalPages <= 1) return null;
 
   const href = (p: number) => {
     const params = new URLSearchParams();
     if (query) params.set('q', query);
+    if (tag) params.set('tag', tag);
     if (p > 1) params.set('page', String(p));
     const qs = params.toString();
     return qs ? `/blog?${qs}` : '/blog';

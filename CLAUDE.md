@@ -206,10 +206,10 @@ export const metadata: Metadata = {
 
 ## Modules (DDD-lite)
 
-All business logic lives in `src/modules/`. Every module has 7 files:
+All business logic lives in `modules/`. Every module has 7 files:
 `schema` → `relations` → `types` → `validation` → `repo` → `service` → `index`
 
-- See skill: `drizzle-module`
+- See skill: `feature-module`
 
 ## Database (Drizzle)
 
@@ -300,6 +300,16 @@ Two supported approaches — **ask the user which one they want before scaffoldi
 - Client rendering uses `next-mdx-remote` (non-rsc variant) + `serialize()` inside `useEffect`
 - See skill: `nextjs-mdx-blog`
 
+### Tags (DB-based approach)
+
+- `tags` is a `text[].notNull().default([])` column on `postTable` — no separate tags table
+- `PostFilter` accepts `tag?: string`; repo uses `arrayContains(postTable.tags, [tag])` for filtering
+- `postRepo.findAllTags()` returns all unique tags across published posts via `UNNEST`
+- Blog listing page fetches `postService.getTags()` in parallel and passes them to `<BlogTagFilter />`
+- URL pattern: `/blog?tag=drizzle` — tag + search + pagination params coexist cleanly
+- Tag badges on post cards and post detail pages link to `/blog?tag=X`
+- Tags array: max 10 tags, max 50 chars each (enforced by Zod validation)
+
 ### Styling (both approaches)
 
 - Add `@plugin "@tailwindcss/typography"` to `app/globals.css` (Tailwind v4 syntax)
@@ -362,6 +372,8 @@ Always run after schema changes. Never assume a table exists.
 ```
 JWT_SECRET=
 DATABASE_URL=
+NEXT_PUBLIC_BASE_URL=
+RESEND_API_KEY=
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=

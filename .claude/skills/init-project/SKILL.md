@@ -268,7 +268,7 @@ export const metadata: Metadata = {
 All business logic lives in `modules/`. Every module has 7 files:
 `schema` → `relations` → `types` → `validation` → `repo` → `service` → `index`
 
-- See skill: `drizzle-module`
+- See skill: `feature-module`
 
 ## Database (Drizzle)
 
@@ -358,6 +358,10 @@ All business logic lives in `modules/`. Every module has 7 files:
 JWT_SECRET=
 DATABASE_URL=
 NEXT_PUBLIC_BASE_URL=
+RESEND_API_KEY=
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
 STRIPE_SECRET_KEY=
 STRIPE_PUBLISHABLE_KEY=
 STRIPE_WEBHOOK_SECRET=

@@ -61,11 +61,17 @@ Verify the connection:
 vercel git ls
 ```
 
-### Step 5 - Add environment
+### Step 5 — Add environment variables
 
-Add all environment to Vercel
+Add all environment variables to Vercel:
 
-### Step 5 — First production deploy
+```bash
+vercel env add JWT_SECRET
+vercel env add DATABASE_URL
+# repeat for each variable in your .env
+```
+
+### Step 6 — First production deploy
 
 ```bash
 git add .

@@ -22,17 +22,20 @@ export const metadata: Metadata = {
 };
 
 interface Props {
-  searchParams: Promise<{ page?: string; q?: string }>;
+  searchParams: Promise<{ page?: string; q?: string; tag?: string }>;
 }
 
 export default async function BlogPage({ searchParams }: Props) {
-  const { page: pageParam, q } = await searchParams;
+  const { page: pageParam, q, tag } = await searchParams;
   const page = Math.max(1, parseInt(pageParam ?? '1', 10) || 1);
   const query = q?.trim() || undefined;
-  const { posts, total, totalPages } = await postService.getPaginated(
-    { published: true, query },
-    page,
-  );
+  const activeTag = tag?.trim() || undefined;
+
+  const [{ posts, total, totalPages }, allTags] = await Promise.all([
+    postService.getPaginated({ published: true, query, tag: activeTag }, page),
+    postService.getTags(),
+  ]);
+
   return (
     <BlogList
       posts={posts}
@@ -40,6 +43,8 @@ export default async function BlogPage({ searchParams }: Props) {
       page={page}
       totalPages={totalPages}
       query={query}
+      allTags={allTags}
+      activeTag={activeTag}
     />
   );
 }

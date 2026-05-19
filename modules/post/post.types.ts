@@ -5,6 +5,7 @@ export type Post = {
   description: string;
   content: string;
   published: boolean;
+  tags: string[];
   authorId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -17,6 +18,7 @@ export type CreatePostInput = {
   title: string;
   description: string;
   content: string;
+  tags?: string[];
   authorId: string;
 };
 
@@ -28,6 +30,7 @@ export type PostFilter = {
   authorId?: string;
   published?: boolean;
   query?: string;
+  tag?: string;
 };
 
 export type PaginatedPosts = {

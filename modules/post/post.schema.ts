@@ -17,6 +17,7 @@ export const postTable = pgTable('posts', {
   content: text('content').notNull(), // raw MDX string
 
   published: boolean('published').default(false).notNull(),
+  tags: text('tags').array().notNull().default([]),
 
   authorId: uuid('author_id')
     .notNull()

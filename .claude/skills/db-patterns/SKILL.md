@@ -84,4 +84,4 @@ export * from '@/modules/new/new.schema';
 - Never raw SQL in application code — always use Drizzle query builder
 - Never access `db` in route handlers — go through the repo layer
 - Index any column used in `WHERE` or `JOIN`
-- Prefer soft delete (`deletedAt` timestamp) unless hard delete is explicitly required
+- Use hard delete by default; only add `deletedAt` soft delete if explicitly requested

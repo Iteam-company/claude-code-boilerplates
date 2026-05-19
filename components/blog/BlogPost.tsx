@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { cn } from '@/lib/utils';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -72,6 +73,22 @@ export function BlogPost({ post }: Props) {
               {format(new Date(post.createdAt), 'MMMM d, yyyy')}
             </time>
           </div>
+          {post.tags.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/blog?tag=${encodeURIComponent(tag)}`}
+                  className={cn(
+                    'border-border text-muted-foreground hover:border-foreground hover:text-foreground',
+                    'rounded-full border px-3 py-1 text-xs font-medium transition-colors',
+                  )}
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          )}
         </header>
 
         <article className="prose prose-neutral dark:prose-invert max-w-none">

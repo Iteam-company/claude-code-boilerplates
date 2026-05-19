@@ -56,17 +56,13 @@ export const use[Resource] = (id: string) => {
 }
 ```
 
-### Protected GET (with auth token)
+### Protected GET
 
-The default `fetcher` has no Authorization header. For protected GET endpoints, pass it inline:
+The default `fetcher` automatically includes the `Authorization: Bearer <token>` header when a token is present in localStorage. No extra configuration needed for protected GET endpoints:
 
 ```ts
 export const useMyPosts = () => {
-  return useSWR<Post[]>('/api/posts?self=true', (url) =>
-    fetcher(url, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-    }),
-  );
+  return useSWR<Post[]>('/api/posts?self=true', fetcher);
 };
 ```
 

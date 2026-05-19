@@ -19,19 +19,22 @@ export const usePost = (slug: string) => {
 export const useCreatePost = () => {
   return useSWRMutation<Post, Error, string, CreatePostSchemaType>(
     '/api/posts',
-    api.post<CreatePostSchemaType, Post>,
+    authApi.post<CreatePostSchemaType, Post>,
   );
 };
 
 export const useUpdatePost = (id: string) => {
   return useSWRMutation<Post, Error, string, UpdatePostSchemaType>(
     `/api/posts/${id}`,
-    api.put<UpdatePostSchemaType, Post>,
+    authApi.put<UpdatePostSchemaType, Post>,
   );
 };
 
 export const useDeletePost = (id: string) => {
-  return useSWRMutation<void, Error, string>(`/api/posts/${id}`, api.delete);
+  return useSWRMutation<void, Error, string>(
+    `/api/posts/${id}`,
+    authApi.delete,
+  );
 };
 
 export const useSelfPosts = () => {

@@ -44,7 +44,6 @@ export const DemoSidebar = () => {
             <LayoutDashboard className="h-4 w-4" />
             Dashboard
           </Link>
-
           {orgId && (
             <>
               <div className="border-sidebar-border my-2 border-t" />
