@@ -1,6 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { postService } from '@/modules/post';
 import { NextRequest } from 'next/server';
+import { getBaseUrl } from '@/lib/utils';
 
 export const runtime = 'nodejs';
 
@@ -57,7 +58,7 @@ export async function GET(
           fontFamily: 'sans-serif',
         }}
       >
-        {`claudecodeBoilerplate.dev/blog/${slug}`}
+        {`${getBaseUrl()}/blog/${slug}`}
       </div>
     </div>,
     { width: 1200, height: 630 },
