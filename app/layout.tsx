@@ -26,10 +26,15 @@ export const metadata: Metadata = {
     'Production-ready Next.js 16 + Neon DB starter pre-wired for Claude Code — auth, payments, blog, email, and AI chat built in.',
   openGraph: {
     type: 'website',
+    url: baseUrl,
     locale: 'en_US',
     siteName: 'Claude Code Boilerplate',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
+  other: {
+    'og:logo': `${baseUrl}/opengraph-image`,
+  },
 };
 
 export default async function RootLayout({

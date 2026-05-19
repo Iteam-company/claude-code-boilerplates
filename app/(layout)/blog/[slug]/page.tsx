@@ -5,6 +5,16 @@ import { postService } from '@/modules/post';
 import { getBaseUrl } from '@/lib/utils';
 
 export const revalidate = 3600;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  try {
+    const posts = await postService.getAll();
+    return posts.map((p) => ({ slug: p.slug }));
+  } catch {
+    return [];
+  }
+}
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -26,10 +36,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         publishedTime: post.createdAt.toISOString(),
         modifiedTime: post.updatedAt.toISOString(),
         authors: ['Claude Code Boilerplate'],
+        images: [{ url: `/api/og/blog/${slug}`, width: 1200, height: 630 }],
       },
       twitter: {
+        card: 'summary_large_image',
         title: post.title,
         description: post.description,
+        images: [`/api/og/blog/${slug}`],
+      },
+      other: {
+        'og:logo': `${getBaseUrl()}/opengraph-image`,
       },
     };
   } catch {
@@ -63,7 +79,7 @@ export default async function BlogPostPage({ params }: Props) {
     url: `${base}/blog/${slug}`,
     image: {
       '@type': 'ImageObject',
-      url: `${base}/blog/${slug}/opengraph-image`,
+      url: `${base}/api/og/blog/${slug}`,
       width: 1200,
       height: 630,
     },
