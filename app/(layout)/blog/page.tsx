@@ -21,7 +21,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function BlogPage() {
-  const posts = await postService.getAll({ published: true });
-  return <BlogList posts={posts} />;
+interface Props {
+  searchParams: Promise<{ page?: string }>;
+}
+
+export default async function BlogPage({ searchParams }: Props) {
+  const { page: pageParam } = await searchParams;
+  const page = Math.max(1, parseInt(pageParam ?? '1', 10) || 1);
+  const { posts, total, totalPages } = await postService.getPaginated(
+    { published: true },
+    page,
+  );
+  return (
+    <BlogList posts={posts} total={total} page={page} totalPages={totalPages} />
+  );
 }
