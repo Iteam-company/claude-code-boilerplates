@@ -29,3 +29,7 @@ You only identify and fix security issues.
 - Never refactor unrelated code
 - Never change business logic
 - If uncertain, flag as LOW and explain why
+- Always check that `getUserFromRequest` (JWT) is called before `req.json()` in protected routes
+- Always verify ownership checks exist in services for mutating operations
+- Flag any place where `authorId` or `userId` is taken from the request body instead of the JWT
+- Never auto-fix; report findings only
