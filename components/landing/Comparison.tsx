@@ -5,6 +5,7 @@ import { Container } from '@/components/Container';
 interface FeatureRow {
   label: string;
   shipfast: boolean;
+  makerkit: boolean;
   supa: boolean;
   free: boolean;
   pro: boolean;
@@ -14,6 +15,7 @@ const STACK_ROWS: FeatureRow[] = [
   {
     label: 'Auth (login, verify, reset)',
     shipfast: true,
+    makerkit: true,
     supa: true,
     free: true,
     pro: true,
@@ -21,6 +23,7 @@ const STACK_ROWS: FeatureRow[] = [
   {
     label: 'Stripe subscriptions + portal',
     shipfast: true,
+    makerkit: true,
     supa: true,
     free: true,
     pro: true,
@@ -28,15 +31,31 @@ const STACK_ROWS: FeatureRow[] = [
   {
     label: 'Email templates (transactional)',
     shipfast: true,
+    makerkit: true,
     supa: true,
     free: true,
     pro: true,
   },
-  { label: 'File uploads', shipfast: false, supa: true, free: true, pro: true },
-  { label: 'MDX blog', shipfast: true, supa: false, free: true, pro: true },
+  {
+    label: 'File uploads',
+    shipfast: false,
+    makerkit: true,
+    supa: true,
+    free: true,
+    pro: true,
+  },
+  {
+    label: 'MDX blog',
+    shipfast: true,
+    makerkit: false,
+    supa: false,
+    free: true,
+    pro: true,
+  },
   {
     label: 'Dark / light theme',
     shipfast: true,
+    makerkit: true,
     supa: true,
     free: true,
     pro: true,
@@ -44,6 +63,7 @@ const STACK_ROWS: FeatureRow[] = [
   {
     label: 'Multi-tenancy',
     shipfast: false,
+    makerkit: true,
     supa: true,
     free: false,
     pro: true,
@@ -54,6 +74,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
   {
     label: '40+ Claude Code skills',
     shipfast: false,
+    makerkit: false,
     supa: false,
     free: false,
     pro: true,
@@ -61,6 +82,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
   {
     label: '11 custom agents',
     shipfast: false,
+    makerkit: false,
     supa: false,
     free: false,
     pro: true,
@@ -68,6 +90,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
   {
     label: 'MCP server configs',
     shipfast: false,
+    makerkit: false,
     supa: false,
     free: false,
     pro: true,
@@ -75,6 +98,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
   {
     label: 'AI / Claude module',
     shipfast: false,
+    makerkit: false,
     supa: false,
     free: false,
     pro: true,
@@ -100,6 +124,7 @@ function FeatureRow({ row }: { row: FeatureRow }) {
         {row.label}
       </td>
       <Cell active={row.shipfast} />
+      <Cell active={row.makerkit} />
       <Cell active={row.supa} />
       <Cell active={row.free} colClass="bg-emerald-500/5" />
       <Cell active={row.pro} colClass="bg-primary/5" />
@@ -113,7 +138,7 @@ export function Comparison() {
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            They charge $199&ndash;$261 for the stack.
+            They charge $199&ndash;$399 for the stack.
             <br />
             We give it away.
           </h2>
@@ -124,7 +149,7 @@ export function Comparison() {
         </div>
 
         <div className="border-border mt-12 overflow-x-auto rounded-2xl border">
-          <table className="w-full min-w-[600px] border-collapse">
+          <table className="w-full min-w-[700px] border-collapse">
             <thead>
               <tr className="border-border bg-muted/40 border-b">
                 <th className="text-muted-foreground py-4 pr-4 pl-4 text-left text-xs font-semibold tracking-widest uppercase sm:pl-6">
@@ -136,6 +161,14 @@ export function Comparison() {
                   </div>
                   <div className="mt-0.5 text-xs font-medium text-red-400">
                     $199
+                  </div>
+                </th>
+                <th className="px-4 py-4 text-center">
+                  <div className="text-foreground text-sm font-semibold">
+                    MakerKit
+                  </div>
+                  <div className="mt-0.5 text-xs font-medium text-red-400">
+                    $299
                   </div>
                 </th>
                 <th className="px-4 py-4 text-center">
@@ -172,7 +205,7 @@ export function Comparison() {
 
               <tr className="bg-muted/50">
                 <td
-                  colSpan={5}
+                  colSpan={6}
                   className="text-muted-foreground py-2 pr-4 pl-4 text-xs font-semibold tracking-widest uppercase sm:pl-6"
                 >
                   Claude Code workflow &mdash; not available anywhere else
@@ -190,6 +223,11 @@ export function Comparison() {
                 <td className="px-4 py-4 text-center">
                   <span className="rounded-md bg-red-500/10 px-2.5 py-1 text-sm font-bold text-red-400">
                     $199
+                  </span>
+                </td>
+                <td className="px-4 py-4 text-center">
+                  <span className="rounded-md bg-red-500/10 px-2.5 py-1 text-sm font-bold text-red-400">
+                    $299
                   </span>
                 </td>
                 <td className="px-4 py-4 text-center">
