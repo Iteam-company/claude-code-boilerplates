@@ -1,4 +1,5 @@
 import { Container } from '@/components/Container';
+import { TerminalSnippet } from './TerminalSnippet';
 
 const STEPS = [
   {
@@ -46,7 +47,7 @@ export function HowItWorks() {
           {STEPS.map(({ number, title, body, snippet }) => (
             <div
               key={number}
-              className="border-border bg-muted/20 flex flex-col rounded-2xl border p-6"
+              className="border-border bg-muted/20 flex min-w-0 flex-col rounded-2xl border p-6"
             >
               <span className="text-primary font-mono text-4xl leading-none font-bold">
                 {number}
@@ -57,9 +58,7 @@ export function HowItWorks() {
               <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
                 {body}
               </p>
-              <pre className="mt-6 overflow-x-auto rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono text-xs leading-relaxed text-zinc-300">
-                {snippet}
-              </pre>
+              <TerminalSnippet code={snippet} />
             </div>
           ))}
         </div>
