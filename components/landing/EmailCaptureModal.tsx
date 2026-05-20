@@ -8,12 +8,15 @@ const PRICE_ID =
 interface Props {
   plan: 'free' | 'pro';
   onClose: () => void;
+  signupSource?: string;
 }
 
-export function EmailCaptureModal({ plan, onClose }: Props) {
+export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [alreadyPaid, setAlreadyPaid] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const isFree = plan === 'free';
 
@@ -21,11 +24,33 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
     e.preventDefault();
     if (!email) return;
     setLoading(true);
+    setError(null);
 
     try {
       if (isFree) {
-        // TODO: handle free plan email capture (e.g. save to waitlist, send repo link)
-        onClose();
+        const res = await fetch('/api/free-signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, signupSource }),
+        });
+
+        if (res.status === 409) {
+          // Treat duplicate as success — resend would be confusing UX here
+          setSubmitted(true);
+          return;
+        }
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          setError(
+            typeof data?.error === 'string'
+              ? data.error
+              : 'Something went wrong. Please try again.',
+          );
+          return;
+        }
+
+        setSubmitted(true);
       } else {
         const res = await fetch('/api/stripe/checkout', {
           method: 'POST',
@@ -56,7 +81,24 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
       }}
     >
       <div className="bg-background border-border w-full max-w-sm rounded-lg border p-6 shadow-lg">
-        {alreadyPaid ? (
+        {submitted ? (
+          <div className="text-center">
+            <div className="text-3xl">📬</div>
+            <h2 className="text-foreground mt-3 text-lg font-semibold">
+              Check your inbox
+            </h2>
+            <p className="text-muted-foreground mt-2 text-sm">
+              We sent the repo link and onboarding steps to{' '}
+              <span className="text-foreground font-medium">{email}</span>.
+            </p>
+            <button
+              onClick={onClose}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 mt-5 w-full rounded-md px-4 py-2 text-sm font-medium transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        ) : alreadyPaid ? (
           <div className="text-center">
             <div className="text-3xl">📬</div>
             <h2 className="text-foreground mt-3 text-lg font-semibold">
@@ -101,6 +143,8 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
                 />
               </div>
 
+              {error && <p className="text-destructive text-sm">{error}</p>}
+
               <div className="flex gap-3">
                 <button
                   type="button"
@@ -116,10 +160,10 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
                 >
                   {loading
                     ? isFree
-                      ? 'Opening...'
+                      ? 'Sending...'
                       : 'Redirecting...'
                     : isFree
-                      ? 'Clone for free'
+                      ? 'Send me the link'
                       : 'Go to checkout'}
                 </button>
               </div>
