@@ -17,7 +17,7 @@ import {
   invitationStatusEnum,
 } from '@/modules/invitation/invitation.schema';
 import { invitationRelations } from '@/modules/invitation/invitation.relations';
-import { postTable } from '@/modules/post';
+import { postTable } from '@/modules/post/post.schema';
 
 export const schema = {
   userTable,
