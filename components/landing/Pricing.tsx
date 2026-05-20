@@ -1,9 +1,7 @@
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
 import { CheckIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
-import { ROUTES } from '@/lib/routes';
 import { PricingCTAButton } from './PricingCTAButton';
 
 interface Plan {
@@ -119,14 +117,6 @@ export async function Pricing() {
           {plans.map(({ key, ...plan }) => (
             <PricingPlanCard key={key} {...plan} />
           ))}
-        </div>
-        <div className="mt-10 text-center">
-          <Link
-            href={ROUTES.PRICING}
-            className="text-muted-foreground hover:text-foreground text-sm underline-offset-4 hover:underline"
-          >
-            {t('viewFull')} →
-          </Link>
         </div>
       </Container>
     </section>

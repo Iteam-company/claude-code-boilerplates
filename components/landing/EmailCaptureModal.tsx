@@ -13,6 +13,7 @@ interface Props {
 export function EmailCaptureModal({ plan, onClose }: Props) {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
+  const [alreadyPaid, setAlreadyPaid] = useState(false);
 
   const isFree = plan === 'free';
 
@@ -35,6 +36,10 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
             customer_email: email,
           }),
         });
+        if (res.status === 409) {
+          setAlreadyPaid(true);
+          return;
+        }
         const data = await res.json();
         if (data.url) window.location.href = data.url;
       }
@@ -51,56 +56,76 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
       }}
     >
       <div className="bg-background border-border w-full max-w-sm rounded-lg border p-6 shadow-lg">
-        <div>
-          <h2 className="text-foreground text-lg font-semibold">
-            {isFree ? 'Get the free boilerplate' : 'Get Pro access'}
-          </h2>
-          <p className="text-muted-foreground mt-1 text-sm">
-            {isFree
-              ? "Enter your email and we'll send you the repo link."
-              : 'Enter your email to continue to checkout.'}
-          </p>
+        {alreadyPaid ? (
+          <div className="text-center">
+            <div className="text-3xl">📬</div>
+            <h2 className="text-foreground mt-3 text-lg font-semibold">
+              You already have access
+            </h2>
+            <p className="text-muted-foreground mt-2 text-sm">
+              Check your inbox at{' '}
+              <span className="text-foreground font-medium">{email}</span> for
+              the download link.
+            </p>
+            <button
+              onClick={onClose}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 mt-5 w-full rounded-md px-4 py-2 text-sm font-medium transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        ) : (
+          <div>
+            <h2 className="text-foreground text-lg font-semibold">
+              {isFree ? 'Get the free boilerplate' : 'Get Pro access'}
+            </h2>
+            <p className="text-muted-foreground mt-1 text-sm">
+              {isFree
+                ? "Enter your email and we'll send you the repo link."
+                : 'Enter your email to continue to checkout.'}
+            </p>
 
-          <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-            <div>
-              <label className="text-foreground mb-1.5 block text-sm font-medium">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-                autoFocus
-                className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2"
-              />
-            </div>
+            <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+              <div>
+                <label className="text-foreground mb-1.5 block text-sm font-medium">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  required
+                  autoFocus
+                  className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2"
+                />
+              </div>
 
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="border-input text-foreground hover:bg-muted flex-1 rounded-md border px-4 py-2 text-sm font-medium transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={loading || !email}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
-              >
-                {loading
-                  ? isFree
-                    ? 'Opening...'
-                    : 'Redirecting...'
-                  : isFree
-                    ? 'Clone for free'
-                    : 'Go to checkout'}
-              </button>
-            </div>
-          </form>
-        </div>
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="border-input text-foreground hover:bg-muted flex-1 rounded-md border px-4 py-2 text-sm font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading || !email}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
+                >
+                  {loading
+                    ? isFree
+                      ? 'Opening...'
+                      : 'Redirecting...'
+                    : isFree
+                      ? 'Clone for free'
+                      : 'Go to checkout'}
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
