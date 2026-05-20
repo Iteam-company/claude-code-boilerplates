@@ -13,6 +13,7 @@ import {
   FAQ,
   SocialProof,
   Testimonials,
+  FinalCTA,
 } from '@/components/landing';
 import { getBaseUrl } from '@/lib/utils';
 
@@ -61,6 +62,7 @@ export default function Home() {
       {/* <Testimonials /> */}
       <Pricing />
       <FAQ />
+      <FinalCTA />
     </>
   );
 }
