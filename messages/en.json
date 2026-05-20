@@ -187,8 +187,8 @@
     "metaDescription": "Choose a plan to get started.",
     "heading": "Simple pricing",
     "subheading": "Choose the plan that works for you.",
-    "disclaimer": "All prices in USD. Subscriptions can be cancelled anytime.",
-    "mostPopular": "Most popular",
+    "disclaimer": "All prices in USD. One-time payment, no subscription.",
+    "mostPopular": "Best value",
     "subscribe": "Subscribe",
     "buyNow": "Buy Now",
     "redirecting": "Redirecting…",
@@ -206,55 +206,63 @@
   },
   "pricing": {
     "proLicense": {
-      "name": "Pro License",
-      "description": "One-time purchase. Lifetime access.",
-      "price": "$49",
-      "feature1": "Full source code access",
-      "feature2": "All current features",
-      "feature3": "Lifetime updates",
-      "feature4": "Community support",
-      "cta": "Buy License"
+      "name": "Free",
+      "description": "Open source. No credit card required.",
+      "price": "$0",
+      "feature1": "Auth + database + migrations",
+      "feature2": "Stripe payments integration",
+      "feature3": "Email templates + file uploads",
+      "feature4": "MDX blog + landing page",
+      "feature5": "Core Claude Code skills (10)",
+      "feature6": "Public Discord",
+      "feature7": "1 project",
+      "cta": "Clone for free"
     },
     "page": {
       "metaTitle": "Pricing",
-      "metaDescription": "Simple, transparent pricing. One price, all features. No hidden fees.",
+      "metaDescription": "Free forever or Pro for $149. One-time payment, no subscription.",
       "viewFull": "View full pricing",
       "faq": {
         "heading": "Common questions",
         "items": {
           "q1": {
-            "question": "Is there a free trial?",
-            "answer": "There's no free trial, but the Pro License is a one-time purchase — if it doesn't work as described, contact us within 7 days for a full refund. No questions asked."
+            "question": "Is the Free plan actually free?",
+            "answer": "Yes. Clone the repo from GitHub and start building immediately. No credit card, no trial period, no expiry."
           },
           "q2": {
-            "question": "Can I cancel the Pro Plan subscription?",
-            "answer": "Yes, cancel anytime from the billing portal. You'll keep access until the end of your current billing period."
+            "question": "What do I get with Pro?",
+            "answer": "Pro includes the full skill library (40+ skills), multi-tenancy module, AI features module, custom agents (11+), MCP server configs, premium skill packs, lifetime updates, private Discord access, and unlimited project seats."
           },
           "q3": {
-            "question": "What's the difference between the two plans?",
-            "answer": "Pro License is a one-time purchase with lifetime access to the current feature set. Pro Plan is a monthly subscription that includes all future updates and priority support."
+            "question": "What's the difference between Free and Pro?",
+            "answer": "Free gives you the core boilerplate: auth, database, Stripe, email, file uploads, MDX blog, and 10 built-in Claude Code skills. Pro adds the full skill library, advanced modules (multi-tenancy, AI), custom agents, and lifetime updates."
           },
           "q4": {
             "question": "Do I need Stripe to use the boilerplate?",
-            "answer": "No. Stripe is optional. The integration is included but dormant until you add your API keys — you can build and ship without enabling payments."
+            "answer": "No. Stripe is optional. The integration is included but dormant until you add your API keys -- you can build and ship without enabling payments."
           },
           "q5": {
-            "question": "What happens after I buy?",
-            "answer": "You get immediate access to the full source code on GitHub. For the Pro Plan, you'll also receive a confirmation email with billing details."
+            "question": "What happens after I buy Pro?",
+            "answer": "You get immediate access to the full Pro source code and skill library on GitHub. It is a one-time payment -- no recurring charges."
           }
         }
       }
     },
     "proPlan": {
-      "name": "Pro Plan",
-      "description": "Everything in Pro License, plus ongoing perks.",
-      "price": "$19",
-      "period": "month",
-      "feature1": "Full source code access",
-      "feature2": "All current + future features",
-      "feature3": "100 AI credits / month",
-      "feature4": "Priority support",
-      "cta": "Start Pro Plan"
+      "name": "Pro",
+      "description": "First 100 copies free -- $149 after. One-time.",
+      "price": "$149",
+      "feature1": "Everything in Free",
+      "feature2": "Full skill library (40+ skills)",
+      "feature3": "Multi-tenancy module",
+      "feature4": "AI features module",
+      "feature5": "Custom agents (11+)",
+      "feature6": "MCP server configs",
+      "feature7": "Premium skill packs",
+      "feature8": "Lifetime updates",
+      "feature9": "Private Discord",
+      "feature10": "Unlimited seats",
+      "cta": "Get Pro"
     }
   }
 }
