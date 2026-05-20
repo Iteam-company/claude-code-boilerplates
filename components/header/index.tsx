@@ -5,32 +5,14 @@ import { useEffect, useState } from 'react';
 import { ROUTES } from '@/lib/routes';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
-import { Star } from 'lucide-react';
-
-function formatStars(n: number): string {
-  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
-}
-
 export const Header = () => {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [stars, setStars] = useState<number | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  useEffect(() => {
-    fetch('https://api.github.com/repos/Iteam-company/claude-code-boilerplates')
-      .then((r) => r.json())
-      .then(
-        (d) =>
-          typeof d.stargazers_count === 'number' &&
-          setStars(d.stargazers_count),
-      )
-      .catch(() => {});
   }, []);
 
   const navLink = (active: boolean) =>
@@ -73,20 +55,6 @@ export const Header = () => {
           >
             Blog
           </Link>
-          <a
-            href="https://github.com/Iteam-company/claude-code-boilerplates"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(navLink(false), 'flex items-center gap-1.5')}
-          >
-            GitHub
-            {stars !== null && (
-              <span className="border-border text-muted-foreground flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-xs">
-                <Star className="h-3 w-3 fill-current" />
-                {formatStars(stars)}
-              </span>
-            )}
-          </a>
         </nav>
 
         <div className="flex items-center gap-3">

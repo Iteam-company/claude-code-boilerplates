@@ -89,7 +89,7 @@ export default function OgImage() {
           display: 'flex',
         }}
       >
-        Next.js 16 + Neon DB starter pre-wired for Claude Code
+        Ship a SaaS in days, not weeks. Free forever.
       </div>
 
       {/* tags */}
