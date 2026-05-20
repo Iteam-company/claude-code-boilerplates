@@ -10,3 +10,4 @@ export { Pricing } from './Pricing';
 export { FAQ } from './FAQ';
 export { SocialProof } from './SocialProof';
 export { Testimonials } from './Testimonials';
+export { FinalCTA } from './FinalCTA';

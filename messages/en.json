@@ -19,22 +19,33 @@
     }
   },
   "footer": {
-    "tagline": "The Next.js boilerplate that ships.",
-    "nav": {
+    "tagline": "The Next.js boilerplate built for Claude Code.",
+    "emailPlaceholder": "your@email.com",
+    "emailCta": "Get it free →",
+    "product": {
       "heading": "Product",
       "features": "Features",
-      "skills": "Just say what you want",
       "pricing": "Pricing",
-      "faq": "FAQ"
+      "skills": "Skills",
+      "roadmap": "Roadmap"
     },
-    "explore": {
-      "heading": "Explore",
+    "compare": {
+      "heading": "Compare",
+      "shipfast": "vs ShipFast",
+      "makerkit": "vs MakerKit",
+      "supastarter": "vs supastarter"
+    },
+    "resources": {
+      "heading": "Resources",
+      "docs": "Docs",
       "blog": "Blog",
-      "demo": "Demo",
-      "github": "GitHub"
+      "github": "GitHub",
+      "discord": "Discord"
     },
     "legal": {
       "heading": "Legal",
+      "license": "License",
+      "refund": "Refund Policy",
       "privacy": "Privacy Policy",
       "terms": "Terms of Service"
     },
@@ -42,8 +53,8 @@
   },
   "landing": {
     "meta": {
-      "title": "Ship your SaaS in days, not months",
-      "description": "A production-ready Next.js boilerplate with auth, Stripe payments, email, dark mode, and AI credits built in."
+      "title": "Next.js SaaS Boilerplate with Stripe — Free + Claude Code",
+      "description": "Open-source Next.js SaaS starter with Stripe, auth, and Claude Code built in. Free forever. First 100 Pro users free. Ship a SaaS in days, not weeks."
     },
     "hero": {
       "badge": "Open source · First 100 Pro spots free",
