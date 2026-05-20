@@ -1,8 +1,6 @@
 import { getTranslations } from 'next-intl/server';
-import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
-import { ROUTES } from '@/lib/routes';
 
 export async function Hero() {
   const t = await getTranslations('landing.hero');
@@ -33,12 +31,12 @@ export async function Hero() {
             {t('subheadline')}
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href={ROUTES.SIGNUP}
+            <a
+              href="#pricing"
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-8 py-3 text-sm font-semibold transition-colors"
             >
               {t('ctaPrimary')}
-            </Link>
+            </a>
             <a
               href="#features"
               className={cn(

@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { Container } from '@/components/Container';
-import { ROUTES } from '@/lib/routes';
 
 export async function CTA() {
   const t = await getTranslations('landing.cta');
@@ -28,7 +27,7 @@ export async function CTA() {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href={ROUTES.SIGNUP}
+              href="#pricing"
               className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 rounded-md px-8 py-3 text-sm font-semibold transition-colors"
             >
               {t('button')}
