@@ -1,6 +1,6 @@
 import { db } from '@/db/drizzle';
 import { orderTable } from './order.schema';
-import { eq } from 'drizzle-orm';
+import { count, eq } from 'drizzle-orm';
 import { CreateOrderInput } from './order.types';
 
 export const orderRepo = {
@@ -19,5 +19,13 @@ export const orderRepo = {
     return db.query.orderTable.findMany({
       where: eq(orderTable.userId, userId),
     });
+  },
+
+  countCompleted: async () => {
+    const [row] = await db
+      .select({ value: count() })
+      .from(orderTable)
+      .where(eq(orderTable.status, 'completed'));
+    return row?.value ?? 0;
   },
 };
