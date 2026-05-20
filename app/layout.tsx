@@ -19,11 +19,20 @@ const baseUrl = getBaseUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'Claude Code Boilerplate',
+    default: 'Next.js SaaS Boilerplate with Stripe — Free + Claude Code',
     template: '%s | Claude Code Boilerplate',
   },
   description:
-    'Production-ready Next.js 16 + Neon DB starter pre-wired for Claude Code — auth, payments, blog, email, and AI chat built in.',
+    'Open-source Next.js SaaS starter with Stripe, auth, and Claude Code built in. Free forever. First 100 Pro users free. Ship a SaaS in days, not weeks.',
+  keywords: [
+    'next.js boilerplate',
+    'saas starter kit',
+    'nextjs saas template',
+    'next.js stripe boilerplate',
+    'claude code template',
+    'nextjs ai boilerplate',
+    'free nextjs boilerplate stripe',
+  ],
   openGraph: {
     type: 'website',
     url: baseUrl,
