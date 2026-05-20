@@ -1,16 +1,6 @@
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
-import {
-  Hero,
-  Steps,
-  Features,
-  Pricing,
-  FAQ,
-  CTA,
-  LandingStats,
-  LandingProblem,
-  LandingSkills,
-} from '@/components/landing';
+import { Hero, Pricing, FAQ, SocialProof } from '@/components/landing';
 import { getBaseUrl } from '@/lib/utils';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,14 +37,9 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
-      <LandingStats />
-      <LandingProblem />
-      <Steps />
-      <Features />
-      <LandingSkills />
+      <SocialProof />
       <Pricing />
       <FAQ />
-      <CTA />
     </>
   );
 }
