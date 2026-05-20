@@ -4,6 +4,7 @@ interface CheckoutPayload {
   priceId: string;
   mode?: 'payment' | 'subscription';
   quantity?: number;
+  customer_email?: string;
 }
 
 async function triggerCheckout(

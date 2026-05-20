@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { CheckoutButton } from './CheckoutButton';
+import { CheckoutEmailButton } from './CheckoutEmailButton';
 
 interface PricingFeature {
   text: string;
@@ -12,6 +12,7 @@ interface Props {
   period?: string;
   priceId?: string;
   href?: string;
+  plan?: 'free' | 'pro';
   mode?: 'payment' | 'subscription';
   features: PricingFeature[];
   highlighted?: boolean;
@@ -22,10 +23,7 @@ export async function PricingCard({
   name,
   description,
   price,
-  period,
-  priceId,
-  href,
-  mode = 'payment',
+  plan,
   features,
   highlighted = false,
   ctaLabel,
@@ -46,9 +44,6 @@ export async function PricingCard({
 
       <div className="mt-6 flex items-end gap-1">
         <span className="text-foreground text-4xl font-bold">{price}</span>
-        {period && (
-          <span className="text-muted-foreground mb-1 text-sm">/{period}</span>
-        )}
       </div>
 
       <ul className="mt-6 flex flex-col gap-3">
@@ -76,25 +71,19 @@ export async function PricingCard({
       </ul>
 
       <div className="mt-8">
-        {href ? (
-          <a
-            href={href}
-            className={`block w-full rounded-md px-6 py-2.5 text-center text-sm font-medium ${
+        {plan ? (
+          <CheckoutEmailButton
+            label={ctaLabel ?? t('buyNow')}
+            plan={plan}
+            className={`w-full rounded-md px-6 py-2.5 text-sm font-medium disabled:opacity-50 ${
               highlighted
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                 : 'border-border text-foreground hover:bg-muted border'
             }`}
-          >
-            {ctaLabel ?? t('buyNow')}
-          </a>
+          />
         ) : (
-          <CheckoutButton
-            priceId={priceId!}
-            mode={mode}
-            label={
-              ctaLabel ??
-              (mode === 'subscription' ? t('subscribe') : t('buyNow'))
-            }
+          <CheckoutEmailButton
+            label={ctaLabel ?? t('buyNow')}
             className={`w-full rounded-md px-6 py-2.5 text-sm font-medium disabled:opacity-50 ${
               highlighted
                 ? 'bg-primary text-primary-foreground hover:bg-primary/90'
