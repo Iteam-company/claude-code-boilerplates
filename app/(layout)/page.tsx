@@ -86,8 +86,8 @@ export default function Home() {
       <SocialProof />
       <Problem />
       <Offer />
-      <Features />
       {/* <Demo /> */}
+      <Features />
       <Comparison />
       <SkillsShowcase />
       <HowItWorks />
