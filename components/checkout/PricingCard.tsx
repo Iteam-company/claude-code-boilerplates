@@ -10,8 +10,9 @@ interface Props {
   description: string;
   price: string;
   period?: string;
-  priceId: string;
-  mode: 'payment' | 'subscription';
+  priceId?: string;
+  href?: string;
+  mode?: 'payment' | 'subscription';
   features: PricingFeature[];
   highlighted?: boolean;
   ctaLabel?: string;
@@ -23,7 +24,8 @@ export async function PricingCard({
   price,
   period,
   priceId,
-  mode,
+  href,
+  mode = 'payment',
   features,
   highlighted = false,
   ctaLabel,
@@ -74,18 +76,32 @@ export async function PricingCard({
       </ul>
 
       <div className="mt-8">
-        <CheckoutButton
-          priceId={priceId}
-          mode={mode}
-          label={
-            ctaLabel ?? (mode === 'subscription' ? t('subscribe') : t('buyNow'))
-          }
-          className={`w-full rounded-md px-6 py-2.5 text-sm font-medium disabled:opacity-50 ${
-            highlighted
-              ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-              : 'border-border text-foreground hover:bg-muted border'
-          }`}
-        />
+        {href ? (
+          <a
+            href={href}
+            className={`block w-full rounded-md px-6 py-2.5 text-center text-sm font-medium ${
+              highlighted
+                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                : 'border-border text-foreground hover:bg-muted border'
+            }`}
+          >
+            {ctaLabel ?? t('buyNow')}
+          </a>
+        ) : (
+          <CheckoutButton
+            priceId={priceId!}
+            mode={mode}
+            label={
+              ctaLabel ??
+              (mode === 'subscription' ? t('subscribe') : t('buyNow'))
+            }
+            className={`w-full rounded-md px-6 py-2.5 text-sm font-medium disabled:opacity-50 ${
+              highlighted
+                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                : 'border-border text-foreground hover:bg-muted border'
+            }`}
+          />
+        )}
       </div>
     </div>
   );
