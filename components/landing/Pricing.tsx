@@ -4,6 +4,7 @@ import { CheckIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
 import { ROUTES } from '@/lib/routes';
+import { PricingCTAButton } from './PricingCTAButton';
 
 interface Plan {
   key: string;
@@ -12,6 +13,7 @@ interface Plan {
   price: string;
   period: string | null;
   cta: string;
+  planType: 'free' | 'pro';
   features: string[];
   highlighted: boolean;
 }
@@ -22,6 +24,7 @@ function PricingPlanCard({
   price,
   period,
   cta,
+  planType,
   features,
   highlighted,
 }: Plan) {
@@ -34,7 +37,7 @@ function PricingPlanCard({
     >
       {highlighted && (
         <div className="bg-primary/10 text-primary mb-4 self-start rounded-full px-3 py-0.5 text-xs font-semibold">
-          Most popular
+          Best value
         </div>
       )}
       <h3 className="text-foreground text-xl font-bold">{name}</h3>
@@ -51,17 +54,7 @@ function PricingPlanCard({
           </li>
         ))}
       </ul>
-      <Link
-        href={ROUTES.CHECKOUT}
-        className={cn(
-          'mt-8 rounded-md px-6 py-2.5 text-center text-sm font-medium transition-colors',
-          highlighted
-            ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-            : 'border-border hover:bg-muted border',
-        )}
-      >
-        {cta}
-      </Link>
+      <PricingCTAButton plan={planType} label={cta} highlighted={highlighted} />
     </div>
   );
 }
@@ -78,11 +71,15 @@ export async function Pricing() {
       price: tPlans('proLicense.price'),
       period: null,
       cta: tPlans('proLicense.cta'),
+      planType: 'free',
       features: [
         tPlans('proLicense.feature1'),
         tPlans('proLicense.feature2'),
         tPlans('proLicense.feature3'),
         tPlans('proLicense.feature4'),
+        tPlans('proLicense.feature5'),
+        tPlans('proLicense.feature6'),
+        tPlans('proLicense.feature7'),
       ],
       highlighted: false,
     },
@@ -91,13 +88,17 @@ export async function Pricing() {
       name: tPlans('proPlan.name'),
       description: tPlans('proPlan.description'),
       price: tPlans('proPlan.price'),
-      period: tPlans('proPlan.period'),
+      period: null,
       cta: tPlans('proPlan.cta'),
+      planType: 'pro',
       features: [
         tPlans('proPlan.feature1'),
         tPlans('proPlan.feature2'),
         tPlans('proPlan.feature3'),
         tPlans('proPlan.feature4'),
+        tPlans('proPlan.feature5'),
+        tPlans('proPlan.feature6'),
+        tPlans('proPlan.feature7'),
       ],
       highlighted: true,
     },
