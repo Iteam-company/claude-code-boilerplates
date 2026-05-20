@@ -10,7 +10,7 @@ export async function PricingSection() {
       name: t('proLicense.name'),
       description: t('proLicense.description'),
       price: t('proLicense.price'),
-      href: 'https://github.com/Iteam-company/claude-code-boilerplates',
+      plan: 'free' as const,
       features: [
         { text: t('proLicense.feature1') },
         { text: t('proLicense.feature2') },
@@ -26,6 +26,7 @@ export async function PricingSection() {
       name: t('proPlan.name'),
       description: t('proPlan.description'),
       price: t('proPlan.price'),
+      plan: 'pro' as const,
       priceId:
         process.env.NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME ?? 'price_REPLACE_ME',
       mode: 'payment' as const,

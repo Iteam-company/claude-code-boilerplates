@@ -7,6 +7,7 @@ export const checkoutSchema = z.object({
   // Set type='credits' and credits=N to buy credits instead of a regular order
   type: z.enum(['order', 'credits']).optional().default('order'),
   credits: z.number().int().positive().optional(),
+  customer_email: z.string().email(),
 });
 
 export type CheckoutSchemaType = z.infer<typeof checkoutSchema>;

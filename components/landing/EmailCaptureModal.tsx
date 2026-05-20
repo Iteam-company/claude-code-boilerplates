@@ -1,10 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ROUTES } from '@/lib/routes';
 
-const GITHUB_URL = 'https://github.com/Iteam-company/claude-code-boilerplates';
+const PRICE_ID =
+  process.env.NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME ?? 'price_REPLACE_ME';
 
 interface Props {
   plan: 'free' | 'pro';
@@ -12,7 +11,6 @@ interface Props {
 }
 
 export function EmailCaptureModal({ plan, onClose }: Props) {
-  const router = useRouter();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -24,19 +22,25 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
     setLoading(true);
 
     try {
-      // TODO
-    } catch {
-      // non-blocking — proceed regardless
+      if (isFree) {
+        // TODO: handle free plan email capture (e.g. save to waitlist, send repo link)
+        onClose();
+      } else {
+        const res = await fetch('/api/stripe/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            priceId: PRICE_ID,
+            mode: 'payment',
+            customer_email: email,
+          }),
+        });
+        const data = await res.json();
+        if (data.url) window.location.href = data.url;
+      }
+    } finally {
+      setLoading(false);
     }
-
-    if (isFree) {
-      window.open(GITHUB_URL, '_blank');
-      onClose();
-    } else {
-      router.push(ROUTES.CHECKOUT);
-    }
-
-    setLoading(false);
   };
 
   return (
@@ -47,48 +51,56 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
       }}
     >
       <div className="bg-background border-border w-full max-w-sm rounded-lg border p-6 shadow-lg">
-        <h2 className="text-foreground text-lg font-semibold">
-          {isFree ? 'Get the free boilerplate' : 'Get Pro access'}
-        </h2>
-        <p className="text-muted-foreground mt-1 text-sm">
-          {isFree
-            ? "Enter your email and we'll send you the repo link."
-            : 'Enter your email to continue to checkout.'}
-        </p>
+        <div>
+          <h2 className="text-foreground text-lg font-semibold">
+            {isFree ? 'Get the free boilerplate' : 'Get Pro access'}
+          </h2>
+          <p className="text-muted-foreground mt-1 text-sm">
+            {isFree
+              ? "Enter your email and we'll send you the repo link."
+              : 'Enter your email to continue to checkout.'}
+          </p>
 
-        <form onSubmit={handleSubmit} className="mt-5 space-y-4">
-          <div>
-            <label className="text-foreground mb-1.5 block text-sm font-medium">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              required
-              autoFocus
-              className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+            <div>
+              <label className="text-foreground mb-1.5 block text-sm font-medium">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                required
+                autoFocus
+                className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2"
+              />
+            </div>
 
-          <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="border-input text-foreground hover:bg-muted flex-1 rounded-md border px-4 py-2 text-sm font-medium transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading || !email}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Loading...' : isFree ? 'Clone for free' : 'Continue'}
-            </button>
-          </div>
-        </form>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="border-input text-foreground hover:bg-muted flex-1 rounded-md border px-4 py-2 text-sm font-medium transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading || !email}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
+              >
+                {loading
+                  ? isFree
+                    ? 'Opening...'
+                    : 'Redirecting...'
+                  : isFree
+                    ? 'Clone for free'
+                    : 'Go to checkout'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
