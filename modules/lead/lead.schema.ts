@@ -5,6 +5,8 @@ export const leadTable = pgTable('leads', {
   email: varchar('email', { length: 255 }).notNull().unique(),
   tierInterest: text('tier_interest').notNull().default('free'),
   signupSource: text('signup_source'),
+  githubUsername: text('github_username'),
+  githubInvitedAt: timestamp('github_invited_at', { withTimezone: true }),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),
