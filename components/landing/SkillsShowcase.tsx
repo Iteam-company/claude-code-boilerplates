@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
 
@@ -10,6 +12,7 @@ interface Skill {
   description: string;
   trigger: string;
   output: string;
+  language: string;
   pro?: boolean;
 }
 
@@ -20,6 +23,7 @@ const SKILLS: Skill[] = [
     description:
       'Generates a complete 7-file DDD-lite module: schema → relations → types → validation → repo → service → index.',
     trigger: 'add a comments feature',
+    language: 'bash',
     output: `modules/comment/
 ├── comment.schema.ts     ← Drizzle table definition
 ├── comment.relations.ts  ← FK references + joins
@@ -35,6 +39,7 @@ const SKILLS: Skill[] = [
     description:
       'Schema change to SQL migration in one step. Writes the schema, generates the migration, and walks you through applying it.',
     trigger: 'add a posts table with title, body, author_id, published_at',
+    language: 'sql',
     output: `-- migrations/0003_add_posts.sql (auto-generated)
 CREATE TABLE "posts" (
   "id"           serial PRIMARY KEY,
@@ -53,6 +58,7 @@ $ npm run db:migrate  -- applied`,
     description:
       'Full Stripe flow: checkout session, webhook handler, customer portal — wired end to end with env vars documented.',
     trigger: 'set up stripe checkout for the pro plan',
+    language: 'typescript',
     output: `// app/api/stripe/checkout/route.ts
 export async function POST(req: Request) {
   const user = await getUserFromRequest(req);
@@ -72,6 +78,7 @@ export async function POST(req: Request) {
     description:
       'Resend + react-email: scaffolds the template, wires it into the service layer, and documents the env vars needed.',
     trigger: 'send a welcome email when a user signs up',
+    language: 'tsx',
     output: `// emails/WelcomeEmail.tsx (scaffolded)
 export function WelcomeEmail({ name }: { name: string }) {
   return (
@@ -97,6 +104,7 @@ await emailService.sendEmail({
     description:
       'Organization + member + invitation modules with a full role hierarchy: owner → admin → member.',
     trigger: 'add organization support with invite links',
+    language: 'typescript',
     pro: true,
     output: `// Three new modules scaffolded:
 modules/organization/   ← slug auto-generated from name
@@ -115,6 +123,7 @@ const member = await orgMemberService.requireMember(
     description:
       'Streaming AI chat: SSE route, credit deduction before calling Claude, and a useAiChat hook — all wired end to end.',
     trigger: 'add a streaming AI assistant to the dashboard',
+    language: 'typescript',
     pro: true,
     output: `// app/api/ai/chat/route.ts
 export async function POST(req: Request) {
@@ -162,7 +171,7 @@ export function SkillsShowcase() {
                   className={cn(
                     'flex items-center gap-1.5 border-b-2 px-4 py-3.5 font-mono text-xs whitespace-nowrap transition-colors',
                     active === s.id
-                      ? 'border-primary text-primary'
+                      ? 'border-sky-400 text-sky-400'
                       : 'border-transparent text-zinc-400 hover:text-zinc-200',
                   )}
                 >
@@ -188,7 +197,7 @@ export function SkillsShowcase() {
                 You type
               </p>
               <div className="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
-                <span className="text-primary font-mono text-sm">›</span>
+                <span className="font-mono text-sm text-sky-400">›</span>
                 <span className="font-mono text-sm text-zinc-200">
                   {skill.trigger}
                 </span>
@@ -199,9 +208,22 @@ export function SkillsShowcase() {
               <p className="text-xs font-semibold tracking-widest text-zinc-500 uppercase">
                 Claude scaffolds
               </p>
-              <pre className="overflow-x-auto rounded-lg border border-zinc-800 bg-black p-4 font-mono text-xs leading-relaxed text-zinc-300">
-                {skill.output}
-              </pre>
+              <div className="overflow-hidden rounded-lg border border-zinc-800">
+                <SyntaxHighlighter
+                  language={skill.language}
+                  style={vscDarkPlus}
+                  customStyle={{
+                    margin: 0,
+                    padding: '1rem',
+                    background: '#0a0a0a',
+                    fontSize: '0.75rem',
+                    lineHeight: '1.6',
+                  }}
+                  PreTag="div"
+                >
+                  {skill.output}
+                </SyntaxHighlighter>
+              </div>
             </div>
           </div>
         </div>

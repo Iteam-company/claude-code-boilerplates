@@ -7,6 +7,7 @@ import {
   Comparison,
   Features,
   SkillsShowcase,
+  HowItWorks,
   Demo,
   Pricing,
   FAQ,
@@ -55,6 +56,7 @@ export default function Home() {
       <Demo />
       <Comparison />
       <SkillsShowcase />
+      <HowItWorks />
       <Pricing />
       <FAQ />
     </>

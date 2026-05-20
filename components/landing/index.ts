@@ -4,6 +4,7 @@ export { Offer } from './Offer';
 export { Comparison } from './Comparison';
 export { Features } from './Features';
 export { SkillsShowcase } from './SkillsShowcase';
+export { HowItWorks } from './HowItWorks';
 export { Demo } from './Demo';
 export { Pricing } from './Pricing';
 export { FAQ } from './FAQ';
