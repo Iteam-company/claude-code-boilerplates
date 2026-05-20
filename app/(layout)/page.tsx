@@ -6,6 +6,7 @@ import {
   Offer,
   Comparison,
   Features,
+  SkillsShowcase,
   Demo,
   Pricing,
   FAQ,
@@ -53,6 +54,7 @@ export default function Home() {
       <Features />
       <Demo />
       <Comparison />
+      <SkillsShowcase />
       <Pricing />
       <FAQ />
     </>
