@@ -9,3 +9,4 @@ export { Demo } from './Demo';
 export { Pricing } from './Pricing';
 export { FAQ } from './FAQ';
 export { SocialProof } from './SocialProof';
+export { Testimonials } from './Testimonials';
