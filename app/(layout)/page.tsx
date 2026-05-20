@@ -4,6 +4,7 @@ import {
   Hero,
   Problem,
   Offer,
+  Demo,
   Pricing,
   FAQ,
   SocialProof,
@@ -47,6 +48,7 @@ export default function Home() {
       <SocialProof />
       <Problem />
       <Offer />
+      <Demo />
       <Pricing />
       <FAQ />
     </>
