@@ -46,14 +46,11 @@
       "description": "A production-ready Next.js boilerplate with auth, Stripe payments, email, dark mode, and AI credits built in."
     },
     "hero": {
-      "badge": "Open source · MIT License",
-      "headline": "Ship your SaaS in days, not months",
-      "subheadline": "A production-ready Next.js boilerplate with auth, Stripe payments, email, dark mode, and AI credits built in. Stop rebuilding foundations — start shipping.",
-      "ctaPrimary": "Get started",
-      "ctaSecondary": "See features",
-      "trust1": "No credit card required",
-      "trust2": "Deploy in minutes",
-      "trust3": "MIT Licensed"
+      "badge": "Open source · First 100 Pro spots free",
+      "headline": "Ship a SaaS in days. Not weeks.",
+      "subheadline": "The only Next.js boilerplate with Stripe, auth, and Claude Code built in. Free forever. Pro tier free for the first 100 founders.",
+      "ctaPrimary": "Get the free version →",
+      "ctaSecondary": "Reserve a free Pro spot"
     },
     "steps": {
       "heading": "Up and running in minutes",

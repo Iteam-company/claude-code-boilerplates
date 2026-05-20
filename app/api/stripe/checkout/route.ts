@@ -15,6 +15,24 @@ export async function POST(req: Request) {
       parsed.data;
     const baseUrl = getBaseUrl();
 
+    if (mode === 'payment' && customer_email) {
+      const existing = await stripe.checkout.sessions.list({
+        customer_details: { email: customer_email },
+        status: 'complete',
+        limit: 1,
+        expand: ['data.line_items'],
+      });
+      const alreadyPaid = existing.data.some((s) =>
+        s.line_items?.data.some((item) => item.price?.id === priceId),
+      );
+      if (alreadyPaid) {
+        throw new HttpError(
+          409,
+          'This email already has access. Check your inbox for the download link.',
+        );
+      }
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode,
       customer_email,
