@@ -12,6 +12,7 @@ import {
   Pricing,
   FAQ,
   SocialProof,
+  Testimonials,
 } from '@/components/landing';
 import { getBaseUrl } from '@/lib/utils';
 
@@ -53,10 +54,11 @@ export default function Home() {
       <Problem />
       <Offer />
       <Features />
-      <Demo />
+      {/* <Demo /> */}
       <Comparison />
       <SkillsShowcase />
       <HowItWorks />
+      {/* <Testimonials /> */}
       <Pricing />
       <FAQ />
     </>
