@@ -1,10 +1,13 @@
 import React from 'react';
+import Stripe from 'stripe';
 import { leadRepo } from './lead.repo';
 import { CreateLeadInput } from './lead.types';
 import { HttpError } from '@/lib/errors/http-error';
 import { emailService, APP_NAME } from '@/lib/email';
 import { trackEvent } from '@/lib/analytics';
+import { githubService } from '@/lib/github';
 import { OnboardingEmail } from '@/emails/onboarding-email';
+import { ProOnboardingEmail } from '@/emails/pro-onboarding-email';
 
 const GITHUB_REPO_URL =
   process.env.GITHUB_REPO_URL ?? 'https://github.com/your-org/your-repo';
@@ -39,5 +42,42 @@ export const leadService = {
     });
 
     return lead;
+  },
+
+  handleProCheckout: async (session: Stripe.Checkout.Session) => {
+    const email = session.customer_details?.email;
+    const githubUsername = session.metadata?.github_username;
+
+    if (!email || !githubUsername) {
+      console.error(
+        'pro checkout.session.completed missing email or github_username',
+        { sessionId: session.id },
+      );
+      return;
+    }
+
+    // Upsert is idempotent — safe if Stripe retries the webhook
+    const lead = await leadRepo.upsertPro({ email, githubUsername });
+
+    trackEvent('pro_checkout_completed', { githubUsername });
+
+    // Skip invite + email if already processed (webhook retry guard)
+    if (lead.githubInvitedAt) return;
+
+    await githubService.inviteCollaborator(githubUsername);
+    await leadRepo.markGithubInvited(lead.id);
+
+    trackEvent('pro_repo_invited', { githubUsername });
+
+    await emailService.sendEmail({
+      to: email,
+      subject: `Your ${APP_NAME} Pro access is confirmed`,
+      react: React.createElement(ProOnboardingEmail, {
+        appName: APP_NAME,
+        githubUsername,
+        docsUrl: DOCS_URL,
+        discordUrl: DISCORD_URL,
+      }),
+    });
   },
 };

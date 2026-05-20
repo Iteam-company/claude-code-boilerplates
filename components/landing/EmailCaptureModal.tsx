@@ -13,16 +13,17 @@ interface Props {
 
 export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
   const [email, setEmail] = useState('');
+  const [githubUsername, setGithubUsername] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [alreadyPaid, setAlreadyPaid] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const isFree = plan === 'free';
+  const isDisabled = loading || !email || (!isFree && !githubUsername);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
     setLoading(true);
     setError(null);
 
@@ -35,7 +36,6 @@ export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
         });
 
         if (res.status === 409) {
-          // Treat duplicate as success — resend would be confusing UX here
           setSubmitted(true);
           return;
         }
@@ -59,12 +59,26 @@ export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
             priceId: PRICE_ID,
             mode: 'payment',
             customer_email: email,
+            tier: 'pro',
+            github_username: githubUsername,
           }),
         });
+
         if (res.status === 409) {
           setAlreadyPaid(true);
           return;
         }
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          setError(
+            typeof data?.error === 'string'
+              ? data.error
+              : 'Something went wrong. Please try again.',
+          );
+          return;
+        }
+
         const data = await res.json();
         if (data.url) window.location.href = data.url;
       }
@@ -107,7 +121,7 @@ export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
             <p className="text-muted-foreground mt-2 text-sm">
               Check your inbox at{' '}
               <span className="text-foreground font-medium">{email}</span> for
-              the download link.
+              your GitHub invite and onboarding steps.
             </p>
             <button
               onClick={onClose}
@@ -124,7 +138,7 @@ export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
             <p className="text-muted-foreground mt-1 text-sm">
               {isFree
                 ? "Enter your email and we'll send you the repo link."
-                : 'Enter your email to continue to checkout.'}
+                : "Enter your details and we'll send you a GitHub invite after checkout."}
             </p>
 
             <form onSubmit={handleSubmit} className="mt-5 space-y-4">
@@ -143,6 +157,26 @@ export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
                 />
               </div>
 
+              {!isFree && (
+                <div>
+                  <label className="text-foreground mb-1.5 block text-sm font-medium">
+                    GitHub username
+                  </label>
+                  <input
+                    type="text"
+                    value={githubUsername}
+                    onChange={(e) => setGithubUsername(e.target.value.trim())}
+                    placeholder="octocat"
+                    required
+                    className="border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-ring w-full rounded-md border px-3 py-2 text-sm outline-none focus:ring-2"
+                  />
+                  <p className="text-muted-foreground mt-1 text-xs">
+                    We&apos;ll invite this account to the private repo after
+                    payment.
+                  </p>
+                </div>
+              )}
+
               {error && <p className="text-destructive text-sm">{error}</p>}
 
               <div className="flex gap-3">
@@ -155,7 +189,7 @@ export function EmailCaptureModal({ plan, onClose, signupSource }: Props) {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading || !email}
+                  disabled={isDisabled}
                   className="bg-primary text-primary-foreground hover:bg-primary/90 flex-1 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
                 >
                   {loading

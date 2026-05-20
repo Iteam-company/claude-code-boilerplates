@@ -8,3 +8,9 @@ export interface CreateLeadInput {
   tierInterest: 'free' | 'pro';
   signupSource?: string | null;
 }
+
+export interface UpsertProLeadInput {
+  email: string;
+  githubUsername: string;
+  signupSource?: string | null;
+}
