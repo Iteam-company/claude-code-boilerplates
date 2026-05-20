@@ -4,6 +4,7 @@ import {
   Hero,
   Problem,
   Offer,
+  Comparison,
   Features,
   Demo,
   Pricing,
@@ -51,6 +52,7 @@ export default function Home() {
       <Offer />
       <Features />
       <Demo />
+      <Comparison />
       <Pricing />
       <FAQ />
     </>
