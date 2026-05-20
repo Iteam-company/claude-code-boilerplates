@@ -24,11 +24,7 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
     setLoading(true);
 
     try {
-      await fetch('/api/leads', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, plan }),
-      });
+      // TODO
     } catch {
       // non-blocking — proceed regardless
     }
