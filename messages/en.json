@@ -110,24 +110,64 @@
       "heading": "Frequently asked questions",
       "items": {
         "q1": {
-          "question": "What's included?",
-          "answer": "You get the full Next.js source code with auth, Stripe, email, Drizzle ORM, dark mode, and i18n preconfigured. Everything you need to launch a SaaS."
+          "question": "Is the free version really free?",
+          "answer": "Yes. Clone the repo from GitHub and start building immediately. No credit card, no trial, no expiry. The free tier includes the full Next.js boilerplate with auth, database, Stripe, email, file uploads, and MDX blog -- yours to keep and ship to production."
         },
         "q2": {
-          "question": "Do I need a Stripe account?",
-          "answer": "Yes. You'll need a Stripe account to enable payments. The boilerplate includes the full integration — you just add your API keys to .env."
+          "question": "What is the catch with first 100 free Pro?",
+          "answer": "No catch. The first 100 developers get Pro at $0 as an early-adopter reward. After spot 100, Pro is $149 one-time. You get lifetime access and all future updates either way. The counter pulls live from Stripe -- the scarcity is real."
         },
         "q3": {
-          "question": "Can I use this for multiple projects?",
-          "answer": "The Pro License grants lifetime access for a single developer. The Pro Plan subscription gives you ongoing updates and priority support."
+          "question": "Do I need to know Claude Code to use this?",
+          "answer": "No prior Claude Code experience needed. A pre-loaded CLAUDE.md teaches Claude Code how your project is structured. Describe what you want in plain English and Claude Code scaffolds the files. The skill library makes auth, payments, and AI features a single instruction away."
         },
         "q4": {
-          "question": "What database does it use?",
-          "answer": "Neon serverless Postgres with Drizzle ORM. You can swap the database driver if you need to — the repo structure supports any Postgres-compatible database."
+          "question": "Can I use this for client projects?",
+          "answer": "Yes. Both Free and Pro licenses allow commercial and client use. Build as many apps as you want. The only restriction is reselling the boilerplate or skill library itself as a competing product."
         },
         "q5": {
-          "question": "Is there a refund policy?",
-          "answer": "If the boilerplate doesn't work as described, contact us within 7 days for a full refund. No questions asked."
+          "question": "What is the difference between Free and Pro?",
+          "answer": "Free includes the full stack boilerplate: auth, database, Stripe, email, file uploads, MDX blog, and 10 core Claude Code skills. Pro adds 40+ skills, multi-tenancy, AI modules, 11 custom agents, MCP server configs, premium skill packs, private Discord, and lifetime updates."
+        },
+        "q6": {
+          "question": "How do updates work?",
+          "answer": "Pro includes lifetime updates via GitHub. When new skills, agents, or modules ship, you pull from the repo. Free users keep what they cloned -- no automatic updates, but the base boilerplate is stable and production-ready."
+        },
+        "q7": {
+          "question": "Do I need an Anthropic API key?",
+          "answer": "Only for the AI features module. Auth, payments, email, and the blog work without any Anthropic key. Claude Code runs on your own Anthropic account -- the skill library makes it faster to build, but the API credits are yours."
+        },
+        "q8": {
+          "question": "What if I want a refund?",
+          "answer": "Pro spots during the first-100 period are free, so there is nothing to refund. After the promo, if you pay $149 and are not satisfied within 7 days, contact us for a full refund. No questions asked."
+        },
+        "q9": {
+          "question": "Is this affiliated with Anthropic, Vercel, or Neon?",
+          "answer": "No. This is an independent open-source project. It uses Claude Code, Vercel, and Neon -- but it is not endorsed, sponsored, or affiliated with any of those companies."
+        },
+        "q10": {
+          "question": "Can I self-host?",
+          "answer": "Yes. It is a standard Next.js project. Deploy to any platform that supports Node.js -- Railway, Render, Fly.io, or your own server. Vercel is the recommended default because it requires zero configuration with this setup."
+        },
+        "q11": {
+          "question": "What is the license?",
+          "answer": "The boilerplate code is MIT -- you own what you build. The Pro skill library is licensed per-developer: one license, one person, unlimited projects. You may not redistribute or resell the skill library itself."
+        },
+        "q12": {
+          "question": "How does Stripe work in the free version?",
+          "answer": "Fully included but dormant until you add API keys. You get the checkout session, webhook handler, and customer portal out of the box. Add STRIPE_SECRET_KEY and STRIPE_WEBHOOK_SECRET to your .env and it works -- no extra setup."
+        },
+        "q13": {
+          "question": "Do you offer support?",
+          "answer": "Free users have access to the public Discord and GitHub Issues. Pro users get private Discord with faster responses. There are no SLA guarantees -- this is an indie product -- but active builders get real answers, not links to documentation."
+        },
+        "q14": {
+          "question": "Can I contribute back to the project?",
+          "answer": "Yes. Pull requests for bug fixes, new skills, and documentation are welcome. Skills that meet quality standards are merged and made available to all Pro users. See CONTRIBUTING.md in the repo for guidelines."
+        },
+        "q15": {
+          "question": "What tech is required?",
+          "answer": "Node.js 18+, a GitHub account, and accounts for services you want to enable: Neon (database), Resend (email), Cloudinary (uploads), Stripe (payments), Anthropic (AI). Every integration is optional -- activate it by adding environment variables, skip what you do not need."
         }
       }
     },
