@@ -28,12 +28,9 @@ export async function Footer() {
           <FooterLinkList
             heading={t('compare.heading')}
             links={[
-              { label: t('compare.shipfast'), href: '/compare/shipfast' },
-              { label: t('compare.makerkit'), href: '/compare/makerkit' },
-              {
-                label: t('compare.supastarter'),
-                href: '/compare/supastarter',
-              },
+              { label: t('compare.shipfast'), href: '/vs/shipfast' },
+              { label: t('compare.makerkit'), href: '/vs/makerkit' },
+              { label: t('compare.supastarter'), href: '/vs/supastarter' },
             ]}
           />
 
