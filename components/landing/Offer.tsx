@@ -1,4 +1,5 @@
 import { Container } from '@/components/Container';
+import { PricingCTAButton } from './PricingCTAButton';
 
 const FREE_FEATURES = [
   'Stripe checkout',
@@ -60,6 +61,11 @@ export function Offer() {
                 <FeatureChip key={f} label={f} />
               ))}
             </div>
+            <PricingCTAButton
+              plan="free"
+              label="Get the free version →"
+              highlighted={false}
+            />
           </div>
 
           {/* Pro card */}
@@ -77,6 +83,11 @@ export function Offer() {
                 <FeatureChip key={f} label={f} />
               ))}
             </div>
+            <PricingCTAButton
+              plan="pro"
+              label="Reserve your free spot →"
+              highlighted
+            />
           </div>
         </div>
       </Container>

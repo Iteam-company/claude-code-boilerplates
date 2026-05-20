@@ -6,6 +6,8 @@ import { Star } from 'lucide-react';
 import { Container } from '@/components/Container';
 import { EmailCaptureModal } from './EmailCaptureModal';
 
+const STAR_THRESHOLD = 500;
+
 function formatStars(n: number): string {
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
 }
@@ -112,13 +114,15 @@ export function Hero() {
 
           <p className="text-muted-foreground mt-8 flex flex-wrap items-center justify-center gap-x-2 text-sm">
             <span>500+ developers</span>
-            <span>·</span>
-            <span className="inline-flex items-center gap-1">
-              {stars !== null && <Star className="h-3 w-3 fill-current" />}
-              {stars !== null
-                ? `${formatStars(stars)} GitHub stars`
-                : 'GitHub stars'}
-            </span>
+            {stars !== null && stars >= STAR_THRESHOLD && (
+              <>
+                <span>·</span>
+                <span className="inline-flex items-center gap-1">
+                  <Star className="h-3 w-3 fill-current" />
+                  {formatStars(stars)} GitHub stars
+                </span>
+              </>
+            )}
             <span>·</span>
             <span>Built on the stack used by Anthropic, Vercel, and Neon</span>
           </p>

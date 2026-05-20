@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     if (!parsed.success)
       throw new HttpError(400, parsed.error.issues[0].message);
 
-    const { priceId, mode, quantity, type, credits, customer_email } =
+    const { priceId, mode, quantity, type, credits, customer_email, source } =
       parsed.data;
     const baseUrl = getBaseUrl();
 
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
       mode,
       customer_email,
       line_items: [{ price: priceId, quantity }],
-      success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}${source ? `&source=${encodeURIComponent(source)}` : ''}`,
       cancel_url: `${baseUrl}/checkout`,
       metadata: {
         type,

@@ -8,6 +8,7 @@ export const checkoutSchema = z.object({
   type: z.enum(['order', 'credits']).optional().default('order'),
   credits: z.number().int().positive().optional(),
   customer_email: z.string().email(),
+  source: z.string().optional(),
 });
 
 export type CheckoutSchemaType = z.infer<typeof checkoutSchema>;
