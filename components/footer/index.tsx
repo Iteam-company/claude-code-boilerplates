@@ -22,7 +22,7 @@ export async function Footer() {
             links={[
               { label: t('nav.features'), href: '/#features' },
               { label: t('nav.skills'), href: '/#skills' },
-              { label: t('nav.pricing'), href: ROUTES.PRICING },
+              { label: t('nav.pricing'), href: '/#pricing' },
               { label: t('nav.faq'), href: '/#faq' },
             ]}
           />
