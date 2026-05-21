@@ -147,10 +147,10 @@ export function SkillsShowcase() {
   const skill = SKILLS.find((s) => s.id === active)!;
 
   return (
-    <section className="py-20">
+    <section className="py-24">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
+          <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
             40+ Claude Code skills your Claude already knows.
           </h2>
           <p className="text-muted-foreground mt-4 text-lg">

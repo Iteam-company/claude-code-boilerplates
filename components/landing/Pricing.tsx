@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
 import { PricingCTAButton } from './PricingCTAButton';
 import { countProSpotsTaken, TOTAL_PRO_SPOTS } from '@/lib/spots';
+import { FadeIn } from './FadeIn';
 
 export async function Pricing() {
   const t = await getTranslations('landing.pricing');
@@ -36,13 +37,15 @@ export async function Pricing() {
   ];
 
   return (
-    <section id="pricing" className="py-20">
+    <section id="pricing" className="py-24">
       <Container>
-        <div className="text-center">
-          <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            Two plans. One free forever. One free for 100 people.
-          </h2>
-        </div>
+        <FadeIn>
+          <div className="text-center">
+            <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
+              Two plans. One free forever. One free for 100 people.
+            </h2>
+          </div>
+        </FadeIn>
 
         <div className="mx-auto mt-12 grid max-w-3xl grid-cols-1 gap-8 md:grid-cols-2">
           {/* Free card */}
