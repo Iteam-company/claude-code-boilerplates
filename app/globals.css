@@ -134,6 +134,20 @@
   .prose :where(code)::after {
     content: none;
   }
+
+  /* Inline code styling */
+  .prose :where(code):not(pre code) {
+    @apply bg-muted text-foreground rounded px-1.5 py-0.5 text-[0.8125em] font-medium;
+  }
+
+  /* Reset code inside pre — Shiki sets colors via inline styles on spans */
+  .prose pre code {
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    font-size: inherit !important;
+  }
 }
 
 @keyframes nav-label-in {
