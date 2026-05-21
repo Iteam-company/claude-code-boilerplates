@@ -1,6 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Container } from '@/components/Container';
 import { FAQAccordion } from './FAQAccordion';
+import { FadeIn } from './FadeIn';
 
 const FAQ_KEYS = [
   'q1',
@@ -43,17 +44,19 @@ export async function FAQ() {
   };
 
   return (
-    <section id="faq" className="bg-muted py-20">
+    <section id="faq" className="bg-muted py-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Container>
-        <div className="text-center">
-          <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            {t('heading')}
-          </h2>
-        </div>
+        <FadeIn>
+          <div className="text-center">
+            <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
+              {t('heading')}
+            </h2>
+          </div>
+        </FadeIn>
         <FAQAccordion items={items} />
       </Container>
     </section>
