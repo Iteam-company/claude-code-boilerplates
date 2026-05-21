@@ -11,10 +11,7 @@ export async function markdownToHtml(content: string): Promise<string> {
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypePrettyCode, {
-      theme: {
-        dark: 'one-dark-pro',
-        light: 'github-light',
-      },
+      theme: 'one-dark-pro',
     })
     .use(rehypeStringify, { allowDangerousHtml: true })
     .process(content);
