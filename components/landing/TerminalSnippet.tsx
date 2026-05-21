@@ -1,27 +1,18 @@
 'use client';
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import dynamic from 'next/dynamic';
+
+const CodeBlock = dynamic(() => import('./CodeBlock'), {
+  ssr: false,
+  loading: () => (
+    <pre className="min-h-16 bg-[#0a0a0a] p-4 font-mono text-[11px] leading-relaxed whitespace-pre text-zinc-300" />
+  ),
+});
 
 export function TerminalSnippet({ code }: { code: string }) {
   return (
     <div className="mt-6 overflow-x-auto rounded-lg border border-zinc-800">
-      <SyntaxHighlighter
-        language="bash"
-        style={vscDarkPlus}
-        customStyle={{
-          margin: 0,
-          padding: '1rem',
-          background: '#0a0a0a',
-          fontSize: '11px',
-          lineHeight: '1.6',
-          whiteSpace: 'pre',
-        }}
-        codeTagProps={{ style: { fontSize: '11px' } }}
-        PreTag="div"
-      >
-        {code}
-      </SyntaxHighlighter>
+      <CodeBlock language="bash" code={code} fontSize="10px" />
     </div>
   );
 }

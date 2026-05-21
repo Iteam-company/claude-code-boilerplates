@@ -16,6 +16,8 @@ import {
   FinalCTA,
 } from '@/components/landing';
 import { getBaseUrl } from '@/lib/utils';
+import { countProSpotsTaken, TOTAL_PRO_SPOTS } from '@/lib/spots';
+import { waitlistRepo } from '@/modules/waitlist/waitlist.repo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('landing.meta');
@@ -25,8 +27,42 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function Home() {
+async function getLandingData() {
+  const [githubRes, taken, subscribers] = await Promise.allSettled([
+    fetch(
+      'https://api.github.com/repos/Iteam-company/claude-code-boilerplates',
+      {
+        next: { revalidate: 3600 },
+      },
+    ).then((r) => r.json()),
+    countProSpotsTaken(),
+    waitlistRepo.countAll(),
+  ]);
+
+  const stars =
+    githubRes.status === 'fulfilled' &&
+    typeof githubRes.value?.stargazers_count === 'number'
+      ? (githubRes.value.stargazers_count as number)
+      : null;
+
+  const takenCount = taken.status === 'fulfilled' ? taken.value : 0;
+  const subscriberCount =
+    subscribers.status === 'fulfilled' ? subscribers.value : 0;
+
+  return {
+    stars,
+    spots: {
+      remaining: Math.max(0, TOTAL_PRO_SPOTS - takenCount),
+      total: TOTAL_PRO_SPOTS,
+    },
+    subscribers: subscriberCount,
+  };
+}
+
+export default async function Home() {
   const base = getBaseUrl();
+  const { stars, spots, subscribers } = await getLandingData();
+
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -82,8 +118,8 @@ export default function Home() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
       />
-      <Hero />
-      <SocialProof />
+      <Hero stars={stars} spots={spots} />
+      <SocialProof stars={stars} subscribers={subscribers} />
       <Problem />
       <Offer />
       {/* <Demo /> */}

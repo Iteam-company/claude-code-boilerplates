@@ -1,6 +1,3 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import { Star } from 'lucide-react';
 import { Container } from '@/components/Container';
 
@@ -13,31 +10,12 @@ function formatCount(n: number): string {
 
 const BUILT_WITH = ['Next.js', 'Vercel', 'Neon', 'Stripe', 'Anthropic'];
 
-export function SocialProof() {
-  const [stars, setStars] = useState<number | null>(null);
-  const [subscribers, setSubscribers] = useState<number | null>(null);
+interface Props {
+  stars?: number | null;
+  subscribers?: number | null;
+}
 
-  useEffect(() => {
-    fetch('https://api.github.com/repos/Iteam-company/claude-code-boilerplates')
-      .then((r) => r.json())
-      .then(
-        (d) =>
-          typeof d.stargazers_count === 'number' &&
-          setStars(d.stargazers_count),
-      )
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    fetch('/api/spots')
-      .then((r) => r.json())
-      .then(
-        (d) =>
-          typeof d.subscribers === 'number' && setSubscribers(d.subscribers),
-      )
-      .catch(() => {});
-  }, []);
-
+export function SocialProof({ stars = null, subscribers = null }: Props) {
   const showStars = stars !== null && stars >= STAR_THRESHOLD;
   const showSubscribers =
     subscribers !== null && subscribers > SUBSCRIBER_THRESHOLD;

@@ -27,37 +27,15 @@ const TERMINAL_LINES = [
   { text: '  → yourapp.vercel.app', type: 'url', delay: 400 },
 ] as const;
 
-export function Hero() {
+interface Props {
+  stars?: number | null;
+  spots?: { remaining: number; total: number } | null;
+}
+
+export function Hero({ stars = null, spots = null }: Props) {
   const t = useTranslations('landing.hero');
   const [modal, setModal] = useState<'free' | 'pro' | null>(null);
-  const [stars, setStars] = useState<number | null>(null);
-  const [spots, setSpots] = useState<{
-    remaining: number;
-    total: number;
-  } | null>(null);
   const [visibleLines, setVisibleLines] = useState(1);
-
-  useEffect(() => {
-    fetch('/api/spots')
-      .then((r) => r.json())
-      .then((d) => {
-        if (typeof d.remaining === 'number' && typeof d.total === 'number') {
-          setSpots({ remaining: d.remaining, total: d.total });
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    fetch('https://api.github.com/repos/Iteam-company/claude-code-boilerplates')
-      .then((r) => r.json())
-      .then(
-        (d) =>
-          typeof d.stargazers_count === 'number' &&
-          setStars(d.stargazers_count),
-      )
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (visibleLines >= TERMINAL_LINES.length) return;

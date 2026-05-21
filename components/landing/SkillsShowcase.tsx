@@ -1,10 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import dynamic from 'next/dynamic';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
+
+const CodeBlock = dynamic(() => import('./CodeBlock'), {
+  ssr: false,
+  loading: () => (
+    <pre className="min-h-40 bg-[#0a0a0a] p-4 font-mono text-xs leading-relaxed text-zinc-300" />
+  ),
+});
 
 interface Skill {
   id: string;
@@ -209,20 +215,7 @@ export function SkillsShowcase() {
                 Claude scaffolds
               </p>
               <div className="overflow-hidden rounded-lg border border-zinc-800">
-                <SyntaxHighlighter
-                  language={skill.language}
-                  style={vscDarkPlus}
-                  customStyle={{
-                    margin: 0,
-                    padding: '1rem',
-                    background: '#0a0a0a',
-                    fontSize: '0.75rem',
-                    lineHeight: '1.6',
-                  }}
-                  PreTag="div"
-                >
-                  {skill.output}
-                </SyntaxHighlighter>
+                <CodeBlock language={skill.language} code={skill.output} />
               </div>
             </div>
           </div>
