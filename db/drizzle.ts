@@ -1,3 +1,4 @@
+import 'server-only';
 import { config } from 'dotenv';
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { schema } from './schema';
