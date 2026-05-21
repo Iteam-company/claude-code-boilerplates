@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Star } from 'lucide-react';
 import { Container } from '@/components/Container';
 import { EmailCaptureModal } from './EmailCaptureModal';
+import { cn } from '@/lib/utils';
 
 const STAR_THRESHOLD = 500;
 
@@ -148,16 +149,23 @@ export function Hero() {
                           : 'text-zinc-500'
                   }
                 >
-                  {i === visibleLines - 1 ? (
-                    <>
-                      {line.text}
-                      <span className="ml-0.5 inline-block h-3.5 w-0.5 animate-pulse bg-current align-middle" />
-                    </>
+                  {i === visibleLines - 1 &&
+                  visibleLines < TERMINAL_LINES.length ? (
+                    <>{line.text}</>
                   ) : (
                     line.text
                   )}
                 </div>
               ))}
+              <div
+                className={cn(
+                  'text-zinc-100',
+                  visibleLines >= TERMINAL_LINES.length && 'mt-2',
+                )}
+              >
+                {visibleLines >= TERMINAL_LINES.length && <span>$ </span>}
+                <span className="inline-block h-3.5 w-0.5 animate-pulse bg-zinc-100 align-middle" />
+              </div>
             </div>
           </div>
         </div>
