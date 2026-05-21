@@ -1,7 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 
 interface Props {
   children: React.ReactNode;
@@ -10,18 +9,36 @@ interface Props {
 }
 
 export function FadeIn({ children, className, delay = 0 }: Props) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '-60px' },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, ease: 'easeOut', delay }}
       className={className}
+      style={{
+        opacity: 0,
+        transform: 'translateY(20px)',
+        transition: `opacity 0.5s ease-out ${delay}s, transform 0.5s ease-out ${delay}s`,
+      }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

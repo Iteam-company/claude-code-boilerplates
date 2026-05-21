@@ -1,6 +1,7 @@
 import { Container } from '@/components/Container';
 import { TerminalSnippet } from './TerminalSnippet';
 import { FadeIn } from './FadeIn';
+import { highlightCode } from '@/lib/highlight';
 
 const STEPS = [
   {
@@ -36,7 +37,14 @@ Deploying to production...
   },
 ];
 
-export function HowItWorks() {
+export async function HowItWorks() {
+  const steps = await Promise.all(
+    STEPS.map(async (step) => ({
+      ...step,
+      html: await highlightCode(step.snippet, 'bash'),
+    })),
+  );
+
   return (
     <section className="py-24">
       <Container>
@@ -48,7 +56,7 @@ export function HowItWorks() {
 
         <FadeIn delay={0.1}>
           <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {STEPS.map(({ number, title, body, snippet }) => (
+            {steps.map(({ number, title, body, html }) => (
               <div
                 key={number}
                 className="border-border bg-muted/20 flex min-w-0 flex-col rounded-2xl border p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
@@ -62,7 +70,7 @@ export function HowItWorks() {
                 <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
                   {body}
                 </p>
-                <TerminalSnippet code={snippet} />
+                <TerminalSnippet html={html} />
               </div>
             ))}
           </div>
