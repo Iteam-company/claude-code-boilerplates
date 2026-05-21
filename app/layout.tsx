@@ -5,6 +5,8 @@ import { Toaster } from 'sonner';
 import { ThemeProvider } from 'next-themes';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import './globals.css';
 import { OrgProvider } from '@/components/demo/OrgProvider';
@@ -65,6 +67,8 @@ export default async function RootLayout({
             <OrgProvider>
               {children}
               <Toaster />
+              <Analytics />
+              <SpeedInsights />
             </OrgProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
