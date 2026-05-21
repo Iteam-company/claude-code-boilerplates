@@ -8,12 +8,24 @@ import { cn } from '@/lib/utils';
 export const Header = () => {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
+  const [pricingActive, setPricingActive] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 100);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    const el = document.getElementById('pricing');
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setPricingActive(entry.isIntersecting),
+      { threshold: 0.15 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [pathname]);
 
   const navLink = (active: boolean) =>
     cn(
@@ -46,7 +58,7 @@ export const Header = () => {
           <Link href="/" className={navLink(pathname === '/')}>
             Features
           </Link>
-          <a href="/#pricing" className={navLink(false)}>
+          <a href="/#pricing" className={navLink(pricingActive)}>
             Pricing
           </a>
           <Link
