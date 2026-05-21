@@ -1,8 +1,6 @@
 import { stripe } from '@/lib/stripe';
 import { handleError } from '@/lib/errors';
 import { headers } from 'next/headers';
-import { orderService } from '@/modules/order/order.service';
-import { creditService } from '@/modules/credit/credit.service';
 import { waitlistService } from '@/modules/waitlist';
 
 export const runtime = 'nodejs';
