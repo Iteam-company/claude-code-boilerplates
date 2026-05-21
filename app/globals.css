@@ -151,7 +151,7 @@
   animation: nav-label-in 0.2s ease-out both;
 }
 
-/* Shiki dual-theme: light default, dark via next-themes .dark class on <html> */
+/* Shiki single-theme (landing page + blog highlights) */
 .shiki,
 .shiki span {
   color: var(--shiki-light) !important;
@@ -164,12 +164,14 @@ html.dark .shiki span {
   background-color: var(--shiki-dark-bg) !important;
 }
 
-.prose pre {
+/* Reset prose default pre styles only for non-highlighted blocks */
+.prose pre:not([data-theme]) {
   padding: 0 !important;
   background: transparent !important;
 }
 
-.prose pre .shiki {
+/* rehype-pretty-code: layout for highlighted blocks */
+.prose pre[data-theme] {
   border-radius: 0.5rem;
   padding: 1rem;
   margin: 1.5rem 0;
