@@ -11,8 +11,17 @@ export async function POST(req: Request) {
     if (!parsed.success)
       throw new HttpError(400, parsed.error.issues[0].message);
 
-    const { priceId, mode, quantity, type, credits, customer_email, source } =
-      parsed.data;
+    const {
+      priceId,
+      mode,
+      quantity,
+      type,
+      credits,
+      customer_email,
+      source,
+      tier,
+      github_username,
+    } = parsed.data;
     const baseUrl = getBaseUrl();
 
     if (mode === 'payment' && customer_email) {
@@ -43,6 +52,9 @@ export async function POST(req: Request) {
         type,
         ...(credits ? { credits: String(credits) } : {}),
         ...(source ? { source } : {}),
+        ...(tier === 'pro' && github_username
+          ? { tier: 'pro', github_username }
+          : {}),
       },
     });
 
