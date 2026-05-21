@@ -27,37 +27,15 @@ const TERMINAL_LINES = [
   { text: '  → yourapp.vercel.app', type: 'url', delay: 400 },
 ] as const;
 
-export function Hero() {
+interface Props {
+  stars?: number | null;
+  spots?: { remaining: number; total: number } | null;
+}
+
+export function Hero({ stars = null, spots = null }: Props) {
   const t = useTranslations('landing.hero');
   const [modal, setModal] = useState<'free' | 'pro' | null>(null);
-  const [stars, setStars] = useState<number | null>(null);
-  const [spots, setSpots] = useState<{
-    remaining: number;
-    total: number;
-  } | null>(null);
   const [visibleLines, setVisibleLines] = useState(1);
-
-  useEffect(() => {
-    fetch('/api/spots')
-      .then((r) => r.json())
-      .then((d) => {
-        if (typeof d.remaining === 'number' && typeof d.total === 'number') {
-          setSpots({ remaining: d.remaining, total: d.total });
-        }
-      })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    fetch('https://api.github.com/repos/Iteam-company/claude-code-boilerplates')
-      .then((r) => r.json())
-      .then(
-        (d) =>
-          typeof d.stargazers_count === 'number' &&
-          setStars(d.stargazers_count),
-      )
-      .catch(() => {});
-  }, []);
 
   useEffect(() => {
     if (visibleLines >= TERMINAL_LINES.length) return;
@@ -133,7 +111,7 @@ export function Hero() {
               <span className="h-3 w-3 rounded-full bg-red-500/80" />
               <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
               <span className="h-3 w-3 rounded-full bg-green-500/80" />
-              <span className="ml-3 text-xs text-zinc-500">Claude Code</span>
+              <span className="ml-3 text-xs text-zinc-400">Claude Code</span>
             </div>
             <div className="min-h-40 p-6 text-left font-mono text-sm leading-relaxed">
               {TERMINAL_LINES.slice(0, visibleLines).map((line, i) => (
@@ -146,7 +124,7 @@ export function Hero() {
                         ? 'text-green-400'
                         : line.type === 'url'
                           ? 'mt-2 text-blue-400'
-                          : 'text-zinc-500'
+                          : 'text-zinc-400'
                   }
                 >
                   {line.text}
