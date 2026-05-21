@@ -42,6 +42,7 @@ export async function POST(req: Request) {
       metadata: {
         type,
         ...(credits ? { credits: String(credits) } : {}),
+        ...(source ? { source } : {}),
       },
     });
 
