@@ -9,7 +9,8 @@ export async function Pricing() {
   const t = await getTranslations('landing.pricing');
   const tPlans = await getTranslations('pricing');
   const spotsClaimed = await countProSpotsTaken();
-  const pct = Math.round((spotsClaimed / TOTAL_PRO_SPOTS) * 100);
+  const spotsLeft = Math.max(0, TOTAL_PRO_SPOTS - spotsClaimed);
+  const pct = Math.min(100, Math.round((spotsClaimed / TOTAL_PRO_SPOTS) * 100));
 
   const freeFeatures = [
     tPlans('proLicense.feature1'),
@@ -103,11 +104,10 @@ export async function Pricing() {
             <div className="mt-5 space-y-2">
               <div className="flex justify-between text-xs">
                 <span className="text-muted-foreground">
-                  {spotsClaimed} of {TOTAL_PRO_SPOTS} spots claimed
+                  {Math.min(spotsClaimed, TOTAL_PRO_SPOTS)} of {TOTAL_PRO_SPOTS}{' '}
+                  spots claimed
                 </span>
-                <span className="text-muted-foreground">
-                  {TOTAL_PRO_SPOTS - spotsClaimed} left
-                </span>
+                <span className="text-muted-foreground">{spotsLeft} left</span>
               </div>
               <div className="bg-muted h-1.5 w-full overflow-hidden rounded-full">
                 <div
