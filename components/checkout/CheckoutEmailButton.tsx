@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { EmailCaptureModal } from '@/components/landing/EmailCaptureModal';
+import { EmailCaptureModal } from '../landing/EmailCaptureModal';
 
 interface Props {
   label: string;
