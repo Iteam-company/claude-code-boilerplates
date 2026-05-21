@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Loader2Icon, XIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type Step = 'email' | 'github' | 'success';
+type Step = 'email' | 'github' | 'success' | 'duplicate';
 
 const PRO_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME ?? '';
 
@@ -38,8 +38,24 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
   const [githubError, setGithubError] = useState('');
   const [githubChecking, setGithubChecking] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [paymentRequired, setPaymentRequired] = useState(false);
 
   const isFree = plan === 'free';
+
+  async function redirectToCheckout(customerEmail: string) {
+    const res = await fetch('/api/stripe/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priceId: PRO_PRICE_ID,
+        mode: 'payment',
+        customer_email: customerEmail,
+        source: 'waitlist',
+      }),
+    });
+    const data = await res.json();
+    if (data.url) window.location.href = data.url;
+  }
 
   async function checkGithubUser(username: string) {
     const formatErr = validateGithub(username);
@@ -68,11 +84,35 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
     }
     setLoading(true);
     try {
-      await fetch('/api/waitlist', {
+      const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, plan }),
       });
+      const data = await res.json();
+
+      if (data.alreadyExists) {
+        // Pro user who never finished — let them continue (with or without payment)
+        if (!isFree && !data.hasGithub) {
+          if (data.requiresPayment) setPaymentRequired(true);
+          setStep('github');
+          return;
+        }
+        // Pro user already has GitHub but hasn't paid — send straight to checkout
+        if (data.requiresPayment) {
+          await redirectToCheckout(email);
+          return;
+        }
+        setStep('duplicate');
+        return;
+      }
+
+      if (data.requiresPayment) {
+        setPaymentRequired(true);
+        setStep('github');
+        return;
+      }
+
       setStep(isFree ? 'success' : 'github');
     } finally {
       setLoading(false);
@@ -95,25 +135,12 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
       });
       const waitlistData = await waitlistRes.json();
 
-      if (!waitlistData.requiresPayment) {
-        setStep('success');
+      if (paymentRequired || waitlistData.requiresPayment) {
+        await redirectToCheckout(email);
         return;
       }
 
-      const checkoutRes = await fetch('/api/stripe/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          priceId: PRO_PRICE_ID,
-          mode: 'payment',
-          customer_email: email,
-          source: 'waitlist',
-        }),
-      });
-      const checkoutData = await checkoutRes.json();
-      if (checkoutData.url) {
-        window.location.href = checkoutData.url;
-      }
+      setStep('success');
     } finally {
       setLoading(false);
     }
@@ -267,6 +294,24 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
             <p className="text-muted-foreground mt-2 text-sm">
               We sent you an invite to the repository. Check your GitHub
               notifications.
+            </p>
+            <button
+              onClick={onClose}
+              className="border-input text-foreground hover:bg-muted mt-5 w-full rounded-md border px-4 py-2 text-sm font-medium transition-colors"
+            >
+              Got it
+            </button>
+          </div>
+        )}
+
+        {step === 'duplicate' && (
+          <div className="text-center">
+            <div className="text-3xl">👋</div>
+            <h2 className="text-foreground mt-3 text-lg font-semibold">
+              You&apos;re already registered
+            </h2>
+            <p className="text-muted-foreground mt-2 text-sm">
+              This email is already on the list. Check your inbox for updates.
             </p>
             <button
               onClick={onClose}

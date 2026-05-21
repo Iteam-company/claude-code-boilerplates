@@ -34,8 +34,11 @@ export function FinalCTA() {
           </div>
 
           <p className="mt-8 text-sm text-zinc-500">
-            500+ developers &nbsp;·&nbsp; First 100 Pro spots free &nbsp;·&nbsp;
-            No credit card.
+            MIT licensed &nbsp;·&nbsp; 14-day refund on Pro &nbsp;·&nbsp; No
+            credit card. No catch.
+          </p>
+          <p className="mt-3 text-xs text-zinc-600 italic">
+            Built by a developer who ships, not a marketing team.
           </p>
         </div>
       </Container>

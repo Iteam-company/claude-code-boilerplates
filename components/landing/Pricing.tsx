@@ -142,7 +142,7 @@ export async function Pricing() {
             />
 
             <p className="text-muted-foreground mt-4 text-center text-xs">
-              After 100 spots, $149 one-time. Lifetime updates.
+              After 100 spots, $149 one-time. Lifetime updates. 14-day refund.
             </p>
           </div>
         </div>
