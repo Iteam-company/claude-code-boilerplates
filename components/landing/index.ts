@@ -11,3 +11,4 @@ export { FAQ } from './FAQ';
 export { SocialProof } from './SocialProof';
 export { Testimonials } from './Testimonials';
 export { FinalCTA } from './FinalCTA';
+export { FadeIn } from './FadeIn';

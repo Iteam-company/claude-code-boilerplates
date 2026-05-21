@@ -7,6 +7,7 @@ import {
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
+import { FadeIn } from './FadeIn';
 
 type CellValue = true | false | 'partial' | string;
 
@@ -217,17 +218,19 @@ function TableRow({ row }: { row: FeatureRow }) {
 
 export function Comparison() {
   return (
-    <section className="py-20">
+    <section className="py-24">
       <Container>
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            How we stack up against the boilerplate market.
-          </h2>
-          <p className="text-muted-foreground mt-4 text-lg">
-            The honest comparison. Free for free, paid for paid &mdash;
-            here&apos;s where each starter wins.
-          </p>
-        </div>
+        <FadeIn>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
+              How we stack up against the boilerplate market.
+            </h2>
+            <p className="text-muted-foreground mt-4 text-lg">
+              The honest comparison. Free for free, paid for paid &mdash;
+              here&apos;s where each starter wins.
+            </p>
+          </div>
+        </FadeIn>
 
         <div className="border-border mt-12 overflow-x-auto rounded-2xl border">
           <table className="w-full min-w-[820px] border-collapse">
@@ -318,30 +321,35 @@ export function Comparison() {
           based on default packages.
         </p>
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-3">
-          {NARRATIVES.map((n) => (
-            <div key={n.name} className="border-border rounded-xl border p-6">
-              <div className="mb-3 flex items-baseline gap-2">
-                <h3 className="text-foreground text-base font-semibold">
-                  vs {n.name}
-                </h3>
-                <span className="text-xs font-medium text-red-400">
-                  {n.price}
-                </span>
-              </div>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {n.text}
-              </p>
-              <Link
-                href={n.href}
-                className="text-primary mt-4 inline-flex items-center gap-1 text-sm font-medium hover:underline"
+        <FadeIn delay={0.1}>
+          <div className="mt-16 grid gap-6 sm:grid-cols-3">
+            {NARRATIVES.map((n) => (
+              <div
+                key={n.name}
+                className="border-border rounded-xl border p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
               >
-                Full comparison
-                <ArrowRightIcon className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-          ))}
-        </div>
+                <div className="mb-3 flex items-baseline gap-2">
+                  <h3 className="text-foreground text-base font-semibold">
+                    vs {n.name}
+                  </h3>
+                  <span className="text-xs font-medium text-red-400">
+                    {n.price}
+                  </span>
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed">
+                  {n.text}
+                </p>
+                <Link
+                  href={n.href}
+                  className="text-primary mt-4 inline-flex items-center gap-1 text-sm font-medium hover:underline"
+                >
+                  Full comparison
+                  <ArrowRightIcon className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
       </Container>
     </section>
   );
