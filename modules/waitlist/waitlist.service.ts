@@ -36,6 +36,10 @@ export const waitlistService = {
     return { alreadyExists: false, requiresPayment: false, hasGithub: false };
   },
 
+  async markPaid(email: string, stripeSessionId: string): Promise<void> {
+    await waitlistRepo.updateStripeSession(email, stripeSessionId);
+  },
+
   async addGithubUsername(
     email: string,
     githubUsername: string,

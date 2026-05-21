@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { orderService } from '@/modules/order/order.service';
 import { subscriptionService } from '@/modules/subscription/subscription.service';
 import { creditService } from '@/modules/credit/credit.service';
+import { waitlistService } from '@/modules/waitlist';
 
 export const runtime = 'nodejs';
 
@@ -25,6 +26,16 @@ export async function POST(req: Request) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object;
+
+        if (session.metadata?.source === 'waitlist') {
+          const email =
+            session.customer_email ?? session.customer_details?.email;
+          if (email) {
+            await waitlistService.markPaid(email, session.id);
+          }
+          break;
+        }
+
         const userId = session.metadata?.userId;
         if (!userId) break;
 
