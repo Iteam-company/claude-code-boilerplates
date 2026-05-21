@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Loader2Icon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { validateEmail } from './validators';
@@ -17,15 +18,23 @@ interface Props {
 }
 
 export function EmailStep({ plan, onNext }: Props) {
+  const t = useTranslations('emailModal.emailStep');
+  const tValidation = useTranslations('emailModal.validation');
+
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const isFree = plan === 'free';
 
+  function resolveEmailError(value: string): string {
+    const key = validateEmail(value);
+    return key ? tValidation(key) : '';
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const err = validateEmail(email);
+    const err = resolveEmailError(email);
     if (err) {
       setEmailError(err);
       return;
@@ -47,24 +56,22 @@ export function EmailStep({ plan, onNext }: Props) {
   return (
     <form onSubmit={handleSubmit} noValidate>
       <h2 className="text-foreground text-lg font-semibold">
-        {isFree ? 'Get the free boilerplate' : 'Reserve your free Pro spot'}
+        {isFree ? t('titleFree') : t('titlePro')}
       </h2>
       <p className="text-muted-foreground mt-1 text-sm">
-        {isFree
-          ? "Enter your email and we'll send you the GitHub link."
-          : 'Enter your email to join the waitlist. First 100 spots are free.'}
+        {isFree ? t('descFree') : t('descPro')}
       </p>
 
       <div className="mt-5">
         <label className="text-foreground mb-1.5 block text-sm font-medium">
-          Email
+          {t('emailLabel')}
         </label>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          onBlur={() => setEmailError(validateEmail(email))}
-          placeholder="you@example.com"
+          onBlur={() => setEmailError(resolveEmailError(email))}
+          placeholder={t('emailPlaceholder')}
           inputMode="email"
           autoComplete="email"
           autoFocus
@@ -84,7 +91,7 @@ export function EmailStep({ plan, onNext }: Props) {
         className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
       >
         {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
-        {isFree ? 'Get the repo →' : 'Join waitlist →'}
+        {isFree ? t('ctaFree') : t('ctaPro')}
       </button>
     </form>
   );

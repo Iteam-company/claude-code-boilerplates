@@ -2,10 +2,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ROUTES } from '@/lib/routes';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { cn } from '@/lib/utils';
 export const Header = () => {
+  const t = useTranslations('header');
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [pricingActive, setPricingActive] = useState(false);
@@ -48,7 +50,7 @@ export const Header = () => {
           href="/"
           className="text-foreground text-base font-bold tracking-tight"
         >
-          Claude Code Boilerplate
+          {t('brand')}
         </Link>
 
         <nav
@@ -56,16 +58,16 @@ export const Header = () => {
           className="hidden items-center gap-6 md:flex"
         >
           <Link href="/" className={navLink(pathname === '/')}>
-            Features
+            {t('nav.features')}
           </Link>
           <a href="/#pricing" className={navLink(pricingActive)}>
-            Pricing
+            {t('nav.pricing')}
           </a>
           <Link
             href={ROUTES.BLOG}
             className={navLink(pathname.startsWith('/blog'))}
           >
-            Blog
+            {t('nav.blog')}
           </Link>
         </nav>
 
@@ -75,7 +77,7 @@ export const Header = () => {
             href="/#pricing"
             className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium transition-colors"
           >
-            Get started →
+            {t('getStarted')}
           </a>
         </div>
       </div>

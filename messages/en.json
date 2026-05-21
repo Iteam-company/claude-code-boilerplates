@@ -3,6 +3,8 @@
     "home": "Home"
   },
   "header": {
+    "brand": "Claude Code Boilerplate",
+    "getStarted": "Get started →",
     "signIn": "Sign In",
     "nav": {
       "product": "Product",
@@ -82,34 +84,207 @@
       }
     },
     "features": {
-      "heading": "Everything you need to launch",
-      "subheading": "Stop rebuilding the same foundations. Start with a complete, production-tested stack.",
+      "heading": "Everything you'd build in week 1 — already built.",
       "items": {
-        "auth": {
-          "title": "Authentication",
-          "description": "JWT-based auth with sign up, sign in, email verification, and password reset out of the box."
+        "nextjs": {
+          "title": "Next.js 16 + React 19",
+          "description": "Modern App Router setup"
         },
-        "payments": {
-          "title": "Stripe Payments",
-          "description": "One-time purchases and subscriptions with Checkout sessions, webhooks, and a customer portal."
+        "drizzle": {
+          "title": "Drizzle + Neon DB",
+          "description": "Serverless Postgres with migrations"
+        },
+        "auth": {
+          "title": "JWT auth",
+          "description": "Login, register, verify, reset"
+        },
+        "stripe": {
+          "title": "Stripe",
+          "description": "Subscriptions + one-time + portal"
         },
         "email": {
-          "title": "Transactional Email",
-          "description": "Welcome, verification, and reset emails via Resend with react-email templates included."
+          "title": "Resend + react-email",
+          "description": "Transactional templates ready"
         },
-        "database": {
-          "title": "Database Ready",
-          "description": "Drizzle ORM with Neon serverless Postgres, typed queries, and migration scripts included."
+        "uploads": {
+          "title": "Cloudinary uploads",
+          "description": "Signed URLs included"
         },
-        "darkMode": {
-          "title": "Dark Mode",
-          "description": "Full light and dark mode support via next-themes with CSS variable-based theming throughout."
+        "ui": {
+          "title": "Shadcn UI + Tailwind v4",
+          "description": "30+ components ready"
         },
-        "i18n": {
-          "title": "Internationalization",
-          "description": "next-intl wired up and ready. Add a new language by dropping in a single JSON file."
+        "theme": {
+          "title": "Dark / light theme",
+          "description": "Auto-switching"
+        },
+        "blog": {
+          "title": "MDX blog",
+          "description": "SEO + OG images per post"
+        },
+        "deploy": { "title": "Vercel deploy", "description": "Push to ship" },
+        "claudeConfig": {
+          "title": "Claude Code config",
+          "description": "CLAUDE.md pre-loaded"
+        },
+        "skills": {
+          "title": "10 core skills",
+          "description": "The Claude Code starter pack"
         }
       }
+    },
+    "problem": {
+      "heading": "You've wired up Stripe, auth, and email for the 4th time. You're tired.",
+      "subheading": "Every new SaaS starts with the same 2 weeks of plumbing. Webhooks. Password reset flows. Customer portals. Multi-tenancy. By the time you ship the actual product idea, the spark is gone.",
+      "items": {
+        "plumbing": {
+          "title": "Plumbing first",
+          "body": "Two weeks gone to auth, Stripe, email, multi-tenancy — before your idea ships."
+        },
+        "cost": {
+          "title": "$199 just to start",
+          "body": "Every boilerplate charges $199–$1,124 before you've validated a single feature."
+        },
+        "ai": {
+          "title": "AI bolted on",
+          "body": "AI is a feature on most starters. On this one, Claude Code is the workflow."
+        }
+      }
+    },
+    "offer": {
+      "heading": "Free includes what others charge for. Pro includes what others don't have.",
+      "freeBadge": "Free forever",
+      "freeDesc1": "Stripe subscriptions. Customer portal. Email verification. Password reset. File uploads. All production-ready. All free.",
+      "freeDesc2": "ShipFast charges $199 for the same stack. supastarter charges $261. We give it away because the real value is the Claude Code workflow on top.",
+      "freeCta": "Get the free version →",
+      "proBadge": "Claude Code superpowers",
+      "proDesc": "40+ Claude Code skills, 11 custom agents, MCP server configs, and the multi-tenancy + AI modules. The workflow layer that turns a boilerplate into a build-anything machine.",
+      "proCta": "Reserve your free spot →",
+      "freeFeatures": {
+        "stripeCheckout": "Stripe checkout",
+        "subscriptions": "Subscriptions",
+        "webhooks": "Webhooks",
+        "customerPortal": "Customer portal",
+        "auth": "Auth (login, verify, reset)",
+        "email": "Email (Resend + react-email)",
+        "fileUploads": "File uploads (Cloudinary)",
+        "mdxBlog": "MDX blog",
+        "darkTheme": "Dark / light theme"
+      },
+      "proFeatures": {
+        "skills": "40+ skills",
+        "agents": "11 agents",
+        "mcp": "MCP configs",
+        "multiTenancy": "Multi-tenancy",
+        "ai": "AI / Claude module",
+        "premiumSkills": "Premium skill packs",
+        "updates": "Lifetime updates",
+        "discord": "Private Discord"
+      }
+    },
+    "comparison": {
+      "heading": "How we stack up against the boilerplate market.",
+      "subheading": "The honest comparison. Free for free, paid for paid — here's where each starter wins.",
+      "colFeature": "Feature",
+      "sectionWorkflow": "Claude Code workflow — not available anywhere else",
+      "sectionDetails": "Details",
+      "disclaimer": "Competitor pricing from their public pricing pages. Feature coverage based on default packages.",
+      "fullComparison": "Full comparison",
+      "rows": {
+        "price": "Price",
+        "openSource": "Open source",
+        "stripeCheckout": "Stripe checkout + subscriptions",
+        "customerPortal": "Customer portal",
+        "auth": "Auth (login, verify, reset)",
+        "emailTemplates": "Email templates",
+        "fileUploads": "File uploads",
+        "multiTenancy": "Multi-tenancy",
+        "claudeSkills": "Claude Code skills (40+)",
+        "customAgents": "Custom agents",
+        "mcpConfigs": "MCP server configs",
+        "aiIntegration": "AI / Claude integration",
+        "drizzle": "Drizzle ORM",
+        "lifetimeUpdates": "Lifetime updates",
+        "refundWindow": "Refund window",
+        "bestFor": "Best for"
+      },
+      "narratives": {
+        "shipfast": {
+          "name": "ShipFast",
+          "text": "ShipFast is the brand leader -- great for fast Twitter indie hackers, weaker on architecture (uses Mongoose, single-file modules). We're free at feature parity, and Pro adds the Claude Code layer ShipFast has no answer to."
+        },
+        "makerkit": {
+          "name": "MakerKit",
+          "text": "MakerKit is the technical standard -- modular, well-documented, swap-in Supabase/Drizzle/Prisma. Stronger architecture than ShipFast. Our differentiator: same architecture quality, free at the feature layer, and Claude Code-native instead of generic AI mentions."
+        },
+        "supastarter": {
+          "name": "supastarter",
+          "text": "supastarter targets serious founders with i18n, multi-tenancy, background jobs. Highest-priced competitor. We match the feature depth and beat them on price (free -> $149 vs $261-$1,124) and on Claude Code workflow integration."
+        }
+      }
+    },
+    "skillsShowcase": {
+      "heading": "40+ Claude Code skills your Claude already knows.",
+      "subheading": "Skills are pre-loaded knowledge that turn \"how do I do X\" into \"do X\". Every skill is a tested pattern from real production projects.",
+      "youType": "You type",
+      "claudeScaffolds": "Claude scaffolds",
+      "proBadge": "PRO",
+      "skills": {
+        "featureModule": {
+          "description": "Generates a complete 7-file DDD-lite module: schema → relations → types → validation → repo → service → index.",
+          "trigger": "add a comments feature"
+        },
+        "drizzleMigrate": {
+          "description": "Schema change to SQL migration in one step. Writes the schema, generates the migration, and walks you through applying it.",
+          "trigger": "add a posts table with title, body, author_id, published_at"
+        },
+        "stripeSetup": {
+          "description": "Full Stripe flow: checkout session, webhook handler, customer portal — wired end to end with env vars documented.",
+          "trigger": "set up stripe checkout for the pro plan"
+        },
+        "emailSetup": {
+          "description": "Resend + react-email: scaffolds the template, wires it into the service layer, and documents the env vars needed.",
+          "trigger": "send a welcome email when a user signs up"
+        },
+        "multiTenancy": {
+          "description": "Organization + member + invitation modules with a full role hierarchy: owner → admin → member.",
+          "trigger": "add organization support with invite links"
+        },
+        "claudeFeature": {
+          "description": "Streaming AI chat: SSE route, credit deduction before calling Claude, and a useAiChat hook — all wired end to end.",
+          "trigger": "add a streaming AI assistant to the dashboard"
+        }
+      }
+    },
+    "howItWorks": {
+      "heading": "From zero to shipped in 3 steps.",
+      "steps": {
+        "clone": {
+          "title": "Clone & deploy",
+          "body": "One command to clone, push to Vercel. Live URL in 10 minutes."
+        },
+        "describe": {
+          "title": "Describe what you want",
+          "body": "Tell Claude Code what to build. It scaffolds files using the patterns already in the repo."
+        },
+        "ship": {
+          "title": "Ship & iterate",
+          "body": "Push to deploy. Add features by describing them. The boilerplate scales as the app grows."
+        }
+      }
+    },
+    "finalCta": {
+      "heading": "Stop wiring Stripe for the 4th time.",
+      "subheading": "Clone the repo. Describe what you want. Ship today.",
+      "freeCta": "Get the free version →",
+      "proCta": "Reserve your free Pro spot →",
+      "finePrint": "MIT licensed · 14-day refund on Pro · No credit card. No catch.",
+      "footnote": "Built by a developer who ships, not a marketing team."
+    },
+    "socialProof": {
+      "githubLink": "View source on GitHub",
+      "license": "MIT licensed · open source forever",
+      "builtWith": "Built with"
     },
     "pricing": {
       "heading": "Simple, transparent pricing",
@@ -189,6 +364,52 @@
       "github": "View on GitHub"
     }
   },
+  "emailModal": {
+    "closeAriaLabel": "Close",
+    "emailStep": {
+      "titleFree": "Get the free boilerplate",
+      "titlePro": "Reserve your free Pro spot",
+      "descFree": "Enter your email and we'll send you the GitHub link.",
+      "descPro": "Enter your email to join the waitlist. First 100 spots are free.",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "ctaFree": "Get the repo →",
+      "ctaPro": "Join waitlist →"
+    },
+    "githubStep": {
+      "title": "One more step",
+      "desc": "Add your GitHub username so we can send the invite when your spot opens.",
+      "label": "GitHub username",
+      "placeholder": "username",
+      "checking": "Checking username…",
+      "cta": "Confirm my spot →"
+    },
+    "successStep": {
+      "freeEmoji": "🎉",
+      "freeTitle": "Check your inbox",
+      "freeDesc": "We sent you an email with the link to the repository.",
+      "proEmoji": "✅",
+      "proTitle": "You're in",
+      "proDesc": "We sent you an invite to the repository. Check your GitHub notifications.",
+      "button": "Got it"
+    },
+    "duplicateStep": {
+      "emoji": "👋",
+      "title": "You're already registered",
+      "desc": "This email is already on the list. Check your inbox for updates.",
+      "button": "Got it"
+    },
+    "validation": {
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email.",
+      "githubRequired": "GitHub username is required.",
+      "githubTooLong": "Maximum 39 characters.",
+      "githubInvalidChars": "Only letters, numbers, and hyphens allowed.",
+      "githubHyphenStart": "Cannot start or end with a hyphen.",
+      "githubConsecutiveHyphens": "Cannot contain consecutive hyphens.",
+      "githubNotFound": "GitHub user not found."
+    }
+  },
   "signIn": {
     "title": "Sign In",
     "email": "Email",
@@ -249,7 +470,7 @@
     "metaTitle": "Payment Successful",
     "metaDescription": "Your payment was processed successfully.",
     "heading": "Payment successful!",
-    "description": "Thank you for your purchase. You’ll receive a confirmation email shortly.",
+    "description": "Thank you for your purchase. You'll receive a confirmation email shortly.",
     "backHome": "Back to home"
   },
   "pricing": {

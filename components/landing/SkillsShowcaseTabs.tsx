@@ -15,9 +15,21 @@ export interface SkillTab {
 
 interface Props {
   skills: SkillTab[];
+  heading: string;
+  subheading: string;
+  youType: string;
+  claudeScaffolds: string;
+  proBadge: string;
 }
 
-export function SkillsShowcaseTabs({ skills }: Props) {
+export function SkillsShowcaseTabs({
+  skills,
+  heading,
+  subheading,
+  youType,
+  claudeScaffolds,
+  proBadge,
+}: Props) {
   const [active, setActive] = useState(skills[0].id);
   const skill = skills.find((s) => s.id === active)!;
 
@@ -26,13 +38,9 @@ export function SkillsShowcaseTabs({ skills }: Props) {
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
-            40+ Claude Code skills your Claude already knows.
+            {heading}
           </h2>
-          <p className="text-muted-foreground mt-4 text-lg">
-            Skills are pre-loaded knowledge that turn &ldquo;how do I do
-            X&rdquo; into &ldquo;do X&rdquo;. Every skill is a tested pattern
-            from real production projects.
-          </p>
+          <p className="text-muted-foreground mt-4 text-lg">{subheading}</p>
         </div>
 
         <div className="mt-12 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
@@ -52,7 +60,7 @@ export function SkillsShowcaseTabs({ skills }: Props) {
                   /{s.name}
                   {s.pro && (
                     <span className="rounded bg-amber-500/20 px-1 py-0.5 font-sans text-[10px] font-semibold text-amber-400">
-                      PRO
+                      {proBadge}
                     </span>
                   )}
                 </button>
@@ -67,7 +75,7 @@ export function SkillsShowcaseTabs({ skills }: Props) {
 
             <div className="mt-6 space-y-3">
               <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
-                You type
+                {youType}
               </p>
               <div className="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
                 <span className="font-mono text-sm text-sky-400">›</span>
@@ -79,7 +87,7 @@ export function SkillsShowcaseTabs({ skills }: Props) {
 
             <div className="mt-6 space-y-3">
               <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
-                Claude scaffolds
+                {claudeScaffolds}
               </p>
               <div
                 className="overflow-hidden rounded-lg border border-zinc-800 [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!bg-[#0a0a0a] [&_pre]:p-4 [&_pre]:text-xs [&_pre]:leading-relaxed"
