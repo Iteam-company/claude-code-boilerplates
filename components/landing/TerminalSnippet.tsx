@@ -1,18 +1,12 @@
-'use client';
+interface Props {
+  html: string;
+}
 
-import dynamic from 'next/dynamic';
-
-const CodeBlock = dynamic(() => import('./CodeBlock'), {
-  ssr: false,
-  loading: () => (
-    <pre className="min-h-16 bg-[#0a0a0a] p-4 font-mono text-[11px] leading-relaxed whitespace-pre text-zinc-300" />
-  ),
-});
-
-export function TerminalSnippet({ code }: { code: string }) {
+export function TerminalSnippet({ html }: Props) {
   return (
-    <div className="mt-6 overflow-x-auto rounded-lg border border-zinc-800">
-      <CodeBlock language="bash" code={code} fontSize="10px" />
-    </div>
+    <div
+      className="mt-6 overflow-x-auto rounded-lg border border-zinc-800 [&_pre]:!m-0 [&_pre]:!rounded-none [&_pre]:!bg-[#0a0a0a] [&_pre]:p-4 [&_pre]:text-[10px] [&_pre]:leading-relaxed"
+      dangerouslySetInnerHTML={{ __html: html }}
+    />
   );
 }

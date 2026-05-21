@@ -1,28 +1,7 @@
-'use client';
+import { highlightCode } from '@/lib/highlight';
+import { SkillsShowcaseTabs } from './SkillsShowcaseTabs';
 
-import { useState } from 'react';
-import dynamic from 'next/dynamic';
-import { cn } from '@/lib/utils';
-import { Container } from '@/components/Container';
-
-const CodeBlock = dynamic(() => import('./CodeBlock'), {
-  ssr: false,
-  loading: () => (
-    <pre className="min-h-40 bg-[#0a0a0a] p-4 font-mono text-xs leading-relaxed text-zinc-300" />
-  ),
-});
-
-interface Skill {
-  id: string;
-  name: string;
-  description: string;
-  trigger: string;
-  output: string;
-  language: string;
-  pro?: boolean;
-}
-
-const SKILLS: Skill[] = [
+const SKILLS = [
   {
     id: 'feature-module',
     name: 'feature-module',
@@ -148,79 +127,17 @@ export async function POST(req: Request) {
   },
 ];
 
-export function SkillsShowcase() {
-  const [active, setActive] = useState(SKILLS[0].id);
-  const skill = SKILLS.find((s) => s.id === active)!;
-
-  return (
-    <section className="py-20">
-      <Container>
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            40+ Claude Code skills your Claude already knows.
-          </h2>
-          <p className="text-muted-foreground mt-4 text-lg">
-            Skills are pre-loaded knowledge that turn &ldquo;how do I do
-            X&rdquo; into &ldquo;do X&rdquo;. Every skill is a tested pattern
-            from real production projects.
-          </p>
-        </div>
-
-        <div className="mt-12 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950">
-          {/* Tab bar */}
-          <div className="overflow-x-auto border-b border-zinc-800">
-            <div className="flex min-w-max px-4">
-              {SKILLS.map((s) => (
-                <button
-                  key={s.id}
-                  onClick={() => setActive(s.id)}
-                  className={cn(
-                    'flex items-center gap-1.5 border-b-2 px-4 py-3.5 font-mono text-xs whitespace-nowrap transition-colors',
-                    active === s.id
-                      ? 'border-sky-400 text-sky-400'
-                      : 'border-transparent text-zinc-400 hover:text-zinc-200',
-                  )}
-                >
-                  /{s.name}
-                  {s.pro && (
-                    <span className="rounded bg-amber-500/20 px-1 py-0.5 font-sans text-[10px] font-semibold text-amber-400">
-                      PRO
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="p-6 sm:p-8">
-            <p className="text-sm leading-relaxed text-zinc-300">
-              {skill.description}
-            </p>
-
-            <div className="mt-6 space-y-3">
-              <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
-                You type
-              </p>
-              <div className="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
-                <span className="font-mono text-sm text-sky-400">›</span>
-                <span className="font-mono text-sm text-zinc-200">
-                  {skill.trigger}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6 space-y-3">
-              <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
-                Claude scaffolds
-              </p>
-              <div className="overflow-hidden rounded-lg border border-zinc-800">
-                <CodeBlock language={skill.language} code={skill.output} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </Container>
-    </section>
+export async function SkillsShowcase() {
+  const skills = await Promise.all(
+    SKILLS.map(async (s) => ({
+      id: s.id,
+      name: s.name,
+      description: s.description,
+      trigger: s.trigger,
+      pro: s.pro,
+      html: await highlightCode(s.output, s.language),
+    })),
   );
+
+  return <SkillsShowcaseTabs skills={skills} />;
 }

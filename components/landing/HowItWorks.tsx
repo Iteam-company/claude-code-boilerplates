@@ -1,5 +1,7 @@
 import { Container } from '@/components/Container';
 import { TerminalSnippet } from './TerminalSnippet';
+import { FadeIn } from './FadeIn';
+import { highlightCode } from '@/lib/highlight';
 
 const STEPS = [
   {
@@ -35,33 +37,44 @@ Deploying to production...
   },
 ];
 
-export function HowItWorks() {
-  return (
-    <section className="py-20">
-      <Container>
-        <h2 className="text-foreground mx-auto max-w-xl text-center text-3xl font-bold tracking-tight md:text-4xl">
-          From zero to shipped in 3 steps.
-        </h2>
+export async function HowItWorks() {
+  const steps = await Promise.all(
+    STEPS.map(async (step) => ({
+      ...step,
+      html: await highlightCode(step.snippet, 'bash'),
+    })),
+  );
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {STEPS.map(({ number, title, body, snippet }) => (
-            <div
-              key={number}
-              className="border-border bg-muted/20 flex min-w-0 flex-col rounded-2xl border p-6"
-            >
-              <span className="text-primary font-mono text-4xl leading-none font-bold">
-                {number}
-              </span>
-              <h3 className="text-foreground mt-4 text-base font-semibold">
-                {title}
-              </h3>
-              <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
-                {body}
-              </p>
-              <TerminalSnippet code={snippet} />
-            </div>
-          ))}
-        </div>
+  return (
+    <section className="py-24">
+      <Container>
+        <FadeIn>
+          <h2 className="text-foreground mx-auto max-w-xl text-center text-4xl font-bold tracking-tight md:text-5xl">
+            From zero to shipped in 3 steps.
+          </h2>
+        </FadeIn>
+
+        <FadeIn delay={0.1}>
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
+            {steps.map(({ number, title, body, html }) => (
+              <div
+                key={number}
+                className="border-border bg-muted/20 flex min-w-0 flex-col rounded-2xl border p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <span className="text-primary font-mono text-4xl leading-none font-bold">
+                  {number}
+                </span>
+                <h3 className="text-foreground mt-4 text-base font-semibold">
+                  {title}
+                </h3>
+                <p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+                  {body}
+                </p>
+                <TerminalSnippet html={html} />
+              </div>
+            ))}
+          </div>
+        </FadeIn>
       </Container>
     </section>
   );
