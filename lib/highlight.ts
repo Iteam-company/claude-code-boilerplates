@@ -5,7 +5,7 @@ let highlighterPromise: ReturnType<typeof createHighlighter> | null = null;
 function getHighlighter() {
   if (!highlighterPromise) {
     highlighterPromise = createHighlighter({
-      themes: ['vesper'],
+      themes: ['one-dark-pro'],
       langs: ['bash', 'sql', 'typescript', 'tsx'],
     });
   }
@@ -19,6 +19,6 @@ export async function highlightCode(
   const hl = await getHighlighter();
   return hl.codeToHtml(code, {
     lang,
-    theme: 'vesper',
+    theme: 'one-dark-pro',
   });
 }
