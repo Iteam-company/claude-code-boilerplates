@@ -1,5 +1,6 @@
 import { Container } from '@/components/Container';
 import { cn } from '@/lib/utils';
+import { FadeIn } from './FadeIn';
 
 const AVATARS = [
   { initials: 'AK', color: 'bg-violet-500' },
@@ -32,16 +33,18 @@ const CASE_STUDY = {
 
 export function Testimonials() {
   return (
-    <section className="py-20">
+    <section className="py-24">
       <Container>
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
-            From the first 100 founders who shipped.
-          </h2>
-          <p className="text-muted-foreground mt-4 text-lg">
-            Early builders shipping real products with this boilerplate.
-          </p>
-        </div>
+        <FadeIn>
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
+              From the first 100 founders who shipped.
+            </h2>
+            <p className="text-muted-foreground mt-4 text-lg">
+              Early builders shipping real products with this boilerplate.
+            </p>
+          </div>
+        </FadeIn>
 
         {/* Avatar stack */}
         <div className="mt-10 flex flex-col items-center gap-3">

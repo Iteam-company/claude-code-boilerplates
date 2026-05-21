@@ -11,7 +11,7 @@ export function FinalCTA() {
     <section className="bg-zinc-950 py-24">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+          <h2 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
             Stop wiring Stripe for the 4th time.
           </h2>
           <p className="mt-4 text-lg text-zinc-400">
