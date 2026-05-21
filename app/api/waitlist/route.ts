@@ -12,8 +12,11 @@ export async function POST(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: 'Invalid payload.' }, { status: 400 });
     }
-    await waitlistService.addEmail(parsed.data.email, parsed.data.plan);
-    return NextResponse.json({ ok: true });
+    const result = await waitlistService.addEmail(
+      parsed.data.email,
+      parsed.data.plan,
+    );
+    return NextResponse.json({ ok: true, ...result });
   } catch {
     return NextResponse.json({ error: 'Server error.' }, { status: 500 });
   }
