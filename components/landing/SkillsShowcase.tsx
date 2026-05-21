@@ -199,7 +199,7 @@ export function SkillsShowcase() {
             </p>
 
             <div className="mt-6 space-y-3">
-              <p className="text-xs font-semibold tracking-widest text-zinc-500 uppercase">
+              <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
                 You type
               </p>
               <div className="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
@@ -211,7 +211,7 @@ export function SkillsShowcase() {
             </div>
 
             <div className="mt-6 space-y-3">
-              <p className="text-xs font-semibold tracking-widest text-zinc-500 uppercase">
+              <p className="text-xs font-semibold tracking-widest text-zinc-400 uppercase">
                 Claude scaffolds
               </p>
               <div className="overflow-hidden rounded-lg border border-zinc-800">
