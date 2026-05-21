@@ -13,7 +13,7 @@ interface Props {
 export function FooterLinkList({ heading, links }: Props) {
   return (
     <div>
-      <h3 className="text-foreground text-sm font-semibold">{heading}</h3>
+      <h2 className="text-foreground text-sm font-semibold">{heading}</h2>
       <ul className="mt-3 space-y-2">
         {links.map(({ label, href }) => (
           <li key={label}>

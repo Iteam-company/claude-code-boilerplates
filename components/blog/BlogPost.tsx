@@ -1,58 +1,16 @@
-'use client';
 import Link from 'next/link';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import {
-  oneDark,
-  oneLight,
-} from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useTheme } from 'next-themes';
 import { Container } from '@/components/Container';
-import type { ComponentProps } from 'react';
+import { markdownToHtml } from '@/lib/markdown';
 import type { Post } from '@/modules/post';
 
 interface Props {
   post: Post;
 }
 
-type CodeProps = ComponentProps<'code'> & { inline?: boolean };
-
-export function BlogPost({ post }: Props) {
-  const { resolvedTheme } = useTheme();
-
-  const CodeBlock = ({ inline, className, children, ...rest }: CodeProps) => {
-    const match = /language-(\w+)/.exec(className ?? '');
-    const language = match?.[1] ?? 'text';
-    const code = String(children).replace(/\n$/, '');
-
-    if (inline || !match) {
-      return (
-        <code
-          className="bg-muted rounded px-1.5 py-0.5 font-mono text-sm"
-          {...rest}
-        >
-          {children}
-        </code>
-      );
-    }
-
-    return (
-      <SyntaxHighlighter
-        language={language}
-        style={resolvedTheme === 'dark' ? oneDark : oneLight}
-        customStyle={{
-          borderRadius: '0.5rem',
-          fontSize: '0.8125rem',
-          margin: '1.5rem 0',
-        }}
-      >
-        {code}
-      </SyntaxHighlighter>
-    );
-  };
+export async function BlogPost({ post }: Props) {
+  const html = await markdownToHtml(post.content);
 
   return (
     <Container className="py-16">
@@ -91,17 +49,10 @@ export function BlogPost({ post }: Props) {
           )}
         </header>
 
-        <article className="prose prose-neutral dark:prose-invert max-w-none">
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            components={{
-              pre: ({ children }) => <>{children}</>,
-              code: CodeBlock,
-            }}
-          >
-            {post.content}
-          </ReactMarkdown>
-        </article>
+        <article
+          className="prose prose-neutral dark:prose-invert max-w-none"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
       </div>
     </Container>
   );
