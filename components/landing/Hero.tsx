@@ -149,12 +149,7 @@ export function Hero() {
                           : 'text-zinc-500'
                   }
                 >
-                  {i === visibleLines - 1 &&
-                  visibleLines < TERMINAL_LINES.length ? (
-                    <>{line.text}</>
-                  ) : (
-                    line.text
-                  )}
+                  {line.text}
                 </div>
               ))}
               <div
