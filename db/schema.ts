@@ -22,6 +22,7 @@ import {
   waitlistTable,
   waitlistPlanEnum,
 } from '@/modules/waitlist/waitlist.schema';
+import { leadTable } from '@/modules/lead/lead.schema';
 
 export const schema = {
   userTable,
@@ -42,4 +43,5 @@ export const schema = {
   postTable,
   waitlistTable,
   waitlistPlanEnum,
+  leadTable,
 };

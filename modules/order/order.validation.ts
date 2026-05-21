@@ -9,6 +9,9 @@ export const checkoutSchema = z.object({
   credits: z.number().int().positive().optional(),
   customer_email: z.string().email(),
   source: z.string().optional(),
+  // Pro tier fields — required together when tier='pro'
+  tier: z.enum(['pro']).optional(),
+  github_username: z.string().min(1).max(39).optional(),
 });
 
 export type CheckoutSchemaType = z.infer<typeof checkoutSchema>;
