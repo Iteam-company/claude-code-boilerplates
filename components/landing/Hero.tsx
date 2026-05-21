@@ -111,7 +111,7 @@ export function Hero({ stars = null, spots = null }: Props) {
               <span className="h-3 w-3 rounded-full bg-red-500/80" />
               <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
               <span className="h-3 w-3 rounded-full bg-green-500/80" />
-              <span className="ml-3 text-xs text-zinc-500">Claude Code</span>
+              <span className="ml-3 text-xs text-zinc-400">Claude Code</span>
             </div>
             <div className="min-h-40 p-6 text-left font-mono text-sm leading-relaxed">
               {TERMINAL_LINES.slice(0, visibleLines).map((line, i) => (
@@ -124,7 +124,7 @@ export function Hero({ stars = null, spots = null }: Props) {
                         ? 'text-green-400'
                         : line.type === 'url'
                           ? 'mt-2 text-blue-400'
-                          : 'text-zinc-500'
+                          : 'text-zinc-400'
                   }
                 >
                   {line.text}
