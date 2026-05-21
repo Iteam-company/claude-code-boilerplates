@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Loader2Icon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { validateGithub } from './validators';
@@ -11,13 +12,21 @@ interface Props {
 }
 
 export function GithubStep({ email, onNext }: Props) {
+  const t = useTranslations('emailModal.githubStep');
+  const tValidation = useTranslations('emailModal.validation');
+
   const [github, setGithub] = useState('');
   const [githubError, setGithubError] = useState('');
   const [githubChecking, setGithubChecking] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  function resolveGithubError(value: string): string {
+    const key = validateGithub(value);
+    return key ? tValidation(key) : '';
+  }
+
   async function checkGithubUser(username: string) {
-    const formatErr = validateGithub(username);
+    const formatErr = resolveGithubError(username);
     if (formatErr) {
       setGithubError(formatErr);
       return;
@@ -26,7 +35,7 @@ export function GithubStep({ email, onNext }: Props) {
     setGithubError('');
     try {
       const res = await fetch(`/api/github/${encodeURIComponent(username)}`);
-      if (res.status === 404) setGithubError('GitHub user not found.');
+      if (res.status === 404) setGithubError(tValidation('githubNotFound'));
     } catch {
       // network error — don't block submission
     } finally {
@@ -36,7 +45,7 @@ export function GithubStep({ email, onNext }: Props) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const err = validateGithub(github);
+    const err = resolveGithubError(github);
     if (err || githubError) {
       if (err) setGithubError(err);
       return;
@@ -57,14 +66,12 @@ export function GithubStep({ email, onNext }: Props) {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <h2 className="text-foreground text-lg font-semibold">One more step</h2>
-      <p className="text-muted-foreground mt-1 text-sm">
-        Add your GitHub username so we can send the invite when your spot opens.
-      </p>
+      <h2 className="text-foreground text-lg font-semibold">{t('title')}</h2>
+      <p className="text-muted-foreground mt-1 text-sm">{t('desc')}</p>
 
       <div className="mt-5">
         <label className="text-foreground mb-1.5 block text-sm font-medium">
-          GitHub username
+          {t('label')}
         </label>
         <div className="flex items-center">
           <span className="border-input bg-muted text-muted-foreground rounded-l-md border border-r-0 px-3 py-2 text-sm select-none">
@@ -75,10 +82,11 @@ export function GithubStep({ email, onNext }: Props) {
             value={github}
             onChange={(e) => {
               setGithub(e.target.value);
-              if (githubError) setGithubError(validateGithub(e.target.value));
+              if (githubError)
+                setGithubError(resolveGithubError(e.target.value));
             }}
             onBlur={() => checkGithubUser(github)}
-            placeholder="username"
+            placeholder={t('placeholder')}
             autoFocus
             autoComplete="username"
             className={cn(
@@ -90,7 +98,7 @@ export function GithubStep({ email, onNext }: Props) {
         {githubChecking && (
           <p className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
             <Loader2Icon className="h-3 w-3 animate-spin" />
-            Checking username…
+            {t('checking')}
           </p>
         )}
         {githubError && (
@@ -104,7 +112,7 @@ export function GithubStep({ email, onNext }: Props) {
         className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
       >
         {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
-        Confirm my spot &rarr;
+        {t('cta')}
       </button>
     </form>
   );

@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { highlightCode } from '@/lib/highlight';
 import { SkillsShowcaseTabs } from './SkillsShowcaseTabs';
 
@@ -5,9 +6,7 @@ const SKILLS = [
   {
     id: 'feature-module',
     name: 'feature-module',
-    description:
-      'Generates a complete 7-file DDD-lite module: schema → relations → types → validation → repo → service → index.',
-    trigger: 'add a comments feature',
+    translationKey: 'featureModule',
     language: 'bash',
     output: `modules/comment/
 ├── comment.schema.ts     ← Drizzle table definition
@@ -21,9 +20,7 @@ const SKILLS = [
   {
     id: 'drizzle-migrate',
     name: 'drizzle-migrate',
-    description:
-      'Schema change to SQL migration in one step. Writes the schema, generates the migration, and walks you through applying it.',
-    trigger: 'add a posts table with title, body, author_id, published_at',
+    translationKey: 'drizzleMigrate',
     language: 'sql',
     output: `-- migrations/0003_add_posts.sql (auto-generated)
 CREATE TABLE "posts" (
@@ -40,9 +37,7 @@ $ npm run db:migrate  -- applied`,
   {
     id: 'stripe-setup',
     name: 'stripe-setup',
-    description:
-      'Full Stripe flow: checkout session, webhook handler, customer portal — wired end to end with env vars documented.',
-    trigger: 'set up stripe checkout for the pro plan',
+    translationKey: 'stripeSetup',
     language: 'typescript',
     output: `// app/api/stripe/checkout/route.ts
 export async function POST(req: Request) {
@@ -60,9 +55,7 @@ export async function POST(req: Request) {
   {
     id: 'email-setup',
     name: 'email-setup',
-    description:
-      'Resend + react-email: scaffolds the template, wires it into the service layer, and documents the env vars needed.',
-    trigger: 'send a welcome email when a user signs up',
+    translationKey: 'emailSetup',
     language: 'tsx',
     output: `// emails/WelcomeEmail.tsx (scaffolded)
 export function WelcomeEmail({ name }: { name: string }) {
@@ -86,9 +79,7 @@ await emailService.sendEmail({
   {
     id: 'multi-tenancy',
     name: 'multi-tenancy',
-    description:
-      'Organization + member + invitation modules with a full role hierarchy: owner → admin → member.',
-    trigger: 'add organization support with invite links',
+    translationKey: 'multiTenancy',
     language: 'typescript',
     pro: true,
     output: `// Three new modules scaffolded:
@@ -105,9 +96,7 @@ const member = await orgMemberService.requireMember(
   {
     id: 'claude-feature',
     name: 'claude-feature',
-    description:
-      'Streaming AI chat: SSE route, credit deduction before calling Claude, and a useAiChat hook — all wired end to end.',
-    trigger: 'add a streaming AI assistant to the dashboard',
+    translationKey: 'claudeFeature',
     language: 'typescript',
     pro: true,
     output: `// app/api/ai/chat/route.ts
@@ -128,16 +117,28 @@ export async function POST(req: Request) {
 ];
 
 export async function SkillsShowcase() {
+  const t = await getTranslations('landing.skillsShowcase');
+  const tSkills = await getTranslations('landing.skillsShowcase.skills');
+
   const skills = await Promise.all(
     SKILLS.map(async (s) => ({
       id: s.id,
       name: s.name,
-      description: s.description,
-      trigger: s.trigger,
       pro: s.pro,
+      description: tSkills(`${s.translationKey}.description`),
+      trigger: tSkills(`${s.translationKey}.trigger`),
       html: await highlightCode(s.output, s.language),
     })),
   );
 
-  return <SkillsShowcaseTabs skills={skills} />;
+  return (
+    <SkillsShowcaseTabs
+      skills={skills}
+      heading={t('heading')}
+      subheading={t('subheading')}
+      youType={t('youType')}
+      claudeScaffolds={t('claudeScaffolds')}
+      proBadge={t('proBadge')}
+    />
+  );
 }

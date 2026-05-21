@@ -1,47 +1,42 @@
+import { getTranslations } from 'next-intl/server';
 import { Container } from '@/components/Container';
 import { TerminalSnippet } from './TerminalSnippet';
 import { FadeIn } from './FadeIn';
 import { highlightCode } from '@/lib/highlight';
 
-const STEPS = [
-  {
-    number: '01',
-    title: 'Clone & deploy',
-    body: 'One command to clone, push to Vercel. Live URL in 10 minutes.',
-    snippet: `$ git clone <repo> my-app
+const STEP_KEYS = ['clone', 'describe', 'ship'] as const;
+
+const STEP_SNIPPETS = [
+  `$ git clone <repo> my-app
 $ cd my-app && cp .env.example .env
 $ vercel deploy --prod
 
 ✓ Live at https://my-app.vercel.app`,
-  },
-  {
-    number: '02',
-    title: 'Describe what you want',
-    body: 'Tell Claude Code what to build. It scaffolds files using the patterns already in the repo.',
-    snippet: `> add a dashboard with user analytics
+  `> add a dashboard with user analytics
 
 ✓ app/(main)/dashboard/page.tsx
 ✓ components/dashboard/AnalyticsChart.tsx
 ✓ hooks/api/useAnalytics.ts
 ✓ app/api/analytics/route.ts`,
-  },
-  {
-    number: '03',
-    title: 'Ship & iterate',
-    body: 'Push to deploy. Add features by describing them. The boilerplate scales as the app grows.',
-    snippet: `$ git add . && git commit -m "feat: analytics"
+  `$ git add . && git commit -m "feat: analytics"
 $ git push origin main
 
 Deploying to production...
 ✓ https://my-app.vercel.app/dashboard`,
-  },
 ];
 
+const STEP_NUMBERS = ['01', '02', '03'];
+
 export async function HowItWorks() {
+  const t = await getTranslations('landing.howItWorks');
+
   const steps = await Promise.all(
-    STEPS.map(async (step) => ({
-      ...step,
-      html: await highlightCode(step.snippet, 'bash'),
+    STEP_KEYS.map(async (key, i) => ({
+      key,
+      number: STEP_NUMBERS[i],
+      title: t(`steps.${key}.title`),
+      body: t(`steps.${key}.body`),
+      html: await highlightCode(STEP_SNIPPETS[i], 'bash'),
     })),
   );
 
@@ -50,15 +45,15 @@ export async function HowItWorks() {
       <Container>
         <FadeIn>
           <h2 className="text-foreground mx-auto max-w-xl text-center text-4xl font-bold tracking-tight md:text-5xl">
-            From zero to shipped in 3 steps.
+            {t('heading')}
           </h2>
         </FadeIn>
 
         <FadeIn delay={0.1}>
           <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {steps.map(({ number, title, body, html }) => (
+            {steps.map(({ key, number, title, body, html }) => (
               <div
-                key={number}
+                key={key}
                 className="border-border bg-muted/20 flex min-w-0 flex-col rounded-2xl border p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
               >
                 <span className="text-primary font-mono text-4xl leading-none font-bold">

@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import {
   CheckIcon,
   MinusIcon,
@@ -12,7 +13,7 @@ import { FadeIn } from './FadeIn';
 type CellValue = true | false | 'partial' | string;
 
 interface FeatureRow {
-  label: string;
+  key: string;
   free: CellValue;
   pro: CellValue;
   shipfast: CellValue;
@@ -22,7 +23,7 @@ interface FeatureRow {
 
 const MAIN_ROWS: FeatureRow[] = [
   {
-    label: 'Price',
+    key: 'price',
     free: '$0',
     pro: '$0–$149',
     shipfast: '$199',
@@ -30,7 +31,7 @@ const MAIN_ROWS: FeatureRow[] = [
     supa: '$261–$1,124',
   },
   {
-    label: 'Open source',
+    key: 'openSource',
     free: true,
     pro: 'partial',
     shipfast: false,
@@ -38,7 +39,7 @@ const MAIN_ROWS: FeatureRow[] = [
     supa: false,
   },
   {
-    label: 'Stripe checkout + subscriptions',
+    key: 'stripeCheckout',
     free: true,
     pro: true,
     shipfast: true,
@@ -46,7 +47,7 @@ const MAIN_ROWS: FeatureRow[] = [
     supa: true,
   },
   {
-    label: 'Customer portal',
+    key: 'customerPortal',
     free: true,
     pro: true,
     shipfast: true,
@@ -54,7 +55,7 @@ const MAIN_ROWS: FeatureRow[] = [
     supa: true,
   },
   {
-    label: 'Auth (login, verify, reset)',
+    key: 'auth',
     free: true,
     pro: true,
     shipfast: true,
@@ -62,7 +63,7 @@ const MAIN_ROWS: FeatureRow[] = [
     supa: true,
   },
   {
-    label: 'Email templates',
+    key: 'emailTemplates',
     free: true,
     pro: true,
     shipfast: true,
@@ -70,7 +71,7 @@ const MAIN_ROWS: FeatureRow[] = [
     supa: true,
   },
   {
-    label: 'File uploads',
+    key: 'fileUploads',
     free: true,
     pro: true,
     shipfast: 'partial',
@@ -78,7 +79,7 @@ const MAIN_ROWS: FeatureRow[] = [
     supa: true,
   },
   {
-    label: 'Multi-tenancy',
+    key: 'multiTenancy',
     free: false,
     pro: true,
     shipfast: false,
@@ -89,7 +90,7 @@ const MAIN_ROWS: FeatureRow[] = [
 
 const WORKFLOW_ROWS: FeatureRow[] = [
   {
-    label: 'Claude Code skills (40+)',
+    key: 'claudeSkills',
     free: '10 core',
     pro: true,
     shipfast: false,
@@ -97,7 +98,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
     supa: false,
   },
   {
-    label: 'Custom agents',
+    key: 'customAgents',
     free: false,
     pro: true,
     shipfast: false,
@@ -105,7 +106,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
     supa: false,
   },
   {
-    label: 'MCP server configs',
+    key: 'mcpConfigs',
     free: 'Basic',
     pro: true,
     shipfast: false,
@@ -113,7 +114,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
     supa: false,
   },
   {
-    label: 'AI / Claude integration',
+    key: 'aiIntegration',
     free: false,
     pro: true,
     shipfast: 'Mentioned',
@@ -124,7 +125,7 @@ const WORKFLOW_ROWS: FeatureRow[] = [
 
 const DETAIL_ROWS: FeatureRow[] = [
   {
-    label: 'Drizzle ORM',
+    key: 'drizzle',
     free: true,
     pro: true,
     shipfast: false,
@@ -132,7 +133,7 @@ const DETAIL_ROWS: FeatureRow[] = [
     supa: true,
   },
   {
-    label: 'Lifetime updates',
+    key: 'lifetimeUpdates',
     free: false,
     pro: true,
     shipfast: true,
@@ -140,7 +141,7 @@ const DETAIL_ROWS: FeatureRow[] = [
     supa: 'Top tier',
   },
   {
-    label: 'Refund window',
+    key: 'refundWindow',
     free: 'n/a',
     pro: '14 days',
     shipfast: '14 days',
@@ -148,7 +149,7 @@ const DETAIL_ROWS: FeatureRow[] = [
     supa: '30 days',
   },
   {
-    label: 'Best for',
+    key: 'bestFor',
     free: 'Anyone',
     pro: 'Claude Code users',
     shipfast: 'Indie hackers',
@@ -157,30 +158,18 @@ const DETAIL_ROWS: FeatureRow[] = [
   },
 ];
 
-interface CompetitorNarrative {
-  name: string;
+interface CompetitorNarrativeData {
+  narrativeKey: 'shipfast' | 'makerkit' | 'supastarter';
   price: string;
-  text: string;
   href: string;
 }
 
-const NARRATIVES: CompetitorNarrative[] = [
+const NARRATIVE_DATA: CompetitorNarrativeData[] = [
+  { narrativeKey: 'shipfast', price: '$199', href: '/vs/shipfast' },
+  { narrativeKey: 'makerkit', price: '$299–$599', href: '/vs/makerkit' },
   {
-    name: 'ShipFast',
-    price: '$199',
-    text: "ShipFast is the brand leader -- great for fast Twitter indie hackers, weaker on architecture (uses Mongoose, single-file modules). We're free at feature parity, and Pro adds the Claude Code layer ShipFast has no answer to.",
-    href: '/vs/shipfast',
-  },
-  {
-    name: 'MakerKit',
-    price: '$299–$599',
-    text: 'MakerKit is the technical standard -- modular, well-documented, swap-in Supabase/Drizzle/Prisma. Stronger architecture than ShipFast. Our differentiator: same architecture quality, free at the feature layer, and Claude Code-native instead of generic AI mentions.',
-    href: '/vs/makerkit',
-  },
-  {
-    name: 'supastarter',
+    narrativeKey: 'supastarter',
     price: '$261–$1,124',
-    text: 'supastarter targets serious founders with i18n, multi-tenancy, background jobs. Highest-priced competitor. We match the feature depth and beat them on price (free -> $149 vs $261-$1,124) and on Claude Code workflow integration.',
     href: '/vs/supastarter',
   },
 ];
@@ -201,11 +190,11 @@ function Cell({ value, colClass }: { value: CellValue; colClass?: string }) {
   );
 }
 
-function TableRow({ row }: { row: FeatureRow }) {
+function TableRow({ row, label }: { row: FeatureRow; label: string }) {
   return (
     <tr className="border-border border-b last:border-0">
       <td className="text-foreground py-3 pr-4 pl-4 text-sm sm:pl-6">
-        {row.label}
+        {label}
       </td>
       <Cell value={row.free} colClass="bg-emerald-500/5" />
       <Cell value={row.pro} colClass="bg-primary/5" />
@@ -216,18 +205,18 @@ function TableRow({ row }: { row: FeatureRow }) {
   );
 }
 
-export function Comparison() {
+export async function Comparison() {
+  const t = await getTranslations('landing.comparison');
   return (
     <section className="py-24">
       <Container>
         <FadeIn>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
-              How we stack up against the boilerplate market.
+              {t('heading')}
             </h2>
             <p className="text-muted-foreground mt-4 text-lg">
-              The honest comparison. Free for free, paid for paid &mdash;
-              here&apos;s where each starter wins.
+              {t('subheading')}
             </p>
           </div>
         </FadeIn>
@@ -237,7 +226,7 @@ export function Comparison() {
             <thead>
               <tr className="border-border bg-muted/40 border-b">
                 <th className="text-muted-foreground py-4 pr-4 pl-4 text-left text-xs font-semibold tracking-widest uppercase sm:pl-6">
-                  Feature
+                  {t('colFeature')}
                 </th>
                 <th className="bg-emerald-500/10 px-4 py-4 text-center">
                   <div className="text-foreground text-sm font-semibold">
@@ -284,7 +273,11 @@ export function Comparison() {
 
             <tbody>
               {MAIN_ROWS.map((row) => (
-                <TableRow key={row.label} row={row} />
+                <TableRow
+                  key={row.key}
+                  row={row}
+                  label={t(`rows.${row.key}`)}
+                />
               ))}
 
               <tr className="bg-muted/50">
@@ -292,12 +285,16 @@ export function Comparison() {
                   colSpan={6}
                   className="text-muted-foreground py-2 pr-4 pl-4 text-xs font-semibold tracking-widest uppercase sm:pl-6"
                 >
-                  Claude Code workflow &mdash; not available anywhere else
+                  {t('sectionWorkflow')}
                 </td>
               </tr>
 
               {WORKFLOW_ROWS.map((row) => (
-                <TableRow key={row.label} row={row} />
+                <TableRow
+                  key={row.key}
+                  row={row}
+                  label={t(`rows.${row.key}`)}
+                />
               ))}
 
               <tr className="bg-muted/50">
@@ -305,45 +302,48 @@ export function Comparison() {
                   colSpan={6}
                   className="text-muted-foreground py-2 pr-4 pl-4 text-xs font-semibold tracking-widest uppercase sm:pl-6"
                 >
-                  Details
+                  {t('sectionDetails')}
                 </td>
               </tr>
 
               {DETAIL_ROWS.map((row) => (
-                <TableRow key={row.label} row={row} />
+                <TableRow
+                  key={row.key}
+                  row={row}
+                  label={t(`rows.${row.key}`)}
+                />
               ))}
             </tbody>
           </table>
         </div>
 
         <p className="text-muted-foreground mt-4 text-center text-xs">
-          Competitor pricing from their public pricing pages. Feature coverage
-          based on default packages.
+          {t('disclaimer')}
         </p>
 
         <FadeIn delay={0.1}>
           <div className="mt-16 grid gap-6 sm:grid-cols-3">
-            {NARRATIVES.map((n) => (
+            {NARRATIVE_DATA.map((n) => (
               <div
-                key={n.name}
+                key={n.narrativeKey}
                 className="border-border rounded-xl border p-6 transition-all hover:-translate-y-0.5 hover:shadow-md"
               >
                 <div className="mb-3 flex items-baseline gap-2">
                   <h3 className="text-foreground text-base font-semibold">
-                    vs {n.name}
+                    vs {t(`narratives.${n.narrativeKey}.name`)}
                   </h3>
                   <span className="text-xs font-medium text-red-400">
                     {n.price}
                   </span>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed">
-                  {n.text}
+                  {t(`narratives.${n.narrativeKey}.text`)}
                 </p>
                 <Link
                   href={n.href}
                   className="text-primary mt-4 inline-flex items-center gap-1 text-sm font-medium hover:underline"
                 >
-                  Full comparison
+                  {t('fullComparison')}
                   <ArrowRightIcon className="h-3.5 w-3.5" />
                 </Link>
               </div>
