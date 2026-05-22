@@ -1,7 +1,8 @@
 ---
 title: Getting Started
-description: Get access, create your repo from the template, and run /init-project.
+description: Install Claude Code, create your repo from the template, and run /init-project.
 order: 1
+section: Getting Started
 ---
 
 # Getting Started
@@ -14,7 +15,7 @@ Check your inbox for an invite from GitHub. Accept it to get access to the priva
 
 ## 2. Create your repo from the template
 
-On the repository page, click **Use this template** → **Create a new repository**.
+On the repository page, click **Use this template** -> **Create a new repository**.
 
 Give it a name, set visibility to private, and click **Create repository**.
 
@@ -27,7 +28,17 @@ git clone https://github.com/your-username/your-repo-name.git
 cd your-repo-name
 ```
 
-## 4. Open Claude Code
+## 4. Install Claude Code
+
+If you haven't already, install Claude Code globally:
+
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+You'll need a Claude account to use it. Sign in with `claude` after installing.
+
+## 5. Open Claude Code
 
 ```bash
 claude
@@ -35,24 +46,31 @@ claude
 
 Claude loads `CLAUDE.md` automatically and knows the full stack conventions.
 
-## 5. Run /init-project
+## 6. Run /init-project
 
 ```
 /init-project
 ```
 
-This single command handles everything:
+This single command handles everything. It will ask you 5 questions:
+
+1. **Name** -- what is your project called?
+2. **Description** -- what does it do? (1-3 sentences)
+3. **Business model** -- how does it make money? (SaaS, one-time, marketplace, etc.)
+4. **Modules** -- what are the main features you're building? (e.g. tasks, orders, comments)
+5. **Constraints** -- anything Claude must not do, or rules to keep in mind?
+
+Then it automatically:
 
 - Installs npm dependencies
-- Asks 5 questions about your project
 - Walks you through `.env` setup for each service you need
-- Generates a secure `JWT_SECRET` automatically
+- Generates a secure `JWT_SECRET`
 - Runs database migrations
 - Writes a project-specific `CLAUDE.md` tailored to what you're building
 
 Follow the prompts -- the whole process takes about 5 minutes.
 
-## 6. Start building
+## 7. Start building
 
 Once `/init-project` finishes:
 
@@ -60,7 +78,9 @@ Once `/init-project` finishes:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) and start describing features to Claude.
+Open [http://localhost:3000](http://localhost:3000). You'll see the landing page. From there, `/login` and `/register` are ready to use, and `/dashboard` is your starting point for building features.
+
+Describe what you want to Claude and it will build it.
 
 ---
 
@@ -93,4 +113,4 @@ npm run db:push      # Sync schema directly (dev only)
 npm run db:studio    # Open Drizzle Studio
 ```
 
-When you're ready to deploy, run `/vercel-deploy` inside Claude Code for a guided walkthrough.
+When you're ready to deploy, see the [Deployment](./deployment) doc.

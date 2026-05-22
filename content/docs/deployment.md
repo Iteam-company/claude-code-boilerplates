@@ -1,7 +1,8 @@
 ---
 title: Deployment
 description: Deploy your app to Vercel using Claude Code.
-order: 5
+order: 2
+section: Getting Started
 ---
 
 # Deployment
@@ -14,7 +15,7 @@ Open Claude Code and say:
 
 > "Deploy my app to Vercel"
 
-Claude will use the `/vercel-deploy` skill to:
+Claude will:
 
 1. Link your project to Vercel
 2. Ask you for each environment variable and add it securely

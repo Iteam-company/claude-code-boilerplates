@@ -1,12 +1,15 @@
 ---
 title: Authentication
 description: JWT-based auth, registration, login, and protected routes.
-order: 2
+order: 3
+section: For Developers
 ---
 
 # Authentication
 
-Authentication uses JWTs issued on login/register and sent as a `Bearer` token on subsequent requests. There is no session store -- the token is the session.
+**Pre-built:** Login and register pages live at `/login` and `/register`. The API routes at `/api/auth/login` and `/api/auth/register` are wired up and ready.
+
+Authentication uses JWTs issued on login/register and sent as a `Bearer` token on subsequent requests. There is no session store -- the token is the session. This keeps the stack stateless and works cleanly in serverless environments like Vercel.
 
 ## How it works
 
@@ -58,7 +61,7 @@ const { passwordHash: _, ...safeUser } = user;
 return Response.json({ user: safeUser });
 ```
 
-## Multi-tenant context
+## Advanced: Multi-tenant
 
 When building multi-tenant features, the current organization is sent as `X-Org-Id` in the request header. Extract it alongside the JWT user:
 

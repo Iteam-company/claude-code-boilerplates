@@ -1,10 +1,13 @@
 ---
 title: Database
 description: Drizzle ORM with Neon DB -- schema, relations, migrations, and queries.
-order: 3
+order: 4
+section: For Developers
 ---
 
 # Database
+
+The boilerplate includes a pre-built `users` table. All other tables are added as you build features with Claude Code.
 
 The project uses Drizzle ORM with Neon DB (serverless Postgres). All DB access goes through the repository layer in each module -- never directly from components or routes.
 

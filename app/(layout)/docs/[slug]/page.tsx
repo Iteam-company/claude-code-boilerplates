@@ -30,9 +30,10 @@ export default async function DocsPage({ params }: Props) {
 
   const html = await markdownToHtml(doc.content);
   const docs = getAllDocs();
-  const currentIndex = docs.findIndex((d) => d.slug === slug);
-  const prevDoc = docs[currentIndex - 1] ?? null;
-  const nextDoc = docs[currentIndex + 1] ?? null;
+  const sectionDocs = docs.filter((d) => d.section === doc.section);
+  const currentIndex = sectionDocs.findIndex((d) => d.slug === slug);
+  const prevDoc = sectionDocs[currentIndex - 1] ?? null;
+  const nextDoc = sectionDocs[currentIndex + 1] ?? null;
 
   return (
     <>
