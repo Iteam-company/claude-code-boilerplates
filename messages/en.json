@@ -16,6 +16,7 @@
       "skillsDesc": "Claude builds it from a single prompt",
       "faq": "FAQ",
       "faqDesc": "Common questions answered",
+      "docs": "Docs",
       "blog": "Blog",
       "demo": "Demo"
     }
@@ -282,8 +283,7 @@
       "footnote": "Built by a developer who ships, not a marketing team."
     },
     "socialProof": {
-      "githubLink": "View source on GitHub",
-      "license": "MIT licensed · open source forever",
+      "featuredOn": "As featured on",
       "builtWith": "Built with"
     },
     "pricing": {

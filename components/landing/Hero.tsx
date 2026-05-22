@@ -91,7 +91,15 @@ export function Hero({ stars = null, spots = null }: Props) {
             </button>
           </div>
 
-          <p className="text-muted-foreground mt-8 flex flex-wrap items-center justify-center gap-x-2 text-sm">
+          <p className="text-muted-foreground mt-4 flex flex-wrap items-center justify-center gap-x-1.5 text-xs">
+            <span>No credit card</span>
+            <span aria-hidden>·</span>
+            <span>MIT license</span>
+            <span aria-hidden>·</span>
+            <span>14-day refund on Pro</span>
+          </p>
+
+          <p className="text-muted-foreground mt-6 flex flex-wrap items-center justify-center gap-x-2 text-sm">
             <span>500+ developers</span>
             {stars !== null && stars >= STAR_THRESHOLD && (
               <>

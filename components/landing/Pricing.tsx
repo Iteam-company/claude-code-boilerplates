@@ -79,7 +79,7 @@ export async function Pricing() {
             />
 
             <p className="text-muted-foreground mt-4 text-center text-xs">
-              No credit card. No catch.
+              No credit card. No catch. MIT license.
             </p>
           </div>
 
