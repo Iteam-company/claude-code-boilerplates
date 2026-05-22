@@ -58,7 +58,7 @@ export function Hero({ stars = null, spots = null }: Props) {
 
       <Container className="relative">
         <div className="flex flex-col items-center text-center">
-          <div className="border-border bg-muted text-muted-foreground mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm">
+          <div className="border-border bg-muted text-foreground mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm">
             <span>⚡</span>
             {t('badge')}
           </div>

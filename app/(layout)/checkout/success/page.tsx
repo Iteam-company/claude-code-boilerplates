@@ -37,7 +37,7 @@ export default async function CheckoutSuccessPage() {
       </div>
 
       <Link
-        href="/"
+        href="/docs/getting-started"
         className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-6 py-2.5 text-sm font-medium"
       >
         {t('backHome')}

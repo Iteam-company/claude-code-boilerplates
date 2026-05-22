@@ -391,7 +391,7 @@
       "proEmoji": "✅",
       "proTitle": "You're in",
       "proDesc": "We sent you an invite to the repository. Check your GitHub notifications.",
-      "button": "Got it"
+      "button": "Go to docs"
     },
     "duplicateStep": {
       "emoji": "👋",
@@ -472,7 +472,7 @@
     "metaDescription": "Your payment was processed successfully.",
     "heading": "Payment successful!",
     "description": "Thank you for your purchase. You'll receive a confirmation email shortly.",
-    "backHome": "Back to home"
+    "backHome": "Go to docs"
   },
   "pricing": {
     "proLicense": {

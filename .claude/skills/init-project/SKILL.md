@@ -1,46 +1,233 @@
 ---
 name: init-project
-description: Initialize a new CLAUDE.md with domain context for a new project. Triggers when CLAUDE.md does not exist or is empty. Asks the user five questions — name, description, business model, modules, constraints — then writes a fully structured CLAUDE.md. Use this skill whenever the user types /init-project or asks to initialize, scaffold, or create a CLAUDE.md from scratch.
+description: Full project initialization after cloning the boilerplate. Installs dependencies, walks through .env setup, configures the database, and writes a project-specific CLAUDE.md. Run this once after cloning. Triggers on /init-project.
 ---
 
 # init-project Skill
 
-Use this skill when the user runs `/init-project` or when `CLAUDE.md` does not exist in the project root and the user wants to set up a new project.
+Run this once after cloning the boilerplate to your local machine. It installs dependencies, sets up environment variables interactively, migrates the database, and writes a project-specific `CLAUDE.md`.
 
 ---
 
-## Step 1 — Check for existing CLAUDE.md
+## Step 1 — Welcome
 
-Before doing anything, check if `CLAUDE.md` already exists and has content:
+Tell the user:
+
+```
+Welcome! Let's get your project set up. This will take about 5 minutes.
+
+I'll:
+  1. Install dependencies
+  2. Ask a few questions about your project
+  3. Walk you through setting up .env
+  4. Run database migrations
+  5. Write your CLAUDE.md
+
+Let's go.
+```
+
+---
+
+## Step 2 — Install dependencies
+
+Run:
+
+```bash
+npm install
+```
+
+Tell the user you're installing dependencies and show the output. If it fails, stop and report the error.
+
+---
+
+## Step 3 — Ask project questions
+
+Ask these 5 questions all at once. Wait for all answers before continuing.
+
+```
+To customise CLAUDE.md for your project, answer 5 questions:
+
+1. Name — what is your project called?
+2. Description — what does it do? (1–3 sentences)
+3. Business model — how does it make money? (SaaS, one-time purchase, marketplace, B2B, freemium, etc.)
+4. Modules — what are the main entities or features you're building? (e.g. users, posts, orders, notifications, subscriptions)
+5. Constraints — anything that must NOT be done, or important to keep in mind? (technical, product, team rules)
+```
+
+---
+
+## Step 4 — Set up .env
+
+### 4a — Copy template
+
+Check if `.env` already exists. If not, copy the example:
+
+```bash
+test -f .env || cp .env.example .env
+```
+
+### 4b — Generate JWT_SECRET
+
+Generate a secure random secret and write it to `.env`:
+
+```bash
+node -e "const c=require('crypto');const s=c.randomBytes(48).toString('base64');const fs=require('fs');let e=fs.readFileSync('.env','utf8');e=e.replace(/^JWT_SECRET=.*$/m,'JWT_SECRET='+s);fs.writeFileSync('.env',e);console.log('JWT_SECRET set');"
+```
+
+### 4c — Set NEXT_PUBLIC_BASE_URL
+
+Write the default local URL to `.env`:
+
+```bash
+node -e "const fs=require('fs');let e=fs.readFileSync('.env','utf8');e=e.replace(/^NEXT_PUBLIC_BASE_URL=.*$/m,'NEXT_PUBLIC_BASE_URL=http://localhost:3000');fs.writeFileSync('.env',e);console.log('NEXT_PUBLIC_BASE_URL set to http://localhost:3000');"
+```
+
+### 4d — Database (required)
+
+Tell the user:
+
+```
+DATABASE_URL is required. You need a Postgres connection string.
+
+Recommended: Neon DB (free tier, no credit card)
+  1. Go to neon.tech and create a free project
+  2. Copy the connection string from the dashboard (looks like: postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require)
+
+Paste your DATABASE_URL here:
+```
+
+Wait for the user to paste the value, then write it to `.env`:
+
+```bash
+node -e "const fs=require('fs');let e=fs.readFileSync('.env','utf8');e=e.replace(/^DATABASE_URL=.*$/m,'DATABASE_URL=PASTE_VALUE');fs.writeFileSync('.env',e);console.log('DATABASE_URL set');"
+```
+
+Replace `PASTE_VALUE` with the value the user gave you.
+
+### 4e — Ask which optional services to configure
+
+Ask:
+
+```
+Which services do you want to configure now? (you can add others later by editing .env)
+
+  A — Stripe (payments)
+  B — Resend (email)
+  C — Cloudinary (file uploads)
+  D — Anthropic (AI features)
+  E — Skip all, I'll fill .env manually
+
+Type the letters for what you want (e.g. "A B D") or "E" to skip:
+```
+
+Wait for the answer, then configure only the services the user selected.
+
+---
+
+**If Stripe selected:**
+
+Tell the user:
+
+```
+Stripe setup:
+  1. Go to dashboard.stripe.com → Developers → API keys
+  2. Copy the Secret key (starts with sk_test_ or sk_live_)
+  3. Copy the Publishable key (starts with pk_test_ or pk_live_)
+  4. For the webhook secret: run `stripe listen` locally to get whsec_...
+  5. For price IDs: go to Products → create a product → copy the price ID
+
+Paste your Stripe Secret key:
+```
+
+Collect each value one at a time and write to `.env`. Repeat for each Stripe variable (STRIPE_SECRET_KEY, STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET, NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME, NEXT_PUBLIC_STRIPE_PRICE_SUBSCRIPTION).
+
+---
+
+**If Resend selected:**
+
+Tell the user:
+
+```
+Resend setup:
+  1. Go to resend.com → API Keys → Create API Key
+  2. Copy the key (starts with re_)
+
+Paste your RESEND_API_KEY:
+```
+
+Write to `.env`.
+
+---
+
+**If Cloudinary selected:**
+
+Tell the user:
+
+```
+Cloudinary setup:
+  1. Go to cloudinary.com → Settings → API Keys
+  2. You need: Cloud Name, API Key, API Secret
+
+Paste your CLOUDINARY_CLOUD_NAME:
+```
+
+Collect CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET one at a time and write each to `.env`.
+
+---
+
+**If Anthropic selected:**
+
+Tell the user:
+
+```
+Anthropic setup:
+  1. Go to console.anthropic.com → API Keys → Create Key
+  2. Copy the key (starts with sk-ant-)
+
+Paste your ANTHROPIC_API_KEY:
+```
+
+Write to `.env`. Then ask:
+
+```
+How many AI credits should be deducted per message? (default: 10)
+Press enter to use 10, or type a number:
+```
+
+Write `AI_CREDITS_PER_MESSAGE` to `.env` (default `10`).
+
+---
+
+## Step 5 — Run database migrations
+
+Run:
+
+```bash
+npm run db:migrate
+```
+
+If this fails with a connection error, tell the user:
+
+```
+Migration failed — DATABASE_URL may be incorrect or the database is unreachable.
+Check .env and make sure DATABASE_URL is set correctly, then run: npm run db:migrate
+```
+
+If it succeeds, confirm: `Database tables created.`
+
+---
+
+## Step 6 — Write CLAUDE.md
+
+Using the answers from Step 3, write a `CLAUDE.md` file in the project root. Check first:
 
 ```bash
 test -s CLAUDE.md && echo "exists" || echo "missing"
 ```
 
-- If it **exists and has content** → ask the user if they want to overwrite it. If no, stop.
-- If it **does not exist or is empty** → proceed to Step 2.
+If it already has content, ask: `CLAUDE.md already exists. Overwrite it with your project details? (yes/no)`
 
----
-
-## Step 2 — Ask five questions
-
-Ask the user these five questions all at once in a numbered list. Wait for them to answer all five before proceeding.
-
-```
-To set up CLAUDE.md, answer 5 questions:
-
-1. **Name** — what is the project called?
-2. **Description** — what does it do? (1–3 sentences)
-3. **Business model** — how does it make money? (SaaS, one-time, marketplace, B2B, B2C, freemium, etc.)
-4. **Modules** — what are the main entities / features? (e.g. users, posts, orders, payments, notifications)
-5. **Constraints** — what should NOT be done, or what is important to avoid? (technical, product, team)
-```
-
----
-
-## Step 3 — Generate CLAUDE.md
-
-Using the answers, write a `CLAUDE.md` file in the project root. Use the full template below, filling in the placeholders from the user's answers. Do not remove any section — every section is standard boilerplate that applies to all projects in this stack.
+Use the full template below, filling in the placeholders from Step 3. Do not remove any section.
 
 ````markdown
 # Project
@@ -67,7 +254,7 @@ Using the answers, write a `CLAUDE.md` file in the project root. Use the full te
 
 # Tech Stack
 
-- Next.js (App Router, no src folder)
+- Next.js 16 (App Router, no src folder)
 - React 19
 - TypeScript
 - Tailwind CSS v4
@@ -86,18 +273,17 @@ Using the answers, write a `CLAUDE.md` file in the project root. Use the full te
 
 ```
 app/
-├── (main)/
+├── (layout)/
 │   ├── layout.tsx        ← main layout with header & footer
 │   └── page.tsx
+├── (no-layout)/          ← pages without shared layout (auth, etc.)
 ├── api/                  ← thin API route handlers (validate → service → respond)
 ├── layout.tsx            ← root layout (html, body, providers)
 ├── globals.css
 components/
 ├── ui/                   ← shadcn components, never modify these directly
-├── layout/               ← header, footer, sidebar
-│   ├── header.tsx
-│   ├── footer.tsx
-│   └── sidebar.tsx
+├── header/
+├── footer/
 db/
 ├── drizzle.ts            ← db client + all schema/relations registered here
 ├── schema.ts             ← re-exports all table schemas
@@ -110,6 +296,7 @@ lib/
 ├── routes.ts             ← centralized route path constants
 hooks/                    ← custom react hooks
 types/                    ← shared typescript types
+content/                  ← file-based content (docs, blog)
 public/
 ```
 
@@ -147,6 +334,7 @@ public/
 - Fetch data in server components, pass down as props
 - Use Next.js `loading.tsx` and `error.tsx` where appropriate
 - **Split layouts into components and sections** — page files (`page.tsx`) only compose imported components; never write layout markup or sections inline inside a page file. Extract every distinct section into a named component in `components/`.
+- **Split large components** — when a component exceeds ~150 lines or owns mixed concerns, extract it. Co-locate siblings in a subfolder.
 
 ## TypeScript
 
@@ -202,9 +390,6 @@ type FormData = z.infer<typeof schema>;
 
 ## Static metadata
 
-- Define metadata in each `page.tsx` using Next.js `Metadata` type
-- Always export metadata from every page
-
 ```ts
 import type { Metadata } from 'next';
 
@@ -214,22 +399,7 @@ export const metadata: Metadata = {
 };
 ```
 
-## Dynamic metadata
-
-- Use `generateMetadata` for dynamic pages (e.g. blog posts, products)
-
-```ts
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  return {
-    title: `${params.slug} | Site Name`,
-    description: '...',
-  };
-}
-```
-
 ## Root layout metadata
-
-- Set base metadata in `app/layout.tsx` with `metadataBase`
 
 ```ts
 export const metadata: Metadata = {
@@ -239,16 +409,13 @@ export const metadata: Metadata = {
     template: '%s | Site Name',
   },
   description: 'Default description',
-  openGraph: {
-    type: 'website',
-    locale: 'en_US',
-  },
+  openGraph: { type: 'website', locale: 'en_US' },
 };
 ```
 
 ## Conventions
 
-- Always set `metadataBase` in root layout — required for absolute OG image URLs
+- Always set `metadataBase` in root layout
 - Use `title.template` so page titles are consistent
 - Every page must have a unique `title` and `description`
 - Never hardcode the base URL — use `NEXT_PUBLIC_BASE_URL` env variable
@@ -257,8 +424,7 @@ export const metadata: Metadata = {
 
 ## API Layer (Next.js)
 
-- All API routes are located in `app/api/*`
-- Use App Router (`route.ts`)
+- All API routes in `app/api/*`
 - Routes must be thin: validate → call service → return response
 - Never place business logic inside routes
 - See skill: `nextjs-api-route`
@@ -272,24 +438,17 @@ All business logic lives in `modules/`. Every module has 7 files:
 
 ## Database (Drizzle)
 
-- Use Drizzle ORM for all DB access
-- Table naming: plural (`users`, `posts`, `comments`, `likes`)
+- Table naming: plural (`users`, `posts`)
 - Export naming: `camelCase` + `Table` suffix (`userTable`, `postTable`)
 - Never name exports `UserSchema`
 - Always define `*.relations.ts` alongside every `*.schema.ts`
 - Always register schemas and relations in `db/drizzle.ts`
 - See skill: `drizzle-relations`
 
-## Repository Layer
-
-- Only DB queries — no business logic
-- Always typed via `*.types.ts`
-
 ## Service Layer
 
 - All business logic lives here
 - Throws `HttpError` — never returns error objects
-- Ownership checks belong here, not in routes
 - Must NOT import `Request` or `Response`
 
 ## Validation (Zod)
@@ -297,21 +456,14 @@ All business logic lives in `modules/`. Every module has 7 files:
 - All schemas in `modules/*/*.validation.ts`
 - Always use `safeParse` — never `parse`
 - Schema fields = what the client sends (never `authorId`, `id`, timestamps)
-- `authorId` comes from JWT via `getUserFromRequest` in the route
-
-## Types
-
-- Never infer DB types directly in UI
-- Never duplicate types between layers
-- Use `Omit<>` for safe objects (e.g. strip `passwordHash`)
 
 ## Auth
 
-- JWT — Bearer token, returned in response body on login/register
+- JWT — Bearer token, returned on login/register
 - Extracted via `getUserFromRequest(req)` from `lib/auth.ts`
 - Throws `HttpError(401)` if token missing or invalid
 - Never return `passwordHash`
-- Always sanitize user object: `const { passwordHash: _, ...safeUser } = user`
+- Always sanitize: `const { passwordHash: _, ...safeUser } = user`
 
 ## Error Handling
 
@@ -319,38 +471,12 @@ All business logic lives in `modules/`. Every module has 7 files:
 - Always `catch (error: unknown)` — never `any`
 - Always delegate to `handleError(error)` in routes
 
-## AI Features (Claude / Anthropic)
-
-- SDK client lives in `lib/claude.ts` — never instantiate `Anthropic` inline
-- Streaming chat: `POST /api/ai/chat` → Server-Sent Events consumed by `useAiChat` hook
-- Tool use / agentic loop: `POST /api/ai/agent` — loop until `stop_reason !== 'tool_use'`
-- Always deduct credits **before** calling Claude — fail fast on `402 Insufficient credits`
-- Use `cachedSystem()` from `lib/claude.ts` for system prompts > 1 000 tokens (cuts cost up to 90 %)
-- `AI_CREDITS_PER_MESSAGE` env var controls cost per call without a redeploy
-- See skill: `claude-feature`
-
 ## Hooks (SWR)
 
 - All hooks in `hooks/api/*.ts`
 - `useSWR` for reads, `useSWRMutation` for writes
-- Use `fetcher`, `poster`, `putter`, `deleter` from `lib/fetcher.ts`
-- File uploads use manual `fetch` with `FormData` — not `poster`
 - Call `mutate()` in `onSuccess` to keep cache in sync
-- Never use hooks in Server Components
 - See skill: `swr-hooks`
-
-## Naming Conventions
-
-### DB
-
-- Tables → plural (`users`, `posts`)
-- Columns → `snake_case` (`created_at`, `author_id`)
-
-### TypeScript
-
-- Variables → `camelCase`
-- Types → `PascalCase`
-- Table exports → `camelCase` + `Table` suffix (`userTable`)
 
 ## Environment Variables
 
@@ -373,10 +499,8 @@ AI_CREDITS_PER_MESSAGE=10
 
 ## Deployment (Vercel)
 
-- Hosted on Vercel, connected to GitHub via `vercel git connect`
 - Push to `main` → production deployment (automatic)
 - Push to any other branch → preview deployment (automatic)
-- No manual deploy commands needed after initial setup
 - Environment variables managed via `vercel env add` — never commit secrets
 - See skill: `vercel-deploy`
 
@@ -384,11 +508,9 @@ AI_CREDITS_PER_MESSAGE=10
 
 - Business logic in routes
 - DB queries in components
-- DB access inside UI components
 - Using `any`
 - Returning `passwordHash`
 - Manual validation instead of Zod
-- Mixing schema / validation / types
 - Naming Drizzle tables as `UserSchema`
 - Using `db.query.*` with `with` without `*.relations.ts`
 - Fetching in Client Components when a Server Component would do
@@ -400,12 +522,26 @@ AI_CREDITS_PER_MESSAGE=10
 
 ---
 
-## Step 4 — Confirm
+## Step 7 — Done
 
-After writing the file, tell the user:
+Tell the user:
 
 ```
-CLAUDE.md created. Review the Domain Modules and Constraints sections — the rest is standard boilerplate that applies to all projects.
+All done! Here's what was set up:
+
+  ✓ npm install complete
+  ✓ .env configured
+  ✓ Database migrated
+  ✓ CLAUDE.md written for {project name}
+
+To start building:
+
+  npm run dev
+
+Then describe what you want to build and I'll use the skills and conventions
+from CLAUDE.md to scaffold it for you.
+
+Tip: run /vercel-deploy when you're ready to ship.
 ```
 
 ---
@@ -413,7 +549,9 @@ CLAUDE.md created. Review the Domain Modules and Constraints sections — the re
 ## Notes
 
 - Fill in `{Name}`, `{Description}`, `{Business model}` using the user's exact wording — don't paraphrase.
-- For modules: generate a row per module with a one-sentence purpose inferred from context.
+- For modules: generate one row per module with a one-sentence purpose inferred from context.
 - For constraints: copy faithfully — if the user says "no Redux", write "Do not use Redux".
-- If the user mentioned specific tech (e.g. "we use Supabase instead of Neon"), update the Tech Stack section accordingly.
-- The Domain Modules and Constraints sections are the only parts that change per project. Everything else is the standard stack boilerplate.
+- If the user mentioned specific tech (e.g. "we use Supabase instead of Neon"), update the Tech Stack section.
+- The Domain Modules and Constraints sections are the only parts that change per project. Everything else is standard stack boilerplate.
+- If any step fails, stop, report the exact error, and wait for the user to fix it before continuing.
+- Never skip Step 5 (db:migrate) — without it the app will crash on first request.
