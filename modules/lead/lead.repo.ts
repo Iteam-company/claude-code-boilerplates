@@ -36,6 +36,13 @@ export const leadRepo = {
       .where(eq(leadTable.email, email));
   },
 
+  updateStripeSession: async (id: string, stripeSessionId: string) => {
+    await db
+      .update(leadTable)
+      .set({ stripeSessionId })
+      .where(eq(leadTable.id, id));
+  },
+
   markGithubInvited: async (id: string) => {
     await db
       .update(leadTable)

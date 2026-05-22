@@ -7,6 +7,7 @@ export const leadTable = pgTable('leads', {
   signupSource: text('signup_source'),
   githubUsername: text('github_username'),
   githubInvitedAt: timestamp('github_invited_at', { withTimezone: true }),
+  stripeSessionId: text('stripe_session_id'),
   createdAt: timestamp('created_at', { withTimezone: true })
     .defaultNow()
     .notNull(),

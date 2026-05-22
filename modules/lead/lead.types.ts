@@ -7,6 +7,7 @@ export interface AddEmailResult {
   alreadyExists: boolean;
   requiresPayment: boolean;
   hasGithub: boolean;
+  githubUsername?: string;
 }
 
 export interface UpsertProLeadInput {

@@ -43,6 +43,13 @@
       "when": 1779300000000,
       "tag": "0005_remove_waitlist",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1779310000000,
+      "tag": "0006_leads_stripe_session",
+      "breakpoints": true
     }
   ]
 }

@@ -10,6 +10,7 @@ export interface WaitlistResult {
   alreadyExists: boolean;
   requiresPayment: boolean;
   hasGithub: boolean;
+  githubUsername?: string;
 }
 
 interface Props {
