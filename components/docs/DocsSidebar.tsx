@@ -13,8 +13,11 @@ export function DocsSidebar({ docs }: Props) {
   const pathname = usePathname();
 
   return (
-    <nav className="w-56 shrink-0">
-      <p className="text-muted-foreground mb-3 text-xs font-semibold tracking-widest uppercase">
+    <nav aria-label="Documentation" className="w-56 shrink-0">
+      <p
+        className="text-muted-foreground mb-3 text-xs font-semibold tracking-widest uppercase"
+        aria-hidden="true"
+      >
         Documentation
       </p>
       <ul className="space-y-1">
@@ -25,6 +28,7 @@ export function DocsSidebar({ docs }: Props) {
             <li key={doc.slug}>
               <Link
                 href={href}
+                aria-current={active ? 'page' : undefined}
                 className={cn(
                   'block rounded-md px-3 py-1.5 text-sm transition-colors',
                   active

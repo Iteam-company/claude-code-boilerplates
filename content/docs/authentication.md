@@ -1,7 +1,7 @@
 ---
 title: Authentication
 description: JWT-based auth, registration, login, and protected routes.
-order: 3
+order: 2
 ---
 
 # Authentication

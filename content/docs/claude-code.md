@@ -1,7 +1,7 @@
 ---
 title: Claude Code Skills
 description: The 22 built-in skills and how to use them in your dev sessions.
-order: 5
+order: 4
 ---
 
 # Claude Code Skills
