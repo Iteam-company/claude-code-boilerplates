@@ -18,10 +18,6 @@ import {
 } from '@/modules/invitation/invitation.schema';
 import { invitationRelations } from '@/modules/invitation/invitation.relations';
 import { postTable } from '@/modules/post/post.schema';
-import {
-  waitlistTable,
-  waitlistPlanEnum,
-} from '@/modules/waitlist/waitlist.schema';
 import { leadTable } from '@/modules/lead/lead.schema';
 
 export const schema = {
@@ -41,7 +37,5 @@ export const schema = {
   invitationStatusEnum,
   invitationRelations,
   postTable,
-  waitlistTable,
-  waitlistPlanEnum,
   leadTable,
 };

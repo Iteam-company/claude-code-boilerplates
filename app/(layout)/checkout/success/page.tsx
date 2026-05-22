@@ -10,14 +10,8 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function CheckoutSuccessPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ source?: string }>;
-}) {
+export default async function CheckoutSuccessPage() {
   const t = await getTranslations('checkoutSuccess');
-  const { source } = await searchParams;
-  const isWaitlist = source === 'waitlist';
 
   return (
     <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6 px-4 text-center">
@@ -38,14 +32,8 @@ export default async function CheckoutSuccessPage({
       </div>
 
       <div>
-        <h1 className="text-foreground text-2xl font-bold">
-          {isWaitlist ? "You're in" : t('heading')}
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          {isWaitlist
-            ? 'We sent you an invite to the repository. Check your GitHub notifications.'
-            : t('description')}
-        </p>
+        <h1 className="text-foreground text-2xl font-bold">{t('heading')}</h1>
+        <p className="text-muted-foreground mt-2">{t('description')}</p>
       </div>
 
       <Link
