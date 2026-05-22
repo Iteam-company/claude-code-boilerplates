@@ -25,31 +25,28 @@ export function GithubStep({ email, onNext }: Props) {
     return key ? tValidation(key) : '';
   }
 
-  async function checkGithubUser(username: string) {
-    const formatErr = resolveGithubError(username);
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const formatErr = resolveGithubError(github);
     if (formatErr) {
       setGithubError(formatErr);
       return;
     }
+
     setGithubChecking(true);
     setGithubError('');
     try {
-      const res = await fetch(`/api/github/${encodeURIComponent(username)}`);
-      if (res.status === 404) setGithubError(tValidation('githubNotFound'));
+      const res = await fetch(`/api/github/${encodeURIComponent(github)}`);
+      if (res.status === 404) {
+        setGithubError(tValidation('githubNotFound'));
+        return;
+      }
     } catch {
       // network error — don't block submission
     } finally {
       setGithubChecking(false);
     }
-  }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const err = resolveGithubError(github);
-    if (err || githubError) {
-      if (err) setGithubError(err);
-      return;
-    }
     setLoading(true);
     try {
       const res = await fetch('/api/leads', {
@@ -94,7 +91,6 @@ export function GithubStep({ email, onNext }: Props) {
               if (githubError)
                 setGithubError(resolveGithubError(e.target.value));
             }}
-            onBlur={() => checkGithubUser(github)}
             placeholder={t('placeholder')}
             autoFocus
             autoComplete="username"
@@ -120,7 +116,9 @@ export function GithubStep({ email, onNext }: Props) {
         disabled={loading || githubChecking || !github || !!githubError}
         className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
       >
-        {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
+        {(loading || githubChecking) && (
+          <Loader2Icon className="h-4 w-4 animate-spin" />
+        )}
         {t('cta')}
       </button>
     </form>
