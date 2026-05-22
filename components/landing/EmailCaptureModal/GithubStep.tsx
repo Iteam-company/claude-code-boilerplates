@@ -8,7 +8,7 @@ import { validateGithub } from './validators';
 
 interface Props {
   email: string;
-  onNext: (requiresPayment: boolean) => void;
+  onNext: (username: string, requiresPayment: boolean) => void;
 }
 
 export function GithubStep({ email, onNext }: Props) {
@@ -52,13 +52,22 @@ export function GithubStep({ email, onNext }: Props) {
     }
     setLoading(true);
     try {
-      const res = await fetch('/api/waitlist', {
+      const res = await fetch('/api/leads', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, githubUsername: github }),
       });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setGithubError(
+          (data as { message?: string }).message ?? tValidation('submitError'),
+        );
+        return;
+      }
       const data = await res.json();
-      onNext(data.requiresPayment);
+      onNext(github, data.requiresPayment);
+    } catch {
+      setGithubError(tValidation('submitError'));
     } finally {
       setLoading(false);
     }

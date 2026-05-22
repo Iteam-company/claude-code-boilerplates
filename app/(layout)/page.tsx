@@ -17,7 +17,7 @@ import {
 } from '@/components/landing';
 import { getBaseUrl } from '@/lib/utils';
 import { countProSpotsTaken, TOTAL_PRO_SPOTS } from '@/lib/spots';
-import { waitlistRepo } from '@/modules/waitlist/waitlist.repo';
+import { leadRepo } from '@/modules/lead/lead.repo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('landing.meta');
@@ -36,7 +36,7 @@ async function getLandingData() {
       },
     ).then((r) => r.json()),
     countProSpotsTaken(),
-    waitlistRepo.countAll(),
+    leadRepo.countAll(),
   ]);
 
   const stars =
