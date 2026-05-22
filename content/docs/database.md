@@ -1,7 +1,7 @@
 ---
 title: Database
 description: Drizzle ORM with Neon DB -- schema, relations, migrations, and queries.
-order: 4
+order: 3
 ---
 
 # Database

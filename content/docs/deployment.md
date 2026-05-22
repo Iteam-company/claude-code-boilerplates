@@ -1,74 +1,62 @@
 ---
 title: Deployment
-description: Deploy to Vercel, manage environment variables, and configure CI/CD.
-order: 6
+description: Deploy your app to Vercel using Claude Code.
+order: 5
 ---
 
 # Deployment
 
-The project deploys to Vercel. Pushing to `main` triggers a production deployment automatically. Any other branch gets a preview deployment.
+The boilerplate deploys to Vercel. You don't need to know any CLI commands -- just ask Claude Code and it handles everything.
 
-## Initial setup
+## Deploy for the first time
 
-```bash
-vercel link
-```
+Open Claude Code and say:
 
-Then add each environment variable:
+> "Deploy my app to Vercel"
 
-```bash
-vercel env add DATABASE_URL
-vercel env add JWT_SECRET
-vercel env add ANTHROPIC_API_KEY
-vercel env add RESEND_API_KEY
-vercel env add CLOUDINARY_CLOUD_NAME
-vercel env add CLOUDINARY_API_KEY
-vercel env add CLOUDINARY_API_SECRET
-vercel env add STRIPE_SECRET_KEY
-vercel env add STRIPE_PUBLISHABLE_KEY
-vercel env add STRIPE_WEBHOOK_SECRET
-vercel env add NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME
-vercel env add NEXT_PUBLIC_STRIPE_PRICE_SUBSCRIPTION
-vercel env add NEXT_PUBLIC_BASE_URL
-```
+Claude will use the `/vercel-deploy` skill to:
 
-See the `/vercel-deploy` skill for a guided walkthrough inside Claude Code.
+1. Link your project to Vercel
+2. Ask you for each environment variable and add it securely
+3. Push your code and trigger the first deployment
 
-## Deploy flow
+That's it. You'll get a live URL when it's done.
 
-| Action                   | Result                   |
-| ------------------------ | ------------------------ |
-| Push to `main`           | Production deployment    |
-| Push to any other branch | Preview deployment       |
-| `vercel --prod`          | Manual production deploy |
+## After that -- automatic deployments
 
-## MCP servers
+Once connected, deployments are fully automatic:
 
-Configured in `.mcp.json`. The Vercel MCP server lets Claude Code interact with your deployments, logs, and projects directly. Add the token to `.env`:
+| What you do              | What happens                    |
+| ------------------------ | ------------------------------- |
+| Push to `main`           | Production deployment           |
+| Push to any other branch | Preview deployment (unique URL) |
 
-| Server     | Variable                                                               |
-| ---------- | ---------------------------------------------------------------------- |
-| Neon       | `NEON_API_KEY`                                                         |
-| Vercel     | `VERCEL_TOKEN`                                                         |
-| Cloudinary | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` |
-| Resend     | `RESEND_API_KEY`                                                       |
+No manual steps needed. Every push deploys.
 
-## Stripe webhooks
+## Adding or updating environment variables
 
-After deploying, register your production URL with Stripe:
+Ask Claude Code:
 
-```bash
-stripe listen --forward-to https://yourapp.vercel.app/api/webhooks/stripe
-```
+> "Add my Stripe keys to Vercel"
 
-Or add `https://yourapp.vercel.app/api/webhooks/stripe` in the Stripe dashboard under Webhooks. Set `STRIPE_WEBHOOK_SECRET` to the signing secret Stripe provides.
+or
 
-## Database migrations on deploy
+> "Update the ANTHROPIC_API_KEY on Vercel"
 
-Run migrations against your production database before or after each deploy:
+Claude will add or update the variable without you needing to touch the Vercel dashboard.
 
-```bash
-DATABASE_URL=<production-url> npm run db:migrate
-```
+## Running database migrations on production
 
-Or add a `postbuild` script to `package.json` to run migrations automatically on every Vercel build.
+Ask Claude Code:
+
+> "Run migrations on my production database"
+
+Claude will connect to your production `DATABASE_URL` and apply any pending migrations.
+
+## Checking your deployment status
+
+Ask Claude Code:
+
+> "What's the status of my latest deployment?"
+
+The Vercel MCP server (configured in `.mcp.json`) gives Claude direct access to your deployment logs, status, and project settings.

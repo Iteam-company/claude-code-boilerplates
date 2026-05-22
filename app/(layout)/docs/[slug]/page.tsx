@@ -41,14 +41,18 @@ export default async function DocsPage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: html }}
       />
       {(prevDoc || nextDoc) && (
-        <div className="border-border mt-12 flex justify-between gap-4 border-t pt-8">
+        <nav
+          aria-label="Document navigation"
+          className="border-border mt-12 flex justify-between gap-4 border-t pt-8"
+        >
           {prevDoc ? (
             <Link
               href={`/docs/${prevDoc.slug}`}
+              aria-label={`Previous: ${prevDoc.title}`}
               className="border-border bg-card hover:bg-muted inline-flex flex-col rounded-lg border px-6 py-4 transition-colors"
             >
               <span className="text-muted-foreground mb-1 text-xs font-medium tracking-widest uppercase">
-                ← Back
+                <span aria-hidden="true">← </span>Back
               </span>
               <span className="text-foreground font-semibold">
                 {prevDoc.title}
@@ -65,10 +69,11 @@ export default async function DocsPage({ params }: Props) {
           {nextDoc && (
             <Link
               href={`/docs/${nextDoc.slug}`}
+              aria-label={`Next: ${nextDoc.title}`}
               className="border-border bg-card hover:bg-muted inline-flex flex-col items-end rounded-lg border px-6 py-4 transition-colors"
             >
               <span className="text-muted-foreground mb-1 text-xs font-medium tracking-widest uppercase">
-                Next →
+                Next <span aria-hidden="true"> →</span>
               </span>
               <span className="text-foreground font-semibold">
                 {nextDoc.title}
@@ -80,7 +85,7 @@ export default async function DocsPage({ params }: Props) {
               )}
             </Link>
           )}
-        </div>
+        </nav>
       )}
     </>
   );
