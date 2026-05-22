@@ -7,7 +7,8 @@ export const ENABLE_EMAIL_VERIFICATION = false;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const RESEND_SANBOX_FROM_EMAIL = 'onboarding@resend.dev';
+const RESEND_SANBOX_FROM_EMAIL =
+  process.env.NO_REPLY_EMAIL || 'onboarding@resend.dev';
 export const APP_NAME = 'MyApp';
 export const BASE_URL = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`

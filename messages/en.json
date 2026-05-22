@@ -378,7 +378,7 @@
     },
     "githubStep": {
       "title": "One more step",
-      "desc": "Add your GitHub username so we can send the invite when your spot opens.",
+      "desc": "Add your GitHub username so we can invite you to the private repository.",
       "label": "GitHub username",
       "placeholder": "username",
       "checking": "Checking username…",
@@ -407,7 +407,8 @@
       "githubInvalidChars": "Only letters, numbers, and hyphens allowed.",
       "githubHyphenStart": "Cannot start or end with a hyphen.",
       "githubConsecutiveHyphens": "Cannot contain consecutive hyphens.",
-      "githubNotFound": "GitHub user not found."
+      "githubNotFound": "GitHub user not found.",
+      "submitError": "Something went wrong. Please try again."
     }
   },
   "signIn": {
