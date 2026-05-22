@@ -36,11 +36,21 @@ export const leadService = {
 
     if (existing) {
       if (tier === 'pro') {
+        // If already invited, show "you're in" duplicate screen, don't re-charge
+        if (existing.githubInvitedAt) {
+          return {
+            alreadyExists: true,
+            requiresPayment: false,
+            hasGithub: true,
+          };
+        }
         const proCount = await leadRepo.countPro();
         return {
           alreadyExists: true,
           requiresPayment: proCount > TOTAL_PRO_SPOTS,
           hasGithub: !!existing.githubUsername,
+          // Return stored username so modal can pass it to Stripe without asking again
+          githubUsername: existing.githubUsername ?? undefined,
         };
       }
       return { alreadyExists: true, requiresPayment: false, hasGithub: false };
@@ -105,6 +115,7 @@ export const leadService = {
     }
 
     const lead = await leadRepo.upsertPro({ email, githubUsername });
+    await leadRepo.updateStripeSession(lead.id, session.id);
     trackEvent('pro_checkout_completed', { githubUsername });
 
     if (lead.githubInvitedAt) return;
