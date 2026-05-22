@@ -1,9 +1,11 @@
 import { z } from 'zod';
 
-export const createLeadSchema = z.object({
+export const addEmailSchema = z.object({
   email: z.string().email('Invalid email address'),
-  tierInterest: z.enum(['free', 'pro']).default('free'),
-  signupSource: z.string().max(100).optional(),
+  tier: z.enum(['free', 'pro']),
 });
 
-export type CreateLeadData = z.infer<typeof createLeadSchema>;
+export const addGithubSchema = z.object({
+  email: z.string().email('Invalid email address'),
+  githubUsername: z.string().min(1).max(39),
+});
