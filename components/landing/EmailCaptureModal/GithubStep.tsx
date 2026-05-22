@@ -65,7 +65,6 @@ export function GithubStep({ email, onNext }: Props) {
       onNext(github, data.requiresPayment);
     } catch {
       setGithubError(tValidation('submitError'));
-    } finally {
       setLoading(false);
     }
   }
