@@ -9,6 +9,7 @@ export interface DocMeta {
   title: string;
   description: string;
   order: number;
+  section?: string;
 }
 
 export interface Doc extends DocMeta {
@@ -27,6 +28,7 @@ export function getAllDocs(): DocMeta[] {
         title: (data.title as string) || slug,
         description: (data.description as string) || '',
         order: (data.order as number) || 99,
+        section: (data.section as string) || undefined,
       };
     })
     .sort((a, b) => a.order - b.order);
@@ -43,5 +45,6 @@ export function getDoc(slug: string): Doc | null {
     description: (data.description as string) || '',
     order: (data.order as number) || 99,
     content,
+    section: (data.section as string) || undefined,
   };
 }

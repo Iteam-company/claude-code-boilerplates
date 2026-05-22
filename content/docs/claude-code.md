@@ -1,97 +1,70 @@
 ---
-title: Claude Code Skills
-description: The 22 built-in skills and how to use them in your dev sessions.
-order: 4
+title: Claude Code
+description: How Claude Code works with this boilerplate.
+order: 5
+section: For Developers
 ---
 
-# Claude Code Skills
+# Claude Code
 
-Skills are markdown files in `.claude/skills/` that Claude Code reads and executes as multi-step instruction sets. Running `/feature-module task` tells Claude to read the `feature-module` skill and scaffold all 7 module files following your project conventions.
+Claude Code is a CLI that runs inside your project directory. It reads your codebase, follows your conventions, and builds features when you describe them in plain English.
 
-## How to use a skill
+## CLAUDE.md
 
-Inside Claude Code, type `/skill-name` followed by optional arguments:
+`CLAUDE.md` at the project root is what makes Claude Code project-aware. It documents:
 
-```
-/feature-module categories
-/nextjs-api-route POST /api/posts/:id/publish
-/swr-hooks post
-```
+- Folder structure and where things belong
+- Naming conventions for DB tables, exports, and files
+- Architecture rules (thin routes, service layer, repository pattern)
+- Anti-patterns to avoid
+- The full tech stack and available libraries
 
-## Available skills
+Claude loads it at the start of every session. You never need to re-explain your conventions -- they are always in context.
 
-| Skill                 | What it does                                                                            |
-| --------------------- | --------------------------------------------------------------------------------------- |
-| `feature-module`      | Scaffold all 7 module files: schema, relations, types, validation, repo, service, index |
-| `nextjs-api-route`    | Add a thin API route wired to the service layer                                         |
-| `drizzle-relations`   | Add Drizzle `relations()` block and register in `db/drizzle.ts`                         |
-| `drizzle-migrate`     | Generate and apply a migration after schema changes                                     |
-| `swr-hooks`           | Generate `useSWR` read hooks and `useSWRMutation` write hooks for a module              |
-| `claude-feature`      | Add a streaming AI chat endpoint + `useAiChat` hook                                     |
-| `stripe-setup`        | Wire up Stripe checkout, webhooks, and subscription sync                                |
-| `email-setup`         | Add Resend + react-email transactional email for a flow                                 |
-| `cloudinary-upload`   | Add file upload route + client hook via Cloudinary                                      |
-| `vercel-deploy`       | Guided Vercel deploy walkthrough with env vars                                          |
-| `multi-tenancy`       | Add org, orgMember, and invitation modules with role-based access                       |
-| `nextjs-mdx-blog`     | Add MDX blog (file-based or DB-based) with Tailwind typography                          |
-| `auth-patterns`       | JWT auth patterns: registration, login, protected routes                                |
-| `api-patterns`        | API route conventions: validation, error handling, response shape                       |
-| `db-patterns`         | Drizzle ORM patterns: queries, relations, migrations                                    |
-| `ui-patterns`         | Component conventions: server vs client, shadcn usage, theming                          |
-| `component-splitting` | Extract oversized components into co-located subfolders                                 |
-| `dto-patterns`        | DTO conventions: Omit, never return passwordHash, layer boundaries                      |
-| `landing-page`        | Scaffold a marketing landing page with sections and CTAs                                |
-| `pwa`                 | Add PWA manifest and service worker                                                     |
-| `i18n`                | Add next-intl with locale routing and translation files                                 |
-| `init-project`        | First-run setup: env vars, DB, and Vercel link                                          |
+After `/init-project` runs, `CLAUDE.md` is rewritten with your specific project name, modules, and any constraints you defined during setup.
 
-## Typical dev session
+## How to use it
+
+Open Claude Code in your project directory:
 
 ```bash
-# 1. Start the dev server
-npm run dev
-
-# 2. Open Claude Code in the same directory
 claude
 ```
 
-Add a new `task` feature:
+Then describe what you want to build:
 
 ```
-/feature-module task
+Add a comments feature to posts
+Build a dashboard page showing recent signups
+Add email notifications when a user is invited to an org
 ```
 
-Claude scaffolds 7 files in `modules/task/` -- schema, relations, types, validation, repo, service, index -- and registers the table in `db/drizzle.ts`.
+Claude reads the codebase, follows the established patterns, and builds the feature -- database schema, API route, data hooks, and UI.
 
-```
-/nextjs-api-route GET /api/tasks
-/nextjs-api-route POST /api/tasks
+## Typical dev session
+
+Start the dev server in one terminal, open Claude Code in another:
+
+```bash
+npm run dev
+# in a separate terminal:
+claude
 ```
 
-Claude adds thin route handlers following the validate -> service -> respond pattern.
+Describe a feature. Claude scaffolds the module files, adds the route, generates data hooks, and writes the UI using your existing shadcn components and layout. Run migrations when the schema changes:
 
 ```bash
 npm run db:generate && npm run db:migrate
 ```
 
-```
-/swr-hooks task
-```
-
-Claude generates `hooks/api/useTask.ts` with `useTasks()`, `useCreateTask()`, `useUpdateTask()`, `useDeleteTask()` -- all calling `mutate()` on success.
-
-Then describe the UI in plain English and Claude builds it using your existing shadcn components and layout conventions.
+Then describe the next feature.
 
 ## Safety hooks
 
-The `.claude/hooks/pre-tool-use.sh` script runs before every tool call and blocks dangerous commands:
+A pre-tool-use hook runs before every tool call Claude makes and blocks dangerous commands:
 
 - `DROP TABLE` and other destructive SQL
 - `rm -rf` and similar destructive shell commands
-- Force push to main/master
+- Force push to `main`/`master`
 
 You can inspect and modify the hook at `.claude/hooks/pre-tool-use.sh`.
-
-## CLAUDE.md
-
-`CLAUDE.md` at the project root documents all conventions Claude follows automatically -- folder structure, naming rules, architecture patterns, anti-patterns to avoid, and the full tech stack. Claude loads it at session start; you never need to repeat your conventions.
