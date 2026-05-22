@@ -165,18 +165,19 @@
   animation: nav-label-in 0.2s ease-out both;
 }
 
-/* Reset prose default pre styles only for non-highlighted blocks */
-.prose pre:not([data-theme]) {
-  padding: 0 !important;
-  background: transparent !important;
+/* All pre blocks: consistent layout regardless of highlighting */
+.prose pre {
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  margin: 1.5rem 0 !important;
+  overflow-x: auto !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.7 !important;
 }
 
-/* rehype-pretty-code: layout for highlighted blocks */
-.prose pre[data-theme] {
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin: 1.5rem 0;
-  overflow-x: auto;
-  font-size: 0.8125rem;
-  line-height: 1.7;
+/* Un-highlighted blocks (no language tag — not processed by rehype-pretty-code):
+   apply github-dark colors so they match highlighted blocks */
+.prose pre:not([data-theme]) {
+  background-color: #0d1117 !important;
+  color: #e6edf3 !important;
 }

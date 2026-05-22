@@ -1,5 +1,6 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 interface Props {
@@ -9,6 +10,12 @@ interface Props {
 
 export function SuccessStep({ isFree, onClose }: Props) {
   const t = useTranslations('emailModal.successStep');
+  const router = useRouter();
+
+  function handleContinue() {
+    onClose();
+    router.push('/docs/getting-started');
+  }
 
   if (isFree) {
     return (
@@ -19,7 +26,7 @@ export function SuccessStep({ isFree, onClose }: Props) {
         </h2>
         <p className="text-muted-foreground mt-2 text-sm">{t('freeDesc')}</p>
         <button
-          onClick={onClose}
+          onClick={handleContinue}
           className="border-input text-foreground hover:bg-muted mt-5 w-full rounded-md border px-4 py-2 text-sm font-medium transition-colors"
         >
           {t('button')}
@@ -36,7 +43,7 @@ export function SuccessStep({ isFree, onClose }: Props) {
       </h2>
       <p className="text-muted-foreground mt-2 text-sm">{t('proDesc')}</p>
       <button
-        onClick={onClose}
+        onClick={handleContinue}
         className="border-input text-foreground hover:bg-muted mt-5 w-full rounded-md border px-4 py-2 text-sm font-medium transition-colors"
       >
         {t('button')}
