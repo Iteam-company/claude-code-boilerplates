@@ -19,11 +19,12 @@ interface Props {
 export function EmailCaptureModal({ plan, onClose }: Props) {
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
+  const [githubUsername, setGithubUsername] = useState('');
   const [paymentRequired, setPaymentRequired] = useState(false);
 
   const isFree = plan === 'free';
 
-  async function redirectToCheckout(customerEmail: string) {
+  async function redirectToCheckout(customerEmail: string, username: string) {
     const res = await fetch('/api/stripe/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -31,7 +32,8 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
         priceId: PRO_PRICE_ID,
         mode: 'payment',
         customer_email: customerEmail,
-        source: 'waitlist',
+        tier: 'pro',
+        github_username: username,
       }),
     });
     const data = await res.json();
@@ -48,7 +50,7 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
         return;
       }
       if (data.requiresPayment) {
-        await redirectToCheckout(submittedEmail);
+        await redirectToCheckout(submittedEmail, githubUsername);
         return;
       }
       setStep('duplicate');
@@ -64,9 +66,10 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
     setStep(isFree ? 'success' : 'github');
   }
 
-  async function handleGithubNext(requiresPayment: boolean) {
+  async function handleGithubNext(username: string, requiresPayment: boolean) {
+    setGithubUsername(username);
     if (paymentRequired || requiresPayment) {
-      await redirectToCheckout(email);
+      await redirectToCheckout(email, username);
       return;
     }
     setStep('success');
@@ -92,6 +95,7 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
         {step === 'github' && (
           <GithubStep email={email} onNext={handleGithubNext} />
         )}
+
         {step === 'success' && (
           <SuccessStep isFree={isFree} onClose={onClose} />
         )}
