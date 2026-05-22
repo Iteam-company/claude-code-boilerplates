@@ -63,6 +63,9 @@ export const Header = () => {
           <a href="/#pricing" className={navLink(pricingActive)}>
             {t('nav.pricing')}
           </a>
+          <Link href="#" className={navLink(false)}>
+            {t('nav.docs')}
+          </Link>
           <Link
             href={ROUTES.BLOG}
             className={navLink(pathname.startsWith('/blog'))}
