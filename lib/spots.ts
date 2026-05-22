@@ -1,8 +1,8 @@
 import 'server-only';
-import { waitlistRepo } from '@/modules/waitlist/waitlist.repo';
+import { leadRepo } from '@/modules/lead/lead.repo';
 
-export const TOTAL_PRO_SPOTS = 100;
+export const TOTAL_PRO_SPOTS = Number(process.env.TOTAL_PRO_SPOTS ?? '100');
 
 export async function countProSpotsTaken(): Promise<number> {
-  return waitlistRepo.countPro();
+  return leadRepo.countPro();
 }

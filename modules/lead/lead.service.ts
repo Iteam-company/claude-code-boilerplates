@@ -1,31 +1,56 @@
 import React from 'react';
 import Stripe from 'stripe';
 import { leadRepo } from './lead.repo';
-import { CreateLeadInput } from './lead.types';
-import { HttpError } from '@/lib/errors/http-error';
+import { AddEmailResult } from './lead.types';
 import { emailService, APP_NAME } from '@/lib/email';
 import { trackEvent } from '@/lib/analytics';
 import { githubService } from '@/lib/github';
 import { OnboardingEmail } from '@/emails/onboarding-email';
 import { ProOnboardingEmail } from '@/emails/pro-onboarding-email';
+import { TOTAL_PRO_SPOTS } from '@/lib/spots';
 
 const GITHUB_REPO_URL =
   process.env.GITHUB_REPO_URL ?? 'https://github.com/your-org/your-repo';
 const DOCS_URL = process.env.DOCS_URL ?? 'https://docs.example.com';
 const DISCORD_URL = process.env.DISCORD_URL ?? 'https://discord.gg/your-server';
 
+async function sendProEmail(email: string, githubUsername: string) {
+  await emailService.sendEmail({
+    to: email,
+    subject: `Your ${APP_NAME} Pro access is confirmed`,
+    react: React.createElement(ProOnboardingEmail, {
+      appName: APP_NAME,
+      githubUsername,
+      docsUrl: DOCS_URL,
+      discordUrl: DISCORD_URL,
+    }),
+  });
+}
+
 export const leadService = {
-  create: async (input: CreateLeadInput) => {
-    const existing = await leadRepo.findByEmail(input.email);
+  addEmail: async (
+    email: string,
+    tier: 'free' | 'pro',
+  ): Promise<AddEmailResult> => {
+    const existing = await leadRepo.findByEmail(email);
+
     if (existing) {
-      throw new HttpError(409, 'Email already registered');
+      if (tier === 'pro') {
+        const proCount = await leadRepo.countPro();
+        return {
+          alreadyExists: true,
+          requiresPayment: proCount > TOTAL_PRO_SPOTS,
+          hasGithub: !!existing.githubUsername,
+        };
+      }
+      return { alreadyExists: true, requiresPayment: false, hasGithub: false };
     }
 
-    const lead = await leadRepo.create(input);
-
-    if (input.tierInterest === 'free') {
+    if (tier === 'free') {
+      await leadRepo.insert(email, 'free');
+      trackEvent('free_signup_created', { email });
       await emailService.sendEmail({
-        to: input.email,
+        to: email,
         subject: `Your free ${APP_NAME} access`,
         react: React.createElement(OnboardingEmail, {
           appName: APP_NAME,
@@ -34,18 +59,41 @@ export const leadService = {
           discordUrl: DISCORD_URL,
         }),
       });
+      return { alreadyExists: false, requiresPayment: false, hasGithub: false };
     }
 
-    trackEvent('lead_created', {
-      tierInterest: input.tierInterest,
-      signupSource: input.signupSource ?? null,
-    });
+    // pro — check spots before inserting (new user not yet counted)
+    const proCount = await leadRepo.countPro();
+    const requiresPayment = proCount >= TOTAL_PRO_SPOTS;
+    await leadRepo.insert(email, 'pro');
+    return { alreadyExists: false, requiresPayment, hasGithub: false };
+  },
 
-    return lead;
+  addGithubUsername: async (
+    email: string,
+    githubUsername: string,
+  ): Promise<{ requiresPayment: boolean }> => {
+    await leadRepo.updateGithub(email, githubUsername);
+    // User is already inserted (counted), use strict > so 100th user is free
+    const proCount = await leadRepo.countPro();
+    const requiresPayment = proCount > TOTAL_PRO_SPOTS;
+
+    if (!requiresPayment) {
+      const lead = await leadRepo.findByEmail(email);
+      if (lead && !lead.githubInvitedAt) {
+        await githubService.inviteCollaborator(githubUsername);
+        await leadRepo.markGithubInvited(lead.id);
+        trackEvent('pro_repo_invited', { githubUsername });
+        await sendProEmail(email, githubUsername);
+      }
+    }
+
+    return { requiresPayment };
   },
 
   handleProCheckout: async (session: Stripe.Checkout.Session) => {
-    const email = session.customer_details?.email;
+    const email =
+      session.customer_details?.email ?? session.customer_email ?? null;
     const githubUsername = session.metadata?.github_username;
 
     if (!email || !githubUsername) {
@@ -56,28 +104,14 @@ export const leadService = {
       return;
     }
 
-    // Upsert is idempotent — safe if Stripe retries the webhook
     const lead = await leadRepo.upsertPro({ email, githubUsername });
-
     trackEvent('pro_checkout_completed', { githubUsername });
 
-    // Skip invite + email if already processed (webhook retry guard)
     if (lead.githubInvitedAt) return;
 
     await githubService.inviteCollaborator(githubUsername);
     await leadRepo.markGithubInvited(lead.id);
-
     trackEvent('pro_repo_invited', { githubUsername });
-
-    await emailService.sendEmail({
-      to: email,
-      subject: `Your ${APP_NAME} Pro access is confirmed`,
-      react: React.createElement(ProOnboardingEmail, {
-        appName: APP_NAME,
-        githubUsername,
-        docsUrl: DOCS_URL,
-        discordUrl: DISCORD_URL,
-      }),
-    });
+    await sendProEmail(email, githubUsername);
   },
 };

@@ -41,10 +41,10 @@ export function EmailStep({ plan, onNext }: Props) {
     }
     setLoading(true);
     try {
-      const res = await fetch('/api/waitlist', {
+      const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, plan }),
+        body: JSON.stringify({ email, tier: plan }),
       });
       const data: WaitlistResult = await res.json();
       onNext(email, data);

@@ -1,7 +1,7 @@
 import { stripe } from '@/lib/stripe';
 import { handleError } from '@/lib/errors';
 import { headers } from 'next/headers';
-import { waitlistService } from '@/modules/waitlist';
+import { leadService } from '@/modules/lead';
 
 export const runtime = 'nodejs';
 
@@ -24,14 +24,12 @@ export async function POST(req: Request) {
       case 'checkout.session.completed': {
         const session = event.data.object;
 
-        if (session.metadata?.source === 'waitlist') {
-          const email =
-            session.customer_email ?? session.customer_details?.email;
-          if (email) {
-            await waitlistService.markPaid(email, session.id);
-          }
+        if (session.metadata?.tier === 'pro') {
+          await leadService.handleProCheckout(session);
           break;
         }
+
+        break;
       }
       default:
         break;
