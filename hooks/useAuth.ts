@@ -1,33 +1,20 @@
-import { useLayoutEffect, useState } from 'react';
-
-const TOKEN_KEY = 'auth_token';
+'use client';
+import { useState } from 'react';
 
 export const useAuth = () => {
-  const [token, setTokenState] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return document.cookie
+      .split(';')
+      .some((c) => c.trim() === 'auth_session=1');
+  });
 
-  const setToken = (newToken: string) => {
-    localStorage.setItem(TOKEN_KEY, newToken);
-    setTokenState(newToken);
-  };
+  const setToken = () => setIsAuthenticated(true);
 
   const clearToken = () => {
-    localStorage.removeItem(TOKEN_KEY);
-    setTokenState(null);
+    setIsAuthenticated(false);
+    fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
   };
 
-  const isAuthenticated = !!token;
-
-  useLayoutEffect(() => {
-    const setToken = (token: string) => {
-      setTokenState(token);
-    };
-    if (typeof window !== 'undefined' && !token) {
-      const token = localStorage.getItem(TOKEN_KEY);
-      if (token) {
-        setToken(token);
-      }
-    }
-  }, []);
-
-  return { token, setToken, clearToken, isAuthenticated };
+  return { isAuthenticated, setToken, clearToken };
 };

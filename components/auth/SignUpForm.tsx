@@ -39,8 +39,8 @@ export function SignUpForm({ redirectTo }: Props) {
 
   const onSubmit = async (data: RegisterSchemaType) => {
     try {
-      const result = await signup(data);
-      if (result.token) setToken(result.token);
+      await signup(data);
+      setToken();
       toast.success(t('successToast'));
       router.push(redirectTo ?? ROUTES.HOME);
     } catch (err: unknown) {
