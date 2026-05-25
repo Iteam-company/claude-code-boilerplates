@@ -8,7 +8,6 @@ interface ApiError {
 
 const AUTH_KEYS: [storageKey: string, header: string, prefix?: string][] = [
   ['auth_token', 'Authorization', 'Bearer'],
-  ['current_org_id', 'X-Org-Id'],
 ];
 
 const getAuthHeaders = (): Headers => {
@@ -56,5 +55,5 @@ const createApi = (getHeaders: () => Headers) => {
 /** Unauthenticated API client */
 export const api = createApi(() => ({}));
 
-/** Authenticated API client — reads auth_token + current_org_id from localStorage */
+/** Authenticated API client — reads auth_token from localStorage */
 export const authApi = createApi(getAuthHeaders);
