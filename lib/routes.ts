@@ -11,11 +11,4 @@ export const ROUTES = {
   DOCS: '/docs/getting-started',
   CHECKOUT: '/checkout',
   CHECKOUT_SUCCESS: '/checkout/success',
-  DEMO: '/demo',
-  DEMO_DASHBOARD: '/demo/dashboard',
-  DEMO_ORGS: '/demo/organizations',
-  DEMO_ORG_NEW: '/demo/organizations/new',
-  DEMO_ORG_SETTINGS: (id: string) => `/demo/organizations/${id}/settings`,
-  DEMO_ORG_MEMBERS: (id: string) => `/demo/organizations/${id}/members`,
-  DEMO_ORG_INVITATIONS: (id: string) => `/demo/organizations/${id}/invitations`,
 };

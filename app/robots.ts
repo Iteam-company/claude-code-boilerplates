@@ -8,13 +8,11 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: [
         '/api/',
-        '/demo/',
         '/signin',
         '/signup',
         '/forgot-password',
         '/reset-password',
         '/verify-email',
-        '/accept-invite',
       ],
     },
     sitemap: `${getBaseUrl()}/sitemap.xml`,

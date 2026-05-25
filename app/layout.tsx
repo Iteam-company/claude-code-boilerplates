@@ -9,8 +9,6 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import './globals.css';
-import { OrgProvider } from '@/components/demo/OrgProvider';
-
 const geist = Geist({
   subsets: ['latin'],
   variable: '--font-sans',
@@ -72,12 +70,10 @@ export default async function RootLayout({
       <body className="min-h-dvh">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <NextIntlClientProvider messages={messages}>
-            <OrgProvider>
-              {children}
-              <Toaster />
-              <Analytics />
-              <SpeedInsights />
-            </OrgProvider>
+            {children}
+            <Toaster />
+            <Analytics />
+            <SpeedInsights />
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>
