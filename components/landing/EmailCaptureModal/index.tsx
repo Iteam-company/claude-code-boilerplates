@@ -6,8 +6,9 @@ import { EmailStep, type WaitlistResult } from './EmailStep';
 import { GithubStep } from './GithubStep';
 import { SuccessStep } from './SuccessStep';
 import { DuplicateStep } from './DuplicateStep';
+import { UpgradeStep } from './UpgradeStep';
 
-type Step = 'email' | 'github' | 'success' | 'duplicate';
+type Step = 'email' | 'github' | 'success' | 'duplicate' | 'upgrade';
 
 const PRO_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PRICE_ONE_TIME ?? '';
 
@@ -20,6 +21,9 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
   const [paymentRequired, setPaymentRequired] = useState(false);
+  const [pendingResult, setPendingResult] = useState<WaitlistResult | null>(
+    null,
+  );
 
   const isFree = plan === 'free';
 
@@ -42,17 +46,14 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
   async function handleEmailNext(submittedEmail: string, data: WaitlistResult) {
     setEmail(submittedEmail);
 
+    if (data.alreadyExists && !isFree) {
+      // Existing free user clicking pro — show upgrade confirmation first
+      setPendingResult(data);
+      setStep('upgrade');
+      return;
+    }
+
     if (data.alreadyExists) {
-      if (!isFree && !data.hasGithub) {
-        if (data.requiresPayment) setPaymentRequired(true);
-        setStep('github');
-        return;
-      }
-      if (data.requiresPayment) {
-        // Use the github_username stored in DB - frontend state is empty at this point
-        await redirectToCheckout(submittedEmail, data.githubUsername ?? '');
-        return;
-      }
       setStep('duplicate');
       return;
     }
@@ -64,6 +65,23 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
     }
 
     setStep(isFree ? 'success' : 'github');
+  }
+
+  async function handleUpgradeConfirm() {
+    const data = pendingResult;
+    if (!data) return;
+
+    if (data.hasGithub) {
+      if (data.requiresPayment) {
+        await redirectToCheckout(email, data.githubUsername ?? '');
+      } else {
+        setStep('duplicate');
+      }
+      return;
+    }
+
+    if (data.requiresPayment) setPaymentRequired(true);
+    setStep('github');
   }
 
   async function handleGithubNext(username: string, requiresPayment: boolean) {
@@ -95,6 +113,9 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
           <GithubStep email={email} onNext={handleGithubNext} />
         )}
 
+        {step === 'upgrade' && (
+          <UpgradeStep onConfirm={handleUpgradeConfirm} onCancel={onClose} />
+        )}
         {step === 'success' && (
           <SuccessStep isFree={isFree} onClose={onClose} />
         )}

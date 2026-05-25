@@ -32,7 +32,7 @@ export const leadRepo = {
   updateGithub: async (email: string, githubUsername: string) => {
     await db
       .update(leadTable)
-      .set({ githubUsername })
+      .set({ githubUsername, tierInterest: 'pro' })
       .where(eq(leadTable.email, email));
   },
 

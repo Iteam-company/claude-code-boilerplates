@@ -392,6 +392,13 @@
       "proDesc": "We sent you an invite to the repository. Check your GitHub notifications.",
       "button": "Go to docs"
     },
+    "upgradeStep": {
+      "emoji": "⚡",
+      "title": "You already have the free plan",
+      "desc": "Would you like to upgrade to Pro? You'll get access to the private repository and all Pro features.",
+      "confirm": "Yes, upgrade to Pro →",
+      "cancel": "No, keep free plan"
+    },
     "duplicateStep": {
       "emoji": "👋",
       "title": "You're already registered",
