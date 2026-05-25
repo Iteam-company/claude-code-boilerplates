@@ -60,11 +60,8 @@ export const Header = () => {
           <Link href="/" className={navLink(pathname === '/')}>
             {t('nav.features')}
           </Link>
-          <a href="/#pricing" className={navLink(pricingActive)}>
+          <Link href="/#pricing" className={navLink(pricingActive)}>
             {t('nav.pricing')}
-          </a>
-          <Link href="/docs" className={navLink(pathname.startsWith('/docs'))}>
-            {t('nav.docs')}
           </Link>
           <Link
             href={ROUTES.BLOG}
@@ -72,16 +69,19 @@ export const Header = () => {
           >
             {t('nav.blog')}
           </Link>
+          <Link href="/docs" className={navLink(pathname.startsWith('/docs'))}>
+            {t('nav.docs')}
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <a
+          <Link
             href="/#pricing"
             className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 py-2 text-sm font-medium transition-colors"
           >
             {t('getStarted')}
-          </a>
+          </Link>
         </div>
       </div>
     </header>
