@@ -1,5 +1,6 @@
 import { userService, registerSchema } from '@/modules/user';
 import { handleError } from '@/lib/errors';
+import { buildAuthCookies } from '@/lib/auth';
 
 export async function POST(req: Request) {
   try {
@@ -20,9 +21,17 @@ export async function POST(req: Request) {
       );
     }
 
-    const result = await userService.register(email, password);
+    const { user, token } = await userService.register(email, password);
 
-    return Response.json(result);
+    return new Response(JSON.stringify({ user }), {
+      status: 200,
+      headers: [
+        ['Content-Type', 'application/json'],
+        ...buildAuthCookies(token).map(
+          (c) => ['Set-Cookie', c] as [string, string],
+        ),
+      ],
+    });
   } catch (error: unknown) {
     return handleError(error);
   }

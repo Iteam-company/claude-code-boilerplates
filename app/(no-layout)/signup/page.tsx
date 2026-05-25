@@ -10,10 +10,10 @@ import { SignUpForm } from '@/components/auth/SignUpForm';
 function SignUpContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { token } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && token) router.replace(ROUTES.HOME);
+    if (isAuthenticated) router.replace(ROUTES.HOME);
   }, []);
 
   return (

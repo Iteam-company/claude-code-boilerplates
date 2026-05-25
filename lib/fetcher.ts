@@ -6,20 +6,6 @@ interface ApiError {
   message?: string;
 }
 
-const AUTH_KEYS: [storageKey: string, header: string, prefix?: string][] = [
-  ['auth_token', 'Authorization', 'Bearer'],
-];
-
-const getAuthHeaders = (): Headers => {
-  if (typeof window === 'undefined') return {};
-  return Object.fromEntries(
-    AUTH_KEYS.flatMap(([storageKey, header, prefix]) => {
-      const value = localStorage.getItem(storageKey);
-      return value ? [[header, prefix ? `${prefix} ${value}` : value]] : [];
-    }),
-  );
-};
-
 const createApi = (getHeaders: () => Headers) => {
   const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
     const res = await fetch(url, {
@@ -52,8 +38,7 @@ const createApi = (getHeaders: () => Headers) => {
   };
 };
 
-/** Unauthenticated API client */
 export const api = createApi(() => ({}));
 
-/** Authenticated API client — reads auth_token from localStorage */
-export const authApi = createApi(getAuthHeaders);
+/** Cookies are sent automatically — alias of api */
+export const authApi = api;

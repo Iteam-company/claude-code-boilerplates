@@ -32,8 +32,8 @@ export function SignInForm({ redirectTo }: Props) {
 
   const onSubmit = async (data: LoginSchemaType) => {
     try {
-      const result = await signin(data);
-      if (result.token) setToken(result.token);
+      await signin(data);
+      setToken();
       toast.success(t('successToast'));
       router.push(redirectTo ?? ROUTES.HOME);
     } catch (err: unknown) {

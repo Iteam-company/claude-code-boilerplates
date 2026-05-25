@@ -3,7 +3,7 @@ import React from 'react';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { userRepo } from './user.repo';
-import { AuthResponse, User } from './user.types';
+import { LoginResult, User } from './user.types';
 import { HttpError } from '@/lib/errors/http-error';
 import {
   emailService,
@@ -24,7 +24,7 @@ const sanitizeUser = (user: User) => {
 };
 
 export const userService = {
-  register: async (email: string, password: string): Promise<AuthResponse> => {
+  register: async (email: string, password: string): Promise<LoginResult> => {
     const existing = await userRepo.findByEmail(email);
 
     if (existing) {
@@ -65,7 +65,7 @@ export const userService = {
     return { user: sanitizeUser(user), token };
   },
 
-  login: async (email: string, password: string): Promise<AuthResponse> => {
+  login: async (email: string, password: string): Promise<LoginResult> => {
     const user = await userRepo.findByEmail(email);
 
     if (!user) {

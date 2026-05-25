@@ -1,5 +1,6 @@
 import { userService, loginSchema } from '@/modules/user';
 import { handleError } from '@/lib/errors';
+import { buildAuthCookies } from '@/lib/auth';
 
 export async function POST(req: Request) {
   try {
@@ -12,10 +13,17 @@ export async function POST(req: Request) {
     }
 
     const { email, password } = parsed.data;
+    const { user, token } = await userService.login(email, password);
 
-    const result = await userService.login(email, password);
-
-    return Response.json(result);
+    return new Response(JSON.stringify({ user }), {
+      status: 200,
+      headers: [
+        ['Content-Type', 'application/json'],
+        ...buildAuthCookies(token).map(
+          (c) => ['Set-Cookie', c] as [string, string],
+        ),
+      ],
+    });
   } catch (error: unknown) {
     return handleError(error);
   }

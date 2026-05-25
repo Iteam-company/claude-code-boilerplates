@@ -17,5 +17,6 @@ export type CreateUserInput = {
 
 export type AuthResponse = {
   user: Omit<User, 'passwordHash'>;
-  token: string;
 };
+
+export type LoginResult = AuthResponse & { token: string };
