@@ -16,6 +16,7 @@ interface WelcomeEmailProps {
 }
 
 export function WelcomeEmail({ appName, dashboardUrl }: WelcomeEmailProps) {
+  const safeUrl = dashboardUrl.startsWith('https://') ? dashboardUrl : '#';
   return (
     <Html>
       <Head />
@@ -31,7 +32,7 @@ export function WelcomeEmail({ appName, dashboardUrl }: WelcomeEmailProps) {
             Get started by visiting your dashboard:
           </Text>
           <Section style={styles.btnSection}>
-            <Button href={dashboardUrl} style={styles.button}>
+            <Button href={safeUrl} style={styles.button}>
               Go to Dashboard
             </Button>
           </Section>

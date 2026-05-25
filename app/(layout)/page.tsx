@@ -119,11 +119,15 @@ export default async function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(websiteSchema).replace(/<\//g, '<\\/'),
+        }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareSchema).replace(/<\//g, '<\\/'),
+        }}
       />
       <Hero stars={stars} spots={spots} />
       <SocialProof stars={stars} subscribers={subscribers} />
