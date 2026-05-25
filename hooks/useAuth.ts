@@ -1,11 +1,9 @@
 import { useLayoutEffect, useState } from 'react';
-import { useOrg } from './useOrg';
 
 const TOKEN_KEY = 'auth_token';
 
 export const useAuth = () => {
   const [token, setTokenState] = useState<string | null>(null);
-  const { clearOrg } = useOrg();
 
   const setToken = (newToken: string) => {
     localStorage.setItem(TOKEN_KEY, newToken);
@@ -15,7 +13,6 @@ export const useAuth = () => {
   const clearToken = () => {
     localStorage.removeItem(TOKEN_KEY);
     setTokenState(null);
-    clearOrg();
   };
 
   const isAuthenticated = !!token;

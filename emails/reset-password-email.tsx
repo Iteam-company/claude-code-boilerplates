@@ -20,6 +20,7 @@ export function ResetPasswordEmail({
   appName,
   resetUrl,
 }: ResetPasswordEmailProps) {
+  const safeUrl = resetUrl.startsWith('https://') ? resetUrl : '#';
   return (
     <Html>
       <Head />
@@ -34,7 +35,7 @@ export function ResetPasswordEmail({
           </Text>
           <Text style={styles.expiry}>This link expires in 1 hour.</Text>
           <Section style={styles.btnSection}>
-            <Button href={resetUrl} style={styles.button}>
+            <Button href={safeUrl} style={styles.button}>
               Reset Password
             </Button>
           </Section>

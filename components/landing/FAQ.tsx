@@ -47,7 +47,9 @@ export async function FAQ() {
     <section id="faq" className="bg-muted py-24">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/<\//g, '<\\/'),
+        }}
       />
       <Container>
         <FadeIn>

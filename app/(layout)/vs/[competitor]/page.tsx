@@ -134,7 +134,9 @@ export default async function VsPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumb).replace(/<\//g, '<\\/'),
+        }}
       />
 
       <section className="py-20">
