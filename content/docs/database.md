@@ -1,11 +1,11 @@
 ---
 title: Database
-description: Drizzle ORM with Neon DB -- schema, relations, migrations, and queries.
+description: Drizzle ORM with Neon DB -- define your schema, run migrations, set up relations, and query your data using type-safe TypeScript without writing raw SQL.
 order: 4
 section: For Developers
 ---
 
-# Database
+# Database -- Drizzle ORM and Neon DB Setup
 
 The boilerplate includes a pre-built `users` table. All other tables are added as you build features with Claude Code.
 

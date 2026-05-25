@@ -1,11 +1,11 @@
 ---
 title: Overview
-description: What this boilerplate includes and how it works.
+description: A complete Next.js SaaS starting point with auth, Stripe, database, email, and Claude Code skills pre-configured -- ship your first feature on day one.
 order: 0
 section: Getting Started
 ---
 
-# Overview
+# Next.js SaaS Boilerplate Overview
 
 This boilerplate is a complete starting point for a SaaS product. You get a working app on day one -- pre-built pages, a database, and a full set of Claude Code instructions so you can describe features in plain English and have them built for you.
 

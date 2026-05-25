@@ -1,11 +1,11 @@
 ---
 title: Getting Started
-description: Install Claude Code, create your repo from the template, and run /init-project.
+description: Install Claude Code, clone your repo from the template, configure environment variables, and run /init-project to have a working app in under 5 minutes.
 order: 1
 section: Getting Started
 ---
 
-# Getting Started
+# Getting Started -- Set Up Your Boilerplate in 5 Minutes
 
 After purchase you'll receive an email with a GitHub repository invite. From there, setup takes about 5 minutes -- one command does everything.
 
