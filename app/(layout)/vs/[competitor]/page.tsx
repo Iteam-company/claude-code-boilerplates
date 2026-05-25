@@ -68,6 +68,10 @@ export function generateStaticParams() {
   return Object.keys(COMPETITORS).map((competitor) => ({ competitor }));
 }
 
+function truncate(str: string, max: number) {
+  return str.length <= max ? str : str.slice(0, max - 3).trimEnd() + '...';
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -76,14 +80,28 @@ export async function generateMetadata({
   const { competitor } = await params;
   const data = COMPETITORS[competitor];
   if (!data) return {};
-  const base = getBaseUrl();
+  const title = truncate(data.metaTitle, 60);
+  const description = truncate(data.metaDescription, 160);
   return {
-    title: { absolute: data.metaTitle },
-    description: data.metaDescription,
+    title: { absolute: title },
+    description,
+    alternates: {
+      canonical: `/vs/${competitor}`,
+      languages: { en: `/vs/${competitor}`, 'x-default': `/vs/${competitor}` },
+    },
     openGraph: {
-      title: data.metaTitle,
-      description: data.metaDescription,
-      url: `${base}/vs/${competitor}`,
+      title,
+      description,
+      url: `/vs/${competitor}`,
+      type: 'website',
+      siteName: 'Claude Code Boilerplate',
+      images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: ['/opengraph-image'],
     },
   };
 }

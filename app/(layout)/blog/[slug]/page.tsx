@@ -20,19 +20,29 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
+function truncate(str: string, max: number) {
+  return str.length <= max ? str : str.slice(0, max - 1).trimEnd() + '…';
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   try {
     const post = await postService.getBySlug(slug);
+    const title = truncate(post.title, 60);
+    const description = truncate(post.description, 160);
     return {
-      title: post.title,
-      description: post.description,
-      alternates: { canonical: `/blog/${slug}` },
+      title: { absolute: title },
+      description,
+      alternates: {
+        canonical: `/blog/${slug}`,
+        languages: { en: `/blog/${slug}`, 'x-default': `/blog/${slug}` },
+      },
       openGraph: {
-        title: post.title,
-        description: post.description,
+        title,
+        description,
         url: `/blog/${slug}`,
         type: 'article',
+        siteName: 'Claude Code Boilerplate',
         publishedTime: post.createdAt.toISOString(),
         modifiedTime: post.updatedAt.toISOString(),
         authors: ['Claude Code Boilerplate'],
@@ -40,8 +50,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
       twitter: {
         card: 'summary_large_image',
-        title: post.title,
-        description: post.description,
+        title,
+        description,
         images: [`/api/og/blog/${slug}`],
       },
       other: {

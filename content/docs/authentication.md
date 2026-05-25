@@ -1,11 +1,11 @@
 ---
 title: Authentication
-description: JWT-based auth, registration, login, and protected routes.
+description: JWT-based authentication with login, registration, password hashing, and protected routes -- pre-wired and ready to extend with your own business logic.
 order: 3
 section: For Developers
 ---
 
-# Authentication
+# Authentication -- JWT Login, Registration, and Protected Routes
 
 **Pre-built:** Login and register pages live at `/login` and `/register`. The API routes at `/api/auth/login` and `/api/auth/register` are wired up and ready.
 

@@ -1,11 +1,11 @@
 ---
 title: Claude Code
-description: How Claude Code works with this boilerplate.
+description: How Claude Code reads your codebase, follows your conventions, and builds full-stack features from plain English -- skills, agents, and hooks included.
 order: 5
 section: For Developers
 ---
 
-# Claude Code
+# How Claude Code Works with This Boilerplate
 
 Claude Code is a CLI that runs inside your project directory. It reads your codebase, follows your conventions, and builds features when you describe them in plain English.
 

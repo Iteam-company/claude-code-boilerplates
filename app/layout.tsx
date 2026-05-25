@@ -42,7 +42,15 @@ export const metadata: Metadata = {
     siteName: 'Claude Code Boilerplate',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
-  twitter: { card: 'summary_large_image' },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
+  },
   other: {
     'og:logo': `${baseUrl}/opengraph-image`,
   },

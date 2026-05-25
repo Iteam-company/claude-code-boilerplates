@@ -4,20 +4,30 @@ import { postService } from '@/modules/post';
 
 export const revalidate = 3600;
 
+const BLOG_TITLE = 'Blog | Claude Code Boilerplate';
+const BLOG_DESCRIPTION =
+  'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.';
+
 export const metadata: Metadata = {
   title: 'Blog',
-  description:
-    'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.',
+  description: BLOG_DESCRIPTION,
+  alternates: {
+    canonical: '/blog',
+    languages: { en: '/blog', 'x-default': '/blog' },
+  },
   openGraph: {
-    title: 'Blog | Claude Code Boilerplate',
-    description:
-      'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.',
+    title: BLOG_TITLE,
+    description: BLOG_DESCRIPTION,
     url: '/blog',
+    type: 'website',
+    siteName: 'Claude Code Boilerplate',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
   twitter: {
-    title: 'Blog | Claude Code Boilerplate',
-    description:
-      'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.',
+    card: 'summary_large_image',
+    title: BLOG_TITLE,
+    description: BLOG_DESCRIPTION,
+    images: ['/opengraph-image'],
   },
 };
 

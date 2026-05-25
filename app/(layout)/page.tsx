@@ -24,6 +24,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: { absolute: t('title') },
     description: t('description'),
+    alternates: {
+      canonical: '/',
+      languages: {
+        en: '/',
+        'x-default': '/',
+      },
+    },
   };
 }
 

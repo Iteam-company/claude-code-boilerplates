@@ -7,6 +7,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: t('metaTitle'),
     description: t('metaDescription'),
+    alternates: {
+      canonical: '/checkout/success',
+      languages: { en: '/checkout/success', 'x-default': '/checkout/success' },
+    },
   };
 }
 
