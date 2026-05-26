@@ -81,8 +81,8 @@ export function ProOnboardingEmail({
                 </Section>
 
                 <Section style={styles.btnSection}>
-                  <Button href={repoUrl} style={styles.button}>
-                    Open Pro repo →
+                  <Button href={`${repoUrl}/generate`} style={styles.button}>
+                    Create Pro repo
                   </Button>
                 </Section>
 

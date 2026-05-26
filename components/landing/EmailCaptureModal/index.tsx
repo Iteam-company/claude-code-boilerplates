@@ -142,7 +142,9 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
             onClose={onClose}
           />
         )}
-        {step === 'duplicate' && <DuplicateStep onClose={onClose} />}
+        {step === 'duplicate' && (
+          <DuplicateStep isFree={isFree} onClose={onClose} />
+        )}
       </div>
     </div>
   );

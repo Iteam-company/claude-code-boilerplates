@@ -423,11 +423,11 @@
       "freeEmoji": "🎉",
       "freeTitle": "Check your inbox",
       "freeDesc": "We sent you an email. Use the template below to create your own repo — it's a copy, not a fork, so your commits stay yours.",
-      "freeRepoBtn": "Use this template →",
+      "freeRepoBtn": "Create new repo",
       "proEmoji": "✅",
       "proTitle": "You're in",
       "proDesc": "We sent you a GitHub invite to the Pro repo. Check your GitHub notifications to accept it.",
-      "proRepoBtn": "Open Pro repo →",
+      "proRepoBtn": "Create Pro repo",
       "inviteFailedDesc": "We couldn't send your GitHub invite automatically. Click below to retry.",
       "retryInviteBtn": "Retry GitHub invite",
       "inviteRetriedDesc": "Invite sent! Check your GitHub notifications to accept it.",
@@ -444,6 +444,7 @@
       "emoji": "👋",
       "title": "You're already registered",
       "desc": "This email is already on the list. Check your inbox for updates.",
+      "createRepoBtn": "Create repo",
       "button": "Got it"
     },
     "validation": {
