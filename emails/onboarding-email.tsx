@@ -45,7 +45,7 @@ export function OnboardingEmail({
 
                 <Section style={styles.btnSection}>
                   <Button href={`${githubUrl}/generate`} style={styles.button}>
-                    Use this template →
+                    Create new repo
                   </Button>
                 </Section>
 
