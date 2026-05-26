@@ -11,6 +11,7 @@ export interface WaitlistResult {
   requiresPayment: boolean;
   hasGithub: boolean;
   githubUsername?: string;
+  isPro?: boolean;
 }
 
 interface Props {

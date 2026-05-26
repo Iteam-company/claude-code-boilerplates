@@ -46,7 +46,7 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
   async function handleEmailNext(submittedEmail: string, data: WaitlistResult) {
     setEmail(submittedEmail);
 
-    if (data.alreadyExists && !isFree) {
+    if (data.alreadyExists && !isFree && !data.isPro) {
       // Existing free user clicking pro — show upgrade confirmation first
       setPendingResult(data);
       setStep('upgrade');

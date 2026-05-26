@@ -8,6 +8,7 @@ export interface AddEmailResult {
   requiresPayment: boolean;
   hasGithub: boolean;
   githubUsername?: string;
+  isPro?: boolean;
 }
 
 export interface UpsertProLeadInput {

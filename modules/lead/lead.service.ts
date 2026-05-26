@@ -15,7 +15,7 @@ const GITHUB_REPO_URL =
 const DOCS_URL = `${getBaseUrl()}/docs`;
 const DISCORD_URL =
   process.env.NEXT_PUBLIC_DISCORD_URL ?? 'https://discord.gg/your-server';
-const DISCORD_PRO_URL = process.env.DISCORD_PRO_URL ?? DISCORD_URL;
+const DISCORD_PRO_URL = process.env.NEXT_PUBLIC_DISCORD_PRO_URL ?? DISCORD_URL;
 
 async function sendProEmail(email: string, githubUsername: string) {
   await emailService.sendEmail({
@@ -45,6 +45,7 @@ export const leadService = {
             alreadyExists: true,
             requiresPayment: false,
             hasGithub: true,
+            isPro: true,
           };
         }
         const proCount = await leadRepo.countPro();
@@ -52,8 +53,8 @@ export const leadService = {
           alreadyExists: true,
           requiresPayment: proCount > TOTAL_PRO_SPOTS,
           hasGithub: !!existing.githubUsername,
-          // Return stored username so modal can pass it to Stripe without asking again
           githubUsername: existing.githubUsername ?? undefined,
+          isPro: existing.tierInterest === 'pro',
         };
       }
       return { alreadyExists: true, requiresPayment: false, hasGithub: false };
