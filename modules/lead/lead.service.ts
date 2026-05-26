@@ -8,11 +8,14 @@ import { githubService } from '@/lib/github';
 import { OnboardingEmail } from '@/emails/onboarding-email';
 import { ProOnboardingEmail } from '@/emails/pro-onboarding-email';
 import { TOTAL_PRO_SPOTS } from '@/lib/spots';
+import { getBaseUrl } from '@/lib/utils';
 
 const GITHUB_REPO_URL =
   process.env.GITHUB_REPO_URL ?? 'https://github.com/your-org/your-repo';
-const DOCS_URL = process.env.DOCS_URL ?? 'https://docs.example.com';
-const DISCORD_URL = process.env.DISCORD_URL ?? 'https://discord.gg/your-server';
+const DOCS_URL = `${getBaseUrl()}/docs`;
+const DISCORD_URL =
+  process.env.NEXT_PUBLIC_DISCORD_URL ?? 'https://discord.gg/your-server';
+const DISCORD_PRO_URL = process.env.DISCORD_PRO_URL ?? DISCORD_URL;
 
 async function sendProEmail(email: string, githubUsername: string) {
   await emailService.sendEmail({
@@ -22,7 +25,7 @@ async function sendProEmail(email: string, githubUsername: string) {
       appName: APP_NAME,
       githubUsername,
       docsUrl: DOCS_URL,
-      discordUrl: DISCORD_URL,
+      discordUrl: DISCORD_PRO_URL,
     }),
   });
 }

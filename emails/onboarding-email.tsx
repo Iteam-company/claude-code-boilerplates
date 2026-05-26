@@ -1,12 +1,14 @@
 import {
   Body,
   Button,
+  Column,
   Container,
   Head,
   Heading,
   Html,
   Link,
   Preview,
+  Row,
   Section,
   Text,
 } from '@react-email/components';
@@ -30,69 +32,88 @@ export function OnboardingEmail({
       <Preview>Your free {appName} access -- repo link inside</Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
-          <Heading style={styles.heading}>Welcome to {appName}!</Heading>
+          {/* Padding lives on <td> (Column), not <table> (Section/Container) */}
+          <Section>
+            <Row>
+              <Column style={styles.inner}>
+                <Heading style={styles.heading}>Welcome to {appName}!</Heading>
 
-          <Text style={styles.text}>
-            Thanks for signing up. Here is everything you need to get started
-            with your free boilerplate.
-          </Text>
+                <Text style={styles.text}>
+                  Thanks for signing up. Here is everything you need to get
+                  started with your free boilerplate.
+                </Text>
 
-          <Section style={styles.btnSection}>
-            <Button href={githubUrl} style={styles.button}>
-              Clone the Repository
-            </Button>
+                <Section style={styles.btnSection}>
+                  <Button href={githubUrl} style={styles.button}>
+                    Clone the Repository
+                  </Button>
+                </Section>
+
+                {/* Steps — border-left + padding-left on <td> */}
+                <Section style={styles.stepsSection}>
+                  <Row>
+                    <Column style={styles.stepsCell}>
+                      <Text style={styles.stepsHeading}>
+                        Quick start (3 steps)
+                      </Text>
+                      <Text style={styles.step}>
+                        <strong>1. Clone &amp; install</strong>
+                        <br />
+                        Clone the repo and run{' '}
+                        <code style={styles.code}>npm install</code>.
+                      </Text>
+                      <Text style={styles.step}>
+                        <strong>2. Configure environment</strong>
+                        <br />
+                        Copy <code style={styles.code}>
+                          .env.example
+                        </code> to <code style={styles.code}>.env</code> and
+                        fill in your database URL, JWT secret, and any optional
+                        services (Stripe, Resend, Cloudinary).
+                      </Text>
+                      <Text style={styles.step}>
+                        <strong>3. Run migrations &amp; start</strong>
+                        <br />
+                        Run <code style={styles.code}>
+                          npm run db:push
+                        </code>{' '}
+                        then <code style={styles.code}>npm run dev</code> to
+                        launch locally.
+                      </Text>
+                    </Column>
+                  </Row>
+                </Section>
+
+                <Section style={styles.linksSection}>
+                  <Text style={styles.linksHeading}>Useful links</Text>
+                  <Text style={styles.linkItem}>
+                    <Link href={docsUrl} style={styles.link}>
+                      Documentation
+                    </Link>{' '}
+                    -- setup guides, API reference, and conventions
+                  </Text>
+                  <Text style={styles.linkItem}>
+                    <Link href={discordUrl} style={styles.link}>
+                      Discord community
+                    </Link>{' '}
+                    -- ask questions and share what you build
+                  </Text>
+                  <Text style={styles.linkItem}>
+                    <Link href={githubUrl} style={styles.link}>
+                      GitHub repository
+                    </Link>{' '}
+                    -- source code and issue tracker
+                  </Text>
+                </Section>
+
+                <Text style={styles.footer}>
+                  You received this email because you signed up for the free{' '}
+                  {appName} boilerplate. Reply to this email if you have any
+                  questions.
+                </Text>
+              </Column>
+            </Row>
           </Section>
-
-          <Section style={styles.stepsSection}>
-            <Text style={styles.stepsHeading}>Quick start (3 steps)</Text>
-            <Text style={styles.step}>
-              <strong>1. Clone & install</strong>
-              <br />
-              Clone the repo and run{' '}
-              <code style={styles.code}>npm install</code>.
-            </Text>
-            <Text style={styles.step}>
-              <strong>2. Configure environment</strong>
-              <br />
-              Copy <code style={styles.code}>.env.example</code> to{' '}
-              <code style={styles.code}>.env</code> and fill in your database
-              URL, JWT secret, and any optional services (Stripe, Resend,
-              Cloudinary).
-            </Text>
-            <Text style={styles.step}>
-              <strong>3. Run migrations &amp; start</strong>
-              <br />
-              Run <code style={styles.code}>npm run db:push</code> then{' '}
-              <code style={styles.code}>npm run dev</code> to launch locally.
-            </Text>
-          </Section>
-
-          <Section style={styles.linksSection}>
-            <Text style={styles.linksHeading}>Useful links</Text>
-            <Text style={styles.linkItem}>
-              <Link href={docsUrl} style={styles.link}>
-                Documentation
-              </Link>{' '}
-              -- setup guides, API reference, and conventions
-            </Text>
-            <Text style={styles.linkItem}>
-              <Link href={discordUrl} style={styles.link}>
-                Discord community
-              </Link>{' '}
-              -- ask questions and share what you build
-            </Text>
-            <Text style={styles.linkItem}>
-              <Link href={githubUrl} style={styles.link}>
-                GitHub repository
-              </Link>{' '}
-              -- source code and issue tracker
-            </Text>
-          </Section>
-
-          <Text style={styles.footer}>
-            You received this email because you signed up for the free {appName}{' '}
-            boilerplate. Reply to this email if you have any questions.
-          </Text>
         </Container>
       </Body>
     </Html>
@@ -111,7 +132,12 @@ const styles = {
     borderRadius: '8px',
     margin: '40px auto',
     maxWidth: '560px',
-    padding: '40px',
+  },
+  inner: {
+    paddingTop: '40px',
+    paddingRight: '40px',
+    paddingBottom: '40px',
+    paddingLeft: '40px',
   },
   heading: {
     color: '#0a0a0a',
@@ -126,7 +152,8 @@ const styles = {
     margin: '0 0 16px',
   },
   btnSection: {
-    margin: '24px 0',
+    marginTop: '24px',
+    marginBottom: '24px',
   },
   button: {
     backgroundColor: '#0a0a0a',
@@ -135,12 +162,20 @@ const styles = {
     display: 'inline-block',
     fontSize: '14px',
     fontWeight: '600',
-    padding: '12px 24px',
+    paddingTop: '12px',
+    paddingRight: '24px',
+    paddingBottom: '12px',
+    paddingLeft: '24px',
     textDecoration: 'none',
   },
   stepsSection: {
+    marginTop: '24px',
+    marginBottom: '24px',
+  },
+  stepsCell: {
     borderLeft: '3px solid #e5e7eb',
-    margin: '24px 0',
+    paddingTop: '12px',
+    paddingBottom: '12px',
     paddingLeft: '16px',
   },
   stepsHeading: {
@@ -163,10 +198,14 @@ const styles = {
     color: '#0a0a0a',
     fontFamily: 'monospace',
     fontSize: '13px',
-    padding: '1px 4px',
+    paddingTop: '1px',
+    paddingRight: '4px',
+    paddingBottom: '1px',
+    paddingLeft: '4px',
   },
   linksSection: {
-    margin: '24px 0',
+    marginTop: '24px',
+    marginBottom: '24px',
   },
   linksHeading: {
     color: '#0a0a0a',

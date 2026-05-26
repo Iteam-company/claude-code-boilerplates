@@ -390,7 +390,9 @@
       "proEmoji": "✅",
       "proTitle": "You're in",
       "proDesc": "We sent you an invite to the repository. Check your GitHub notifications.",
-      "button": "Go to docs"
+      "button": "Go to docs",
+      "discordFree": "Join our community →",
+      "discordPro": "Join the Pro Discord →"
     },
     "upgradeStep": {
       "emoji": "⚡",
