@@ -74,7 +74,7 @@ export function EmailStep({ plan, isFreeProPlan = true, onNext }: Props) {
       </p>
 
       <div className="mt-5">
-        <label className="text-foreground mb-1.5 block text-sm font-medium">
+        <label className="text-foreground mb-1.5 block text-left text-sm font-medium">
           {t('emailLabel')}
         </label>
         <input
@@ -92,7 +92,7 @@ export function EmailStep({ plan, isFreeProPlan = true, onNext }: Props) {
           )}
         />
         {emailError && (
-          <p className="mt-1 text-xs text-red-500">{emailError}</p>
+          <p className="mt-1 text-left text-xs text-red-500">{emailError}</p>
         )}
       </div>
 

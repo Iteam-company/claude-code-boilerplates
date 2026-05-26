@@ -50,7 +50,7 @@ export async function Pricing({
         <FadeIn>
           <div className="text-center">
             <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
-              Two plans. One free forever. One free for 100 people.
+              {t('heading')}
             </h2>
           </div>
         </FadeIn>
@@ -65,7 +65,9 @@ export async function Pricing({
               <span className="text-foreground text-5xl font-bold">
                 {tPlans('proLicense.price')}
               </span>
-              <span className="text-muted-foreground text-sm">/ forever</span>
+              <span className="text-muted-foreground text-sm">
+                {tPlans('proLicense.forever')}
+              </span>
             </div>
             <p className="text-muted-foreground mt-2 text-sm">
               {tPlans('proLicense.description')}
@@ -82,12 +84,12 @@ export async function Pricing({
 
             <PricingCTAButton
               plan="free"
-              label="Get the free version →"
+              label={tPlans('proLicense.landingCta')}
               highlighted={false}
             />
 
             <p className="text-muted-foreground mt-4 text-center text-xs">
-              No credit card. No catch. MIT license.
+              {tPlans('proLicense.finePrint')}
             </p>
           </div>
 
@@ -99,7 +101,7 @@ export async function Pricing({
               </p>
               {isFreeProPlan && (
                 <span className="bg-primary/10 text-primary rounded-full px-3 py-0.5 text-xs font-semibold">
-                  First 100 founders
+                  {tPlans('proPlan.badge')}
                 </span>
               )}
             </div>
@@ -128,11 +130,13 @@ export async function Pricing({
               <div className="mt-5 space-y-2">
                 <div className="flex justify-between text-xs">
                   <span className="text-muted-foreground">
-                    {Math.min(spotsClaimed, totalSpots)} of {totalSpots} spots
-                    claimed
+                    {tPlans('proPlan.spotsClaimed', {
+                      claimed: Math.min(spotsClaimed, totalSpots),
+                      total: totalSpots,
+                    })}
                   </span>
                   <span className="text-muted-foreground">
-                    {spotsLeft} left
+                    {tPlans('proPlan.spotsLeft', { count: spotsLeft })}
                   </span>
                 </div>
                 <div className="bg-muted h-1.5 w-full overflow-hidden rounded-full">
@@ -165,15 +169,17 @@ export async function Pricing({
             <PricingCTAButton
               plan="pro"
               label={
-                isFreeProPlan ? 'Reserve your free spot →' : 'Get Pro ($149) →'
+                isFreeProPlan
+                  ? tPlans('proPlan.ctaFree')
+                  : tPlans('proPlan.ctaPaid')
               }
               highlighted={true}
             />
 
             <p className="text-muted-foreground mt-4 text-center text-xs">
               {isFreeProPlan
-                ? 'After 100 spots, $149 one-time. Lifetime updates. 14-day refund.'
-                : 'One-time payment. Lifetime updates. 14-day refund.'}
+                ? tPlans('proPlan.finePrintFree')
+                : tPlans('proPlan.finePrintPaid')}
             </p>
           </div>
         </div>
@@ -183,7 +189,7 @@ export async function Pricing({
             href="#faq"
             className="text-muted-foreground hover:text-foreground text-sm transition-colors"
           >
-            Questions about licensing? →
+            {t('faqLink')}
           </a>
         </p>
       </Container>

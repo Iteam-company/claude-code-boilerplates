@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/Container';
 import { EmailCaptureModal } from './EmailCaptureModal';
 
-// Swap for a real URL (Loom embed or direct video) when the recording is ready.
-// Section is hidden while this is null.
-const VIDEO_URL: string | null = null;
+const VIDEO_URL = process.env.NEXT_PUBLIC_DEMO_VIDEO_URL ?? null;
 
 export function Demo() {
+  const t = useTranslations('landing.demo');
   const [modal, setModal] = useState(false);
 
   if (!VIDEO_URL) return null;
@@ -20,7 +20,7 @@ export function Demo() {
       <Container>
         <div className="mx-auto max-w-3xl">
           <h2 className="text-foreground text-center text-3xl font-bold tracking-tight md:text-4xl">
-            Watch a new feature ship in 90 seconds.
+            {t('heading')}
           </h2>
 
           <div className="mt-10 overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 shadow-2xl">
@@ -46,14 +46,12 @@ export function Demo() {
           </div>
 
           <div className="mt-8 flex flex-col items-center gap-4">
-            <p className="text-muted-foreground text-sm">
-              Try it yourself. Free version, no credit card.
-            </p>
+            <p className="text-muted-foreground text-sm">{t('subtext')}</p>
             <button
               onClick={() => setModal(true)}
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-8 py-3 text-sm font-semibold transition-colors"
             >
-              Clone for free
+              {t('cta')}
             </button>
           </div>
         </div>

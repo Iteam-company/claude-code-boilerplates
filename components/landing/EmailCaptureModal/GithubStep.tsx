@@ -8,7 +8,11 @@ import { validateGithub } from './validators';
 
 interface Props {
   email: string;
-  onNext: (username: string, requiresPayment: boolean) => void;
+  onNext: (
+    username: string,
+    requiresPayment: boolean,
+    inviteSent: boolean,
+  ) => void;
 }
 
 export function GithubStep({ email, onNext }: Props) {
@@ -62,7 +66,7 @@ export function GithubStep({ email, onNext }: Props) {
         return;
       }
       const data = await res.json();
-      onNext(github, data.requiresPayment);
+      onNext(github, data.requiresPayment, data.inviteSent ?? false);
     } catch {
       setGithubError(tValidation('submitError'));
       setLoading(false);
@@ -75,7 +79,7 @@ export function GithubStep({ email, onNext }: Props) {
       <p className="text-muted-foreground mt-1 text-sm">{t('desc')}</p>
 
       <div className="mt-5">
-        <label className="text-foreground mb-1.5 block text-sm font-medium">
+        <label className="text-foreground mb-1.5 block text-left text-sm font-medium">
           {t('label')}
         </label>
         <div className="flex items-center">
@@ -106,7 +110,7 @@ export function GithubStep({ email, onNext }: Props) {
           </p>
         )}
         {githubError && (
-          <p className="mt-1 text-xs text-red-500">{githubError}</p>
+          <p className="mt-1 text-left text-xs text-red-500">{githubError}</p>
         )}
       </div>
 

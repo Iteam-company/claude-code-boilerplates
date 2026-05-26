@@ -1,5 +1,5 @@
 'use client';
-import { useSignup } from '@/hooks/api/signup';
+import { useSignup } from '@/hooks/api/useSignup';
 import { useAuth } from '@/hooks/useAuth';
 import { ROUTES } from '@/lib/routes';
 import {

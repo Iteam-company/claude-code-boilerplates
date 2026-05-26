@@ -161,7 +161,14 @@ export default async function VsPage({
                 label="Clone for free"
                 highlighted
               />
-              <PricingCTAButton plan="pro" label="Get Pro — $149 one-time" />
+              <PricingCTAButton
+                plan="pro"
+                label={
+                  isFreeProPlan
+                    ? 'Reserve your free Pro spot'
+                    : 'Get Pro — $149 one-time'
+                }
+              />
             </div>
           </div>
         </Container>

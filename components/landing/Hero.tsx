@@ -6,8 +6,7 @@ import { Star } from 'lucide-react';
 import { Container } from '@/components/Container';
 import { EmailCaptureModal } from './EmailCaptureModal';
 import { cn } from '@/lib/utils';
-
-const STAR_THRESHOLD = 500;
+import { STAR_THRESHOLD } from '@/lib/constants';
 
 function formatStars(n: number): string {
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
@@ -102,26 +101,26 @@ export function Hero({
           </div>
 
           <p className="text-muted-foreground mt-4 flex flex-wrap items-center justify-center gap-x-1.5 text-xs">
-            <span>No credit card</span>
+            <span>{t('noCard')}</span>
             <span aria-hidden>·</span>
-            <span>MIT license</span>
+            <span>{t('mitLicense')}</span>
             <span aria-hidden>·</span>
-            <span>14-day refund on Pro</span>
+            <span>{t('refund')}</span>
           </p>
 
           <p className="text-muted-foreground mt-6 flex flex-wrap items-center justify-center gap-x-2 text-sm">
-            <span>500+ developers</span>
+            <span>{t('developers')}</span>
             {stars !== null && stars >= STAR_THRESHOLD && (
               <>
                 <span>·</span>
                 <span className="inline-flex items-center gap-1">
                   <Star className="h-3 w-3 fill-current" />
-                  {formatStars(stars)} GitHub stars
+                  {formatStars(stars)} {t('githubStars')}
                 </span>
               </>
             )}
             <span>·</span>
-            <span>Built on the stack used by Anthropic, Vercel, and Neon</span>
+            <span>{t('stackCredit')}</span>
           </p>
 
           <div className="mt-16 w-full max-w-2xl overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-2xl">
@@ -129,7 +128,9 @@ export function Hero({
               <span className="h-3 w-3 rounded-full bg-red-500/80" />
               <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
               <span className="h-3 w-3 rounded-full bg-green-500/80" />
-              <span className="ml-3 text-xs text-zinc-400">Claude Code</span>
+              <span className="ml-3 text-xs text-zinc-400">
+                {t('terminalLabel')}
+              </span>
             </div>
             <div className="min-h-40 p-6 text-left font-mono text-sm leading-relaxed">
               {TERMINAL_LINES.slice(0, visibleLines).map((line, i) => (

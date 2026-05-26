@@ -67,7 +67,14 @@
       "ctaPrimary": "Get the free version →",
       "ctaPrimaryPaid": "Get Free version",
       "ctaSecondary": "Reserve a free Pro spot",
-      "ctaSecondaryPaid": "Get the Pro version"
+      "ctaSecondaryPaid": "Get the Pro version",
+      "noCard": "No credit card",
+      "mitLicense": "MIT license",
+      "refund": "14-day refund on Pro",
+      "developers": "500+ developers",
+      "githubStars": "GitHub stars",
+      "stackCredit": "Built on the stack used by Anthropic, Vercel, and Neon",
+      "terminalLabel": "Claude Code"
     },
     "steps": {
       "heading": "Up and running in minutes",
@@ -291,11 +298,22 @@
       "featuredOn": "As featured on",
       "builtWith": "Built with"
     },
+    "demo": {
+      "heading": "Watch a new feature ship in 90 seconds.",
+      "subtext": "Try it yourself. Free version, no credit card.",
+      "cta": "Clone for free"
+    },
+    "testimonials": {
+      "heading": "From the first 100 founders who shipped.",
+      "subheading": "Early builders shipping real products with this boilerplate.",
+      "developers": "500+ developers have cloned this boilerplate"
+    },
     "pricing": {
-      "heading": "Simple, transparent pricing",
+      "heading": "Two plans. One free forever. One free for 100 people.",
       "subheading": "One price, all features. No hidden fees.",
       "cta": "View full pricing",
-      "viewFull": "See full pricing details"
+      "viewFull": "See full pricing details",
+      "faqLink": "Questions about licensing? →"
     },
     "faq": {
       "heading": "Frequently asked questions",
@@ -369,6 +387,15 @@
       "github": "View on GitHub"
     }
   },
+  "forgotPassword": {
+    "heading": "Forgot password?",
+    "subheading": "Enter your email and we'll send you a reset link.",
+    "emailPlaceholder": "Email",
+    "submit": "Send reset link",
+    "backToSignIn": "Back to Sign In",
+    "successHeading": "Check your email",
+    "successDesc": "If that email exists, a reset link has been sent."
+  },
   "emailModal": {
     "closeAriaLabel": "Close",
     "emailStep": {
@@ -395,13 +422,16 @@
     "successStep": {
       "freeEmoji": "🎉",
       "freeTitle": "Check your inbox",
-      "freeDesc": "We sent you an email with the link to the repository.",
+      "freeDesc": "We sent you an email. Use the template below to create your own repo — it's a copy, not a fork, so your commits stay yours.",
+      "freeRepoBtn": "Use this template →",
       "proEmoji": "✅",
       "proTitle": "You're in",
-      "proDesc": "We sent you an invite to the repository. Check your GitHub notifications.",
-      "button": "Go to docs",
-      "discordFree": "Join our community →",
-      "discordPro": "Join the Pro Discord →"
+      "proDesc": "We sent you a GitHub invite to the Pro repo. Check your GitHub notifications to accept it.",
+      "proRepoBtn": "Open Pro repo →",
+      "inviteFailedDesc": "We couldn't send your GitHub invite automatically. Click below to retry.",
+      "retryInviteBtn": "Retry GitHub invite",
+      "inviteRetriedDesc": "Invite sent! Check your GitHub notifications to accept it.",
+      "button": "Go to docs"
     },
     "upgradeStep": {
       "emoji": "⚡",
@@ -496,6 +526,7 @@
       "name": "Free",
       "description": "Open source. No credit card required.",
       "price": "$0",
+      "forever": "/ forever",
       "feature1": "Auth + database + migrations",
       "feature2": "Stripe payments integration",
       "feature3": "Email templates + file uploads",
@@ -503,7 +534,9 @@
       "feature5": "Core Claude Code skills (10)",
       "feature6": "Public Discord",
       "feature7": "1 project",
-      "cta": "Clone for free"
+      "cta": "Clone for free",
+      "landingCta": "Get the free version →",
+      "finePrint": "No credit card. No catch. MIT license."
     },
     "page": {
       "metaTitle": "Pricing",
@@ -540,6 +573,13 @@
       "description": "First 100 copies free -- $149 after. One-time.",
       "descriptionPaid": "$149 one-time. Lifetime updates.",
       "price": "$149",
+      "badge": "First 100 founders",
+      "spotsClaimed": "{claimed} of {total} spots claimed",
+      "spotsLeft": "{count} left",
+      "ctaFree": "Reserve your free spot →",
+      "ctaPaid": "Get Pro ($149) →",
+      "finePrintFree": "After 100 spots, $149 one-time. Lifetime updates. 14-day refund.",
+      "finePrintPaid": "One-time payment. Lifetime updates. 14-day refund.",
       "feature1": "Everything in Free",
       "feature2": "Full skill library (40+ skills)",
       "feature3": "Multi-tenancy module",

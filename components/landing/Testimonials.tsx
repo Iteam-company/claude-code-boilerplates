@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { Container } from '@/components/Container';
 import { cn } from '@/lib/utils';
 import { FadeIn } from './FadeIn';
@@ -31,17 +32,18 @@ const CASE_STUDY = {
   outcome: 'Production-ready SaaS in 2 days',
 };
 
-export function Testimonials() {
+export async function Testimonials() {
+  const t = await getTranslations('landing.testimonials');
   return (
     <section className="py-24">
       <Container>
         <FadeIn>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
-              From the first 100 founders who shipped.
+              {t('heading')}
             </h2>
             <p className="text-muted-foreground mt-4 text-lg">
-              Early builders shipping real products with this boilerplate.
+              {t('subheading')}
             </p>
           </div>
         </FadeIn>
@@ -69,9 +71,7 @@ export function Testimonials() {
               500+
             </div>
           </div>
-          <p className="text-muted-foreground text-sm">
-            500+ developers have cloned this boilerplate
-          </p>
+          <p className="text-muted-foreground text-sm">{t('developers')}</p>
         </div>
 
         {/* Case study */}

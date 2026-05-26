@@ -11,6 +11,11 @@ export interface AddEmailResult {
   isPro?: boolean;
 }
 
+export interface AddGithubResult {
+  requiresPayment: boolean;
+  inviteSent: boolean;
+}
+
 export interface UpsertProLeadInput {
   email: string;
   githubUsername: string;
