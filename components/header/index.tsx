@@ -57,7 +57,10 @@ export const Header = () => {
           aria-label="Main navigation"
           className="hidden items-center gap-6 md:flex"
         >
-          <Link href="/#features" className={navLink(pathname === '/')}>
+          <Link
+            href={pathname === '/' ? '/#features' : '/'}
+            className={navLink(pathname === '/')}
+          >
             {t('nav.features')}
           </Link>
           <Link href="/#pricing" className={navLink(pricingActive)}>
