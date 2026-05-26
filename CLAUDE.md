@@ -469,3 +469,24 @@ Practical and direct. Code-first. No filler sentences. Assume the reader is buil
 ## Additional instructions
 
 Always include at least one working code example. Keep posts under 1200 words. End with a concrete takeaway or next step the reader can apply immediately. Use ASCII characters only -- no smart quotes, em dashes, or Unicode beyond U+007F.
+
+# SEO
+
+- Root metadata in `app/layout.tsx`: `metadataBase`, `title.template`, `openGraph`, `twitter`, `keywords`
+- Static pages: `export const metadata` with `title`, `description`, `alternates.canonical`
+- Dynamic pages: `generateMetadata({ params })` — fetch data, return full OG + Twitter block
+- OG images: static root at `app/opengraph-image.tsx` (`runtime = 'edge'`); dynamic per-page at `app/api/og/[resource]/route.tsx` (`runtime = 'nodejs'` for DB queries) — inline `style={{}}` only, no Tailwind inside `ImageResponse`
+- Sitemap: `app/sitemap.ts` returns `MetadataRoute.Sitemap`; add dynamic segments by fetching from DB and spreading entries
+- Robots: `app/robots.ts` — disallow `/api/` and all auth/app routes; always include `sitemap:` field
+- JSON-LD: inject `BlogPosting` and `BreadcrumbList` schemas inline via `<script type="application/ld+json">` in server components
+- Comparison pages: `app/(layout)/vs/[competitor]/page.tsx` — add a competitor by extending `COMPETITORS`, `OTHERS`, and `app/sitemap.ts`
+- Always use `getBaseUrl()` from `lib/utils.ts` — never hardcode the domain
+- See skill: `seo`
+
+# Analytics
+
+- `trackEvent(event, properties?)` in `lib/analytics.ts` — logs to console; safe to call server-side; replace body to swap provider
+- Vercel Analytics auto-pageviews: `<Analytics />` from `@vercel/analytics/next` is already mounted in `app/layout.tsx` — no extra code needed
+- Call `trackEvent` only from **services** — never from routes or UI components
+- Event names must be `snake_case`; properties must be JSON-serialisable
+- See skill: `analytics`
