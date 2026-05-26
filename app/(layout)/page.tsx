@@ -8,11 +8,9 @@ import {
   Features,
   SkillsShowcase,
   HowItWorks,
-  Demo,
   Pricing,
   FAQ,
   SocialProof,
-  Testimonials,
   FinalCTA,
 } from '@/components/landing';
 import { getBaseUrl } from '@/lib/utils';
@@ -135,12 +133,10 @@ export default async function Home() {
       <SocialProof stars={stars} subscribers={subscribers} />
       <Problem />
       <Offer isFreeProPlan={isFreeProPlan} />
-      {/* <Demo /> */}
       <Features />
       <Comparison isFreeProPlan={isFreeProPlan} />
       <SkillsShowcase />
       <HowItWorks />
-      {/* <Testimonials /> */}
       <Pricing
         isFreeProPlan={isFreeProPlan}
         spotsClaimed={spots.total - spots.remaining}

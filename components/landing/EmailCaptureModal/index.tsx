@@ -22,6 +22,7 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState('');
   const [paymentRequired, setPaymentRequired] = useState(false);
+  const [inviteSent, setInviteSent] = useState(true);
   const [pendingResult, setPendingResult] = useState<WaitlistResult | null>(
     null,
   );
@@ -55,8 +56,8 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
       return;
     }
 
-    if (data.alreadyExists) {
-      setStep('duplicate');
+    if (!data.hasGithub && data.isPro) {
+      setStep('github');
       return;
     }
 
@@ -66,6 +67,10 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
       return;
     }
 
+    if (data.alreadyExists) {
+      setStep('duplicate');
+      return;
+    }
     setStep(isFree ? 'success' : 'github');
   }
 
@@ -86,11 +91,16 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
     setStep('github');
   }
 
-  async function handleGithubNext(username: string, requiresPayment: boolean) {
+  async function handleGithubNext(
+    username: string,
+    requiresPayment: boolean,
+    sent: boolean,
+  ) {
     if (paymentRequired || requiresPayment) {
       await redirectToCheckout(email, username);
       return;
     }
+    setInviteSent(sent);
     setStep('success');
   }
 
@@ -125,7 +135,12 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
           <UpgradeStep onConfirm={handleUpgradeConfirm} onCancel={onClose} />
         )}
         {step === 'success' && (
-          <SuccessStep isFree={isFree} onClose={onClose} />
+          <SuccessStep
+            isFree={isFree}
+            inviteSent={inviteSent}
+            email={email}
+            onClose={onClose}
+          />
         )}
         {step === 'duplicate' && <DuplicateStep onClose={onClose} />}
       </div>

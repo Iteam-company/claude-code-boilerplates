@@ -1,9 +1,7 @@
 import { getTranslations } from 'next-intl/server';
 import { Star } from 'lucide-react';
 import { Container } from '@/components/Container';
-
-const STAR_THRESHOLD = 500;
-const SUBSCRIBER_THRESHOLD = 500;
+import { STAR_THRESHOLD, SUBSCRIBER_THRESHOLD } from '@/lib/constants';
 
 function formatCount(n: number): string {
   return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);

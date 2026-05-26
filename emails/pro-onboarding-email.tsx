@@ -16,6 +16,7 @@ import {
 interface ProOnboardingEmailProps {
   appName: string;
   githubUsername: string;
+  repoUrl: string;
   docsUrl: string;
   discordUrl: string;
 }
@@ -23,6 +24,7 @@ interface ProOnboardingEmailProps {
 export function ProOnboardingEmail({
   appName,
   githubUsername,
+  repoUrl,
   docsUrl,
   discordUrl,
 }: ProOnboardingEmailProps) {
@@ -61,8 +63,8 @@ export function ProOnboardingEmail({
                       <Text style={styles.step}>
                         <strong>2. Clone &amp; install</strong>
                         <br />
-                        Once you have accepted the invite, clone the repo and
-                        run <code style={styles.code}>npm install</code>.
+                        Once you have accepted the invite, clone the Pro repo
+                        and run <code style={styles.code}>npm install</code>.
                       </Text>
                       <Text style={styles.step}>
                         <strong>3. Configure &amp; run</strong>
@@ -76,6 +78,12 @@ export function ProOnboardingEmail({
                       </Text>
                     </Column>
                   </Row>
+                </Section>
+
+                <Section style={styles.btnSection}>
+                  <Button href={repoUrl} style={styles.button}>
+                    Open Pro repo →
+                  </Button>
                 </Section>
 
                 <Section>
@@ -175,6 +183,23 @@ const styles = {
     fontSize: '16px',
     lineHeight: '24px',
     margin: '0 0 16px',
+  },
+  btnSection: {
+    marginTop: '24px',
+    marginBottom: '24px',
+  },
+  button: {
+    backgroundColor: '#0a0a0a',
+    borderRadius: '6px',
+    color: '#ffffff',
+    display: 'inline-block',
+    fontSize: '14px',
+    fontWeight: '600',
+    paddingTop: '12px',
+    paddingRight: '24px',
+    paddingBottom: '12px',
+    paddingLeft: '24px',
+    textDecoration: 'none',
   },
   stepsSection: {
     marginTop: '24px',

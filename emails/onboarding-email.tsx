@@ -44,8 +44,8 @@ export function OnboardingEmail({
                 </Text>
 
                 <Section style={styles.btnSection}>
-                  <Button href={githubUrl} style={styles.button}>
-                    Clone the Repository
+                  <Button href={`${githubUrl}/generate`} style={styles.button}>
+                    Use this template →
                   </Button>
                 </Section>
 
@@ -54,16 +54,23 @@ export function OnboardingEmail({
                   <Row>
                     <Column style={styles.stepsCell}>
                       <Text style={styles.stepsHeading}>
-                        Quick start (3 steps)
+                        Quick start (4 steps)
                       </Text>
                       <Text style={styles.step}>
-                        <strong>1. Clone &amp; install</strong>
+                        <strong>1. Create your repo from the template</strong>
                         <br />
-                        Clone the repo and run{' '}
+                        Click the button above (or go to the repo and hit "Use
+                        this template"). GitHub creates a fresh copy under your
+                        account -- your commits stay yours.
+                      </Text>
+                      <Text style={styles.step}>
+                        <strong>2. Clone &amp; install</strong>
+                        <br />
+                        Clone your new repo and run{' '}
                         <code style={styles.code}>npm install</code>.
                       </Text>
                       <Text style={styles.step}>
-                        <strong>2. Configure environment</strong>
+                        <strong>3. Configure environment</strong>
                         <br />
                         Copy <code style={styles.code}>
                           .env.example
@@ -72,7 +79,7 @@ export function OnboardingEmail({
                         services (Stripe, Resend, Cloudinary).
                       </Text>
                       <Text style={styles.step}>
-                        <strong>3. Run migrations &amp; start</strong>
+                        <strong>4. Run migrations &amp; start</strong>
                         <br />
                         Run <code style={styles.code}>
                           npm run db:push

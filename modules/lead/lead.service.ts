@@ -1,7 +1,7 @@
 import React from 'react';
 import Stripe from 'stripe';
 import { leadRepo } from './lead.repo';
-import { AddEmailResult } from './lead.types';
+import { AddEmailResult, AddGithubResult } from './lead.types';
 import { emailService, APP_NAME } from '@/lib/email';
 import { trackEvent } from '@/lib/analytics';
 import { githubService } from '@/lib/github';
@@ -11,7 +11,11 @@ import { TOTAL_PRO_SPOTS } from '@/lib/spots';
 import { getBaseUrl } from '@/lib/utils';
 
 const GITHUB_REPO_URL =
-  process.env.GITHUB_REPO_URL ?? 'https://github.com/your-org/your-repo';
+  process.env.NEXT_PUBLIC_FREE_REPO_URL ??
+  'https://github.com/your-org/your-repo';
+const PRO_REPO_URL =
+  process.env.NEXT_PUBLIC_PRO_REPO_URL ??
+  'https://github.com/your-org/your-pro-repo';
 const DOCS_URL = `${getBaseUrl()}/docs`;
 const DISCORD_URL =
   process.env.NEXT_PUBLIC_DISCORD_URL ?? 'https://discord.gg/your-server';
@@ -24,6 +28,7 @@ async function sendProEmail(email: string, githubUsername: string) {
     react: React.createElement(ProOnboardingEmail, {
       appName: APP_NAME,
       githubUsername,
+      repoUrl: PRO_REPO_URL,
       docsUrl: DOCS_URL,
       discordUrl: DISCORD_PRO_URL,
     }),
@@ -86,23 +91,48 @@ export const leadService = {
   addGithubUsername: async (
     email: string,
     githubUsername: string,
-  ): Promise<{ requiresPayment: boolean }> => {
+  ): Promise<AddGithubResult> => {
     await leadRepo.updateGithub(email, githubUsername);
     // User is already inserted (counted), use strict > so 100th user is free
     const proCount = await leadRepo.countPro();
     const requiresPayment = proCount > TOTAL_PRO_SPOTS;
 
-    if (!requiresPayment) {
-      const lead = await leadRepo.findByEmail(email);
-      if (lead && !lead.githubInvitedAt) {
-        await githubService.inviteCollaborator(githubUsername);
-        await leadRepo.markGithubInvited(lead.id);
-        trackEvent('pro_repo_invited', { githubUsername });
-        await sendProEmail(email, githubUsername);
-      }
-    }
+    if (requiresPayment) return { requiresPayment, inviteSent: false };
 
-    return { requiresPayment };
+    const lead = await leadRepo.findByEmail(email);
+    if (!lead || lead.githubInvitedAt)
+      return { requiresPayment, inviteSent: true };
+
+    try {
+      await githubService.inviteCollaborator(githubUsername);
+      await leadRepo.markGithubInvited(lead.id);
+      trackEvent('pro_repo_invited', { githubUsername });
+      await sendProEmail(email, githubUsername);
+      return { requiresPayment, inviteSent: true };
+    } catch (err) {
+      console.error(
+        'GitHub invite failed, will surface to client for retry',
+        err,
+      );
+      return { requiresPayment, inviteSent: false };
+    }
+  },
+
+  retryInvite: async (email: string): Promise<{ inviteSent: boolean }> => {
+    const lead = await leadRepo.findByEmail(email);
+    if (!lead?.githubUsername) return { inviteSent: false };
+    if (lead.githubInvitedAt) return { inviteSent: true };
+
+    try {
+      await githubService.inviteCollaborator(lead.githubUsername);
+      await leadRepo.markGithubInvited(lead.id);
+      trackEvent('pro_repo_invited', { githubUsername: lead.githubUsername });
+      await sendProEmail(email, lead.githubUsername);
+      return { inviteSent: true };
+    } catch (err) {
+      console.error('GitHub invite retry failed', err);
+      return { inviteSent: false };
+    }
   },
 
   handleProCheckout: async (session: Stripe.Checkout.Session) => {
@@ -124,9 +154,13 @@ export const leadService = {
 
     if (lead.githubInvitedAt) return;
 
-    await githubService.inviteCollaborator(githubUsername);
-    await leadRepo.markGithubInvited(lead.id);
-    trackEvent('pro_repo_invited', { githubUsername });
-    await sendProEmail(email, githubUsername);
+    try {
+      await githubService.inviteCollaborator(githubUsername);
+      await leadRepo.markGithubInvited(lead.id);
+      trackEvent('pro_repo_invited', { githubUsername });
+      await sendProEmail(email, githubUsername);
+    } catch (err) {
+      console.error('GitHub invite failed after checkout', err);
+    }
   },
 };

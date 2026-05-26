@@ -1,5 +1,5 @@
 'use client';
-import { useResetPassword } from '@/hooks/api/reset-password';
+import { useResetPassword } from '@/hooks/api/resetPassword';
 import {
   resetPasswordSchema,
   ResetPasswordSchemaType,
