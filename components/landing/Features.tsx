@@ -50,7 +50,7 @@ const FEATURE_KEYS = [
 export async function Features() {
   const t = await getTranslations('landing.features');
   return (
-    <section className="py-24">
+    <section id="features" className="py-24">
       <Container>
         <FadeIn>
           <h2 className="text-foreground mx-auto max-w-2xl text-center text-4xl font-bold tracking-tight md:text-5xl">

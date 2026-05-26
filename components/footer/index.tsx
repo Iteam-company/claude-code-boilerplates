@@ -39,6 +39,7 @@ export async function Footer() {
               {
                 label: t('resources.discord'),
                 href: process.env.NEXT_PUBLIC_DISCORD_URL ?? '#',
+                target: '_blank',
               },
             ]}
           />
