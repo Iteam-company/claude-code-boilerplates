@@ -5,6 +5,7 @@ import { Container } from '@/components/Container';
 import { Comparison } from '@/components/landing';
 import { PricingCTAButton } from '@/components/landing/PricingCTAButton';
 import { getBaseUrl } from '@/lib/utils';
+import { countProSpotsTaken, TOTAL_PRO_SPOTS } from '@/lib/spots';
 
 interface CompetitorData {
   name: string;
@@ -115,6 +116,9 @@ export default async function VsPage({
   const data = COMPETITORS[competitor];
   if (!data) notFound();
 
+  const taken = await countProSpotsTaken();
+  const isFreeProPlan = taken < TOTAL_PRO_SPOTS;
+
   const base = getBaseUrl();
   const breadcrumb = {
     '@context': 'https://schema.org',
@@ -163,7 +167,7 @@ export default async function VsPage({
         </Container>
       </section>
 
-      <Comparison />
+      <Comparison isFreeProPlan={isFreeProPlan} />
 
       <section className="py-12">
         <Container>

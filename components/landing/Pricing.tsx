@@ -3,15 +3,23 @@ import { CheckIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
 import { PricingCTAButton } from './PricingCTAButton';
-import { countProSpotsTaken, TOTAL_PRO_SPOTS } from '@/lib/spots';
 import { FadeIn } from './FadeIn';
 
-export async function Pricing() {
+interface Props {
+  isFreeProPlan: boolean;
+  spotsClaimed?: number;
+  totalSpots?: number;
+}
+
+export async function Pricing({
+  isFreeProPlan,
+  spotsClaimed = 0,
+  totalSpots = 100,
+}: Props) {
   const t = await getTranslations('landing.pricing');
   const tPlans = await getTranslations('pricing');
-  const spotsClaimed = await countProSpotsTaken();
-  const spotsLeft = Math.max(0, TOTAL_PRO_SPOTS - spotsClaimed);
-  const pct = Math.min(100, Math.round((spotsClaimed / TOTAL_PRO_SPOTS) * 100));
+  const spotsLeft = Math.max(0, totalSpots - spotsClaimed);
+  const pct = Math.min(100, Math.round((spotsClaimed / totalSpots) * 100));
 
   const freeFeatures = [
     tPlans('proLicense.feature1'),
@@ -89,36 +97,52 @@ export async function Pricing() {
               <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
                 {tPlans('proPlan.name')}
               </p>
-              <span className="bg-primary/10 text-primary rounded-full px-3 py-0.5 text-xs font-semibold">
-                First 100 founders
-              </span>
+              {isFreeProPlan && (
+                <span className="bg-primary/10 text-primary rounded-full px-3 py-0.5 text-xs font-semibold">
+                  First 100 founders
+                </span>
+              )}
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-foreground text-5xl font-bold">$0</span>
-              <span className="text-muted-foreground text-sm line-through">
-                {tPlans('proPlan.price')}
-              </span>
+              {isFreeProPlan ? (
+                <>
+                  <span className="text-foreground text-5xl font-bold">$0</span>
+                  <span className="text-muted-foreground text-sm line-through">
+                    {tPlans('proPlan.price')}
+                  </span>
+                </>
+              ) : (
+                <span className="text-foreground text-5xl font-bold">
+                  {tPlans('proPlan.price')}
+                </span>
+              )}
             </div>
             <p className="text-muted-foreground mt-2 text-sm">
-              {tPlans('proPlan.description')}
+              {isFreeProPlan
+                ? tPlans('proPlan.description')
+                : tPlans('proPlan.descriptionPaid')}
             </p>
 
             {/* Scarcity counter + progress bar */}
-            <div className="mt-5 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">
-                  {Math.min(spotsClaimed, TOTAL_PRO_SPOTS)} of {TOTAL_PRO_SPOTS}{' '}
-                  spots claimed
-                </span>
-                <span className="text-muted-foreground">{spotsLeft} left</span>
+            {isFreeProPlan && (
+              <div className="mt-5 space-y-2">
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">
+                    {Math.min(spotsClaimed, totalSpots)} of {totalSpots} spots
+                    claimed
+                  </span>
+                  <span className="text-muted-foreground">
+                    {spotsLeft} left
+                  </span>
+                </div>
+                <div className="bg-muted h-1.5 w-full overflow-hidden rounded-full">
+                  <div
+                    className="bg-primary h-full rounded-full transition-all"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
-              <div className="bg-muted h-1.5 w-full overflow-hidden rounded-full">
-                <div
-                  className="bg-primary h-full rounded-full transition-all"
-                  style={{ width: `${pct}%` }}
-                />
-              </div>
-            </div>
+            )}
 
             <ul className="mt-8 flex-1 space-y-3">
               {proFeatures.map((f, i) => (
@@ -140,12 +164,16 @@ export async function Pricing() {
 
             <PricingCTAButton
               plan="pro"
-              label="Reserve your free spot →"
+              label={
+                isFreeProPlan ? 'Reserve your free spot →' : 'Get Pro ($149) →'
+              }
               highlighted={true}
             />
 
             <p className="text-muted-foreground mt-4 text-center text-xs">
-              After 100 spots, $149 one-time. Lifetime updates. 14-day refund.
+              {isFreeProPlan
+                ? 'After 100 spots, $149 one-time. Lifetime updates. 14-day refund.'
+                : 'One-time payment. Lifetime updates. 14-day refund.'}
             </p>
           </div>
         </div>

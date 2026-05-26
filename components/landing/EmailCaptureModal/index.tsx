@@ -7,6 +7,7 @@ import { GithubStep } from './GithubStep';
 import { SuccessStep } from './SuccessStep';
 import { DuplicateStep } from './DuplicateStep';
 import { UpgradeStep } from './UpgradeStep';
+import { useProSpots } from '@/hooks/api/useProSpots';
 
 type Step = 'email' | 'github' | 'success' | 'duplicate' | 'upgrade';
 
@@ -24,6 +25,7 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
   const [pendingResult, setPendingResult] = useState<WaitlistResult | null>(
     null,
   );
+  const { isFreeProPlan } = useProSpots();
 
   const isFree = plan === 'free';
 
@@ -108,7 +110,13 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
           <XIcon className="h-4 w-4" />
         </button>
 
-        {step === 'email' && <EmailStep plan={plan} onNext={handleEmailNext} />}
+        {step === 'email' && (
+          <EmailStep
+            plan={plan}
+            isFreeProPlan={isFreeProPlan}
+            onNext={handleEmailNext}
+          />
+        )}
         {step === 'github' && (
           <GithubStep email={email} onNext={handleGithubNext} />
         )}

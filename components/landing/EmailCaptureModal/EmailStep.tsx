@@ -16,10 +16,11 @@ export interface WaitlistResult {
 
 interface Props {
   plan: 'free' | 'pro';
+  isFreeProPlan?: boolean;
   onNext: (email: string, result: WaitlistResult) => void;
 }
 
-export function EmailStep({ plan, onNext }: Props) {
+export function EmailStep({ plan, isFreeProPlan = true, onNext }: Props) {
   const t = useTranslations('emailModal.emailStep');
   const tValidation = useTranslations('emailModal.validation');
 
@@ -58,10 +59,18 @@ export function EmailStep({ plan, onNext }: Props) {
   return (
     <form onSubmit={handleSubmit} noValidate>
       <h2 className="text-foreground text-lg font-semibold">
-        {isFree ? t('titleFree') : t('titlePro')}
+        {isFree
+          ? t('titleFree')
+          : isFreeProPlan
+            ? t('titlePro')
+            : t('titleProPaid')}
       </h2>
       <p className="text-muted-foreground mt-1 text-sm">
-        {isFree ? t('descFree') : t('descPro')}
+        {isFree
+          ? t('descFree')
+          : isFreeProPlan
+            ? t('descPro')
+            : t('descProPaid')}
       </p>
 
       <div className="mt-5">
@@ -93,7 +102,7 @@ export function EmailStep({ plan, onNext }: Props) {
         className="bg-primary text-primary-foreground hover:bg-primary/90 mt-4 flex w-full items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50"
       >
         {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
-        {isFree ? t('ctaFree') : t('ctaPro')}
+        {isFree ? t('ctaFree') : isFreeProPlan ? t('ctaPro') : t('ctaProPaid')}
       </button>
     </form>
   );

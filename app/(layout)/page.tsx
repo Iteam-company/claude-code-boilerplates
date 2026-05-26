@@ -115,6 +115,8 @@ export default async function Home() {
     ],
   };
 
+  const isFreeProPlan = spots.remaining > 0;
+
   return (
     <>
       <script
@@ -129,17 +131,21 @@ export default async function Home() {
           __html: JSON.stringify(softwareSchema).replace(/<\//g, '<\\/'),
         }}
       />
-      <Hero stars={stars} spots={spots} />
+      <Hero stars={stars} spots={spots} isFreeProPlan={isFreeProPlan} />
       <SocialProof stars={stars} subscribers={subscribers} />
       <Problem />
-      <Offer />
+      <Offer isFreeProPlan={isFreeProPlan} />
       {/* <Demo /> */}
       <Features />
-      <Comparison />
+      <Comparison isFreeProPlan={isFreeProPlan} />
       <SkillsShowcase />
       <HowItWorks />
       {/* <Testimonials /> */}
-      <Pricing />
+      <Pricing
+        isFreeProPlan={isFreeProPlan}
+        spotsClaimed={spots.total - spots.remaining}
+        totalSpots={spots.total}
+      />
       <FAQ />
       <FinalCTA />
     </>

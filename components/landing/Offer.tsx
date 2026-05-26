@@ -34,7 +34,11 @@ function FeatureChip({ label }: { label: string }) {
   );
 }
 
-export async function Offer() {
+interface Props {
+  isFreeProPlan: boolean;
+}
+
+export async function Offer({ isFreeProPlan }: Props) {
   const t = await getTranslations('landing.offer');
   return (
     <section className="py-24">
@@ -83,7 +87,11 @@ export async function Offer() {
                   <FeatureChip key={k} label={t(`proFeatures.${k}`)} />
                 ))}
               </div>
-              <PricingCTAButton plan="pro" label={t('proCta')} highlighted />
+              <PricingCTAButton
+                plan="pro"
+                label={isFreeProPlan ? t('proCta') : t('proCtaPaid')}
+                highlighted
+              />
             </div>
           </div>
         </FadeIn>

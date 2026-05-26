@@ -30,9 +30,14 @@ const TERMINAL_LINES = [
 interface Props {
   stars?: number | null;
   spots?: { remaining: number; total: number } | null;
+  isFreeProPlan?: boolean;
 }
 
-export function Hero({ stars = null, spots = null }: Props) {
+export function Hero({
+  stars = null,
+  spots = null,
+  isFreeProPlan = true,
+}: Props) {
   const t = useTranslations('landing.hero');
   const [modal, setModal] = useState<'free' | 'pro' | null>(null);
   const [visibleLines, setVisibleLines] = useState(1);
@@ -60,7 +65,7 @@ export function Hero({ stars = null, spots = null }: Props) {
         <div className="flex flex-col items-center text-center">
           <div className="border-border bg-muted text-foreground mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-sm">
             <span>⚡</span>
-            {t('badge')}
+            {isFreeProPlan ? t('badge') : t('badgePaid')}
           </div>
 
           <h1 className="text-foreground max-w-3xl text-5xl font-bold tracking-tight md:text-7xl">
@@ -68,24 +73,24 @@ export function Hero({ stars = null, spots = null }: Props) {
           </h1>
 
           <p className="text-muted-foreground mx-auto mt-6 max-w-2xl text-xl">
-            {t('subheadline')}
+            {isFreeProPlan ? t('subheadline') : t('subheadlinePaid')}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <button
               onClick={() => setModal('free')}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-8 py-3 text-sm font-semibold transition-colors"
+              className="border-border text-foreground hover:bg-muted rounded-md border px-8 py-3 text-base font-semibold transition-colors"
             >
-              {t('ctaPrimary')}
+              {isFreeProPlan ? t('ctaPrimary') : t('ctaPrimaryPaid')}
             </button>
             <button
               onClick={() => setModal('pro')}
-              className="border-border text-foreground hover:bg-muted rounded-md border px-8 py-3 text-sm font-semibold transition-colors"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-8 py-3 text-base font-semibold transition-colors"
             >
-              {t('ctaSecondary')}
-              {spots !== null && (
-                <span className="text-muted-foreground ml-1.5 font-normal">
-                  ({spots.remaining}/{spots.total} left)
+              {isFreeProPlan ? t('ctaSecondary') : t('ctaSecondaryPaid')}
+              {isFreeProPlan && spots !== null && (
+                <span className="text-primary-foreground/70 ml-1.5 text-sm font-normal">
+                  ({spots.remaining} left)
                 </span>
               )}
             </button>
