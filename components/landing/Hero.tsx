@@ -88,6 +88,11 @@ export function Hero({
               className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-8 py-3 text-base font-semibold transition-colors"
             >
               {isFreeProPlan ? t('ctaSecondary') : t('ctaSecondaryPaid')}
+              {!isFreeProPlan && (
+                <span className="text-primary-foreground/70 ml-1.5 text-sm font-normal">
+                  ($149)
+                </span>
+              )}
               {isFreeProPlan && spots !== null && (
                 <span className="text-primary-foreground/70 ml-1.5 text-sm font-normal">
                   ({spots.remaining} left)
