@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 
 const DISCORD_URL = process.env.NEXT_PUBLIC_DISCORD_URL ?? '#';
-const DISCORD_PRO_URL = process.env.DISCORD_PRO_URL ?? DISCORD_URL;
+const DISCORD_PRO_URL = process.env.NEXT_PUBLIC_DISCORD_PRO_URL ?? DISCORD_URL;
 
 interface Props {
   isFree: boolean;
