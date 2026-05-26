@@ -34,7 +34,7 @@ export function SkillsShowcaseTabs({
   const skill = skills.find((s) => s.id === active)!;
 
   return (
-    <section className="py-24">
+    <section id="skills" className="py-24">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
