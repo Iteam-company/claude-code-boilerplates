@@ -1,11 +1,13 @@
 import {
   Body,
   Button,
+  Column,
   Container,
   Head,
   Heading,
   Html,
   Preview,
+  Row,
   Section,
   Text,
 } from '@react-email/components';
@@ -20,21 +22,27 @@ export function WelcomeEmail({ appName, dashboardUrl }: WelcomeEmailProps) {
   return (
     <Html>
       <Head />
-      <Preview>Welcome to {appName} — you&apos;re all set!</Preview>
+      <Preview>Welcome to {appName} -- you&apos;re all set!</Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
-          <Heading style={styles.heading}>Welcome to {appName}!</Heading>
-          <Text style={styles.text}>Hi there,</Text>
-          <Text style={styles.text}>
-            Thanks for signing up. We&apos;re glad to have you on board.
-          </Text>
-          <Text style={styles.text}>
-            Get started by visiting your dashboard:
-          </Text>
-          <Section style={styles.btnSection}>
-            <Button href={safeUrl} style={styles.button}>
-              Go to Dashboard
-            </Button>
+          <Section>
+            <Row>
+              <Column style={styles.inner}>
+                <Heading style={styles.heading}>Welcome to {appName}!</Heading>
+                <Text style={styles.text}>Hi there,</Text>
+                <Text style={styles.text}>
+                  Thanks for signing up. We&apos;re glad to have you on board.
+                </Text>
+                <Text style={styles.text}>
+                  Get started by visiting your dashboard:
+                </Text>
+                <Section style={styles.btnSection}>
+                  <Button href={safeUrl} style={styles.button}>
+                    Go to Dashboard
+                  </Button>
+                </Section>
+              </Column>
+            </Row>
           </Section>
         </Container>
       </Body>
@@ -54,7 +62,12 @@ const styles = {
     borderRadius: '8px',
     margin: '40px auto',
     maxWidth: '560px',
-    padding: '40px',
+  },
+  inner: {
+    paddingTop: '40px',
+    paddingRight: '40px',
+    paddingBottom: '40px',
+    paddingLeft: '40px',
   },
   heading: {
     color: '#0a0a0a',
@@ -69,7 +82,8 @@ const styles = {
     margin: '0 0 16px',
   },
   btnSection: {
-    margin: '32px 0 0',
+    marginTop: '32px',
+    marginBottom: '0',
   },
   button: {
     backgroundColor: '#0a0a0a',
@@ -78,7 +92,10 @@ const styles = {
     display: 'inline-block',
     fontSize: '14px',
     fontWeight: '600',
-    padding: '12px 24px',
+    paddingTop: '12px',
+    paddingRight: '24px',
+    paddingBottom: '12px',
+    paddingLeft: '24px',
     textDecoration: 'none',
   },
 };

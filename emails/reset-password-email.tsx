@@ -1,12 +1,14 @@
 import {
   Body,
   Button,
+  Column,
   Container,
   Head,
   Heading,
   Hr,
   Html,
   Preview,
+  Row,
   Section,
   Text,
 } from '@react-email/components';
@@ -27,23 +29,29 @@ export function ResetPasswordEmail({
       <Preview>Reset your {appName} password</Preview>
       <Body style={styles.body}>
         <Container style={styles.container}>
-          <Heading style={styles.heading}>Reset your password</Heading>
-          <Text style={styles.text}>Hi there,</Text>
-          <Text style={styles.text}>
-            We received a request to reset your {appName} password. Click the
-            button below to choose a new one.
-          </Text>
-          <Text style={styles.expiry}>This link expires in 1 hour.</Text>
-          <Section style={styles.btnSection}>
-            <Button href={safeUrl} style={styles.button}>
-              Reset Password
-            </Button>
+          <Section>
+            <Row>
+              <Column style={styles.inner}>
+                <Heading style={styles.heading}>Reset your password</Heading>
+                <Text style={styles.text}>Hi there,</Text>
+                <Text style={styles.text}>
+                  We received a request to reset your {appName} password. Click
+                  the button below to choose a new one.
+                </Text>
+                <Text style={styles.expiry}>This link expires in 1 hour.</Text>
+                <Section style={styles.btnSection}>
+                  <Button href={safeUrl} style={styles.button}>
+                    Reset Password
+                  </Button>
+                </Section>
+                <Hr style={styles.hr} />
+                <Text style={styles.footer}>
+                  If you didn&apos;t request this, you can safely ignore this
+                  email. Your password won&apos;t change.
+                </Text>
+              </Column>
+            </Row>
           </Section>
-          <Hr style={styles.hr} />
-          <Text style={styles.footer}>
-            If you didn&apos;t request this, you can safely ignore this email.
-            Your password won&apos;t change.
-          </Text>
         </Container>
       </Body>
     </Html>
@@ -62,7 +70,12 @@ const styles = {
     borderRadius: '8px',
     margin: '40px auto',
     maxWidth: '560px',
-    padding: '40px',
+  },
+  inner: {
+    paddingTop: '40px',
+    paddingRight: '40px',
+    paddingBottom: '40px',
+    paddingLeft: '40px',
   },
   heading: {
     color: '#0a0a0a',
@@ -83,7 +96,8 @@ const styles = {
     margin: '0 0 16px',
   },
   btnSection: {
-    margin: '32px 0',
+    marginTop: '32px',
+    marginBottom: '32px',
   },
   button: {
     backgroundColor: '#0a0a0a',
@@ -92,12 +106,16 @@ const styles = {
     display: 'inline-block',
     fontSize: '14px',
     fontWeight: '600',
-    padding: '12px 24px',
+    paddingTop: '12px',
+    paddingRight: '24px',
+    paddingBottom: '12px',
+    paddingLeft: '24px',
     textDecoration: 'none',
   },
   hr: {
     borderColor: '#e6e6e6',
-    margin: '24px 0',
+    marginTop: '24px',
+    marginBottom: '24px',
   },
   footer: {
     color: '#888888',
