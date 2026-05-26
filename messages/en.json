@@ -60,10 +60,14 @@
     },
     "hero": {
       "badge": "Open source · First 100 Pro spots free",
+      "badgePaid": "Open source · Pro",
       "headline": "Ship a SaaS in days. Not weeks.",
       "subheadline": "The only Next.js boilerplate with Stripe, auth, and Claude Code built in. Free forever. Pro tier free for the first 100 founders.",
+      "subheadlinePaid": "The only Next.js boilerplate with Stripe, auth, and Claude Code built in. Free forever. Pro tier available for a one-time payment.",
       "ctaPrimary": "Get the free version →",
-      "ctaSecondary": "Reserve a free Pro spot"
+      "ctaPrimaryPaid": "Get Free version",
+      "ctaSecondary": "Reserve a free Pro spot",
+      "ctaSecondaryPaid": "Get the Pro version ($149)"
     },
     "steps": {
       "heading": "Up and running in minutes",
@@ -160,6 +164,7 @@
       "proBadge": "Claude Code superpowers",
       "proDesc": "40+ Claude Code skills, 11 custom agents, MCP server configs, and the multi-tenancy + AI modules. The workflow layer that turns a boilerplate into a build-anything machine.",
       "proCta": "Reserve your free spot →",
+      "proCtaPaid": "Get Pro ($149) →",
       "freeFeatures": {
         "stripeCheckout": "Stripe checkout",
         "subscriptions": "Subscriptions",
@@ -278,6 +283,7 @@
       "subheading": "Clone the repo. Describe what you want. Ship today.",
       "freeCta": "Get the free version →",
       "proCta": "Reserve your free Pro spot →",
+      "proCtaPaid": "Get Pro ($149) →",
       "finePrint": "MIT licensed · 14-day refund on Pro · No credit card. No catch.",
       "footnote": "Built by a developer who ships, not a marketing team."
     },
@@ -368,12 +374,15 @@
     "emailStep": {
       "titleFree": "Get the free boilerplate",
       "titlePro": "Reserve your free Pro spot",
+      "titleProPaid": "Get Pro access",
       "descFree": "Enter your email and we'll send you the GitHub link.",
       "descPro": "Enter your email to join the waitlist. First 100 spots are free.",
+      "descProPaid": "Enter your email to purchase Pro access ($149 one-time).",
       "emailLabel": "Email",
       "emailPlaceholder": "you@example.com",
       "ctaFree": "Get the repo →",
-      "ctaPro": "Join waitlist →"
+      "ctaPro": "Join waitlist →",
+      "ctaProPaid": "Continue to checkout →"
     },
     "githubStep": {
       "title": "One more step",
@@ -529,6 +538,7 @@
     "proPlan": {
       "name": "Pro",
       "description": "First 100 copies free -- $149 after. One-time.",
+      "descriptionPaid": "$149 one-time. Lifetime updates.",
       "price": "$149",
       "feature1": "Everything in Free",
       "feature2": "Full skill library (40+ skills)",

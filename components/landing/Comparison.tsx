@@ -21,72 +21,74 @@ interface FeatureRow {
   supa: CellValue;
 }
 
-const MAIN_ROWS: FeatureRow[] = [
-  {
-    key: 'price',
-    free: '$0',
-    pro: '$0–$149',
-    shipfast: '$199',
-    makerkit: '$299–$599',
-    supa: '$261–$1,124',
-  },
-  {
-    key: 'openSource',
-    free: true,
-    pro: 'partial',
-    shipfast: false,
-    makerkit: false,
-    supa: false,
-  },
-  {
-    key: 'stripeCheckout',
-    free: true,
-    pro: true,
-    shipfast: true,
-    makerkit: true,
-    supa: true,
-  },
-  {
-    key: 'customerPortal',
-    free: true,
-    pro: true,
-    shipfast: true,
-    makerkit: true,
-    supa: true,
-  },
-  {
-    key: 'auth',
-    free: true,
-    pro: true,
-    shipfast: true,
-    makerkit: true,
-    supa: true,
-  },
-  {
-    key: 'emailTemplates',
-    free: true,
-    pro: true,
-    shipfast: true,
-    makerkit: true,
-    supa: true,
-  },
-  {
-    key: 'fileUploads',
-    free: true,
-    pro: true,
-    shipfast: 'partial',
-    makerkit: true,
-    supa: true,
-  },
-  {
-    key: 'multiTenancy',
-    free: false,
-    pro: true,
-    shipfast: false,
-    makerkit: 'Top tier',
-    supa: 'Top tier',
-  },
-];
+function buildMainRows(isFreeProPlan: boolean): FeatureRow[] {
+  return [
+    {
+      key: 'price',
+      free: '$0',
+      pro: isFreeProPlan ? '$0–$149' : '$149',
+      shipfast: '$199',
+      makerkit: '$299–$599',
+      supa: '$261–$1,124',
+    },
+    {
+      key: 'openSource',
+      free: true,
+      pro: 'partial',
+      shipfast: false,
+      makerkit: false,
+      supa: false,
+    },
+    {
+      key: 'stripeCheckout',
+      free: true,
+      pro: true,
+      shipfast: true,
+      makerkit: true,
+      supa: true,
+    },
+    {
+      key: 'customerPortal',
+      free: true,
+      pro: true,
+      shipfast: true,
+      makerkit: true,
+      supa: true,
+    },
+    {
+      key: 'auth',
+      free: true,
+      pro: true,
+      shipfast: true,
+      makerkit: true,
+      supa: true,
+    },
+    {
+      key: 'emailTemplates',
+      free: true,
+      pro: true,
+      shipfast: true,
+      makerkit: true,
+      supa: true,
+    },
+    {
+      key: 'fileUploads',
+      free: true,
+      pro: true,
+      shipfast: 'partial',
+      makerkit: true,
+      supa: true,
+    },
+    {
+      key: 'multiTenancy',
+      free: false,
+      pro: true,
+      shipfast: false,
+      makerkit: 'Top tier',
+      supa: 'Top tier',
+    },
+  ];
+}
 
 const WORKFLOW_ROWS: FeatureRow[] = [
   {
@@ -205,8 +207,13 @@ function TableRow({ row, label }: { row: FeatureRow; label: string }) {
   );
 }
 
-export async function Comparison() {
+interface Props {
+  isFreeProPlan: boolean;
+}
+
+export async function Comparison({ isFreeProPlan }: Props) {
   const t = await getTranslations('landing.comparison');
+  const mainRows = buildMainRows(isFreeProPlan);
   return (
     <section className="py-24">
       <Container>
@@ -241,7 +248,7 @@ export async function Comparison() {
                     This &middot; Pro
                   </div>
                   <div className="text-primary mt-0.5 text-xs font-bold">
-                    $149
+                    {isFreeProPlan ? '$0–$149' : '$149'}
                   </div>
                 </th>
                 <th className="px-4 py-4 text-center">
@@ -272,7 +279,7 @@ export async function Comparison() {
             </thead>
 
             <tbody>
-              {MAIN_ROWS.map((row) => (
+              {mainRows.map((row) => (
                 <TableRow
                   key={row.key}
                   row={row}
