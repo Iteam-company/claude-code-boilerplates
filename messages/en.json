@@ -47,7 +47,6 @@
     "legal": {
       "heading": "Legal",
       "license": "License",
-      "refund": "Refund Policy",
       "privacy": "Privacy Policy",
       "terms": "Terms of Service"
     },
@@ -70,7 +69,6 @@
       "ctaSecondaryPaid": "Get the Pro version",
       "noCard": "No credit card",
       "mitLicense": "MIT license",
-      "refund": "14-day refund on Pro",
       "developers": "500+ developers",
       "githubStars": "GitHub stars",
       "stackCredit": "Powered by Next.js, Vercel, Neon, and Anthropic",
@@ -217,7 +215,6 @@
         "aiIntegration": "AI / Claude integration",
         "drizzle": "Drizzle ORM",
         "lifetimeUpdates": "Lifetime updates",
-        "refundWindow": "Refund window",
         "bestFor": "Best for"
       },
       "narratives": {
@@ -291,7 +288,7 @@
       "freeCta": "Get the free version →",
       "proCta": "Reserve your free Pro spot →",
       "proCtaPaid": "Get Pro ($149) →",
-      "finePrint": "MIT licensed · 14-day refund on Pro · No credit card. No catch.",
+      "finePrint": "MIT licensed · No credit card. No catch.",
       "footnote": "Built by a developer who ships, not a marketing team."
     },
     "socialProof": {
@@ -347,8 +344,8 @@
           "answer": "Only for the AI features module. Auth, payments, email, and the blog work without any Anthropic key. Claude Code runs on your own Anthropic account -- the skill library makes it faster to build, but the API credits are yours."
         },
         "q8": {
-          "question": "What if I want a refund?",
-          "answer": "Pro spots during the first-100 period are free, so there is nothing to refund. After the promo, if you pay $149 and are not satisfied within 14 days, contact us for a full refund. No questions asked."
+          "question": "What is the refund policy?",
+          "answer": "All sales are final. Once you receive access to the private GitHub repository, the boilerplate is yours forever -- you can clone it immediately and we cannot revoke it. Because access is permanent and instant, we do not offer refunds. If you have not received your GitHub invite or have an issue with your purchase, contact us and we will resolve it."
         },
         "q9": {
           "question": "Is this affiliated with Anthropic, Vercel, or Neon?",
@@ -581,8 +578,8 @@
       "spotsLeft": "{count} left",
       "ctaFree": "Reserve your free spot →",
       "ctaPaid": "Get Pro ($149) →",
-      "finePrintFree": "After 100 spots, $149 one-time. Lifetime updates. 14-day refund.",
-      "finePrintPaid": "One-time payment. Lifetime updates. 14-day refund.",
+      "finePrintFree": "After 100 spots, $149 one-time. Lifetime updates.",
+      "finePrintPaid": "One-time payment. Lifetime updates.",
       "feature1": "Everything in Free",
       "feature2": "Full skill library (40+ skills)",
       "feature3": "Multi-tenancy module",

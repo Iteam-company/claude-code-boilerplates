@@ -131,14 +131,6 @@ export const DETAIL_ROWS: FeatureRow[] = [
     supa: 'Top tier',
   },
   {
-    key: 'refundWindow',
-    free: 'n/a',
-    pro: '14 days',
-    shipfast: '14 days',
-    makerkit: '30 days',
-    supa: '30 days',
-  },
-  {
     key: 'bestFor',
     free: 'Anyone',
     pro: 'Claude Code users',
