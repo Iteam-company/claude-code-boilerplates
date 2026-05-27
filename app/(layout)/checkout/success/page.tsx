@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
 import { stripe } from '@/lib/stripe';
 import { leadRepo } from '@/modules/lead/lead.repo';
+import { leadService } from '@/modules/lead/lead.service';
 import { RetryInviteButton } from '@/components/checkout/RetryInviteButton';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -38,6 +39,12 @@ export default async function CheckoutSuccessPage({ searchParams }: Props) {
       if (isProSession && email) {
         const lead = await leadRepo.findByEmail(email);
         inviteSent = !!lead?.githubInvitedAt;
+
+        if (!inviteSent) {
+          await leadService.handleProCheckout(session);
+          const updated = await leadRepo.findByEmail(email);
+          inviteSent = !!updated?.githubInvitedAt;
+        }
       }
     } catch {
       // Stripe retrieval failed — fall through to generic success

@@ -67,6 +67,24 @@ export function EmailCaptureModal({ plan, onClose }: Props) {
       return;
     }
 
+    if (
+      data.alreadyExists &&
+      data.isPro &&
+      data.hasGithub &&
+      !data.requiresPayment
+    ) {
+      // Existing pro user with GitHub but invite never sent — trigger it now
+      const res = await fetch('/api/leads/invite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: submittedEmail }),
+      });
+      const inviteData = await res.json();
+      setInviteSent(inviteData.inviteSent ?? false);
+      setStep('success');
+      return;
+    }
+
     if (data.alreadyExists) {
       setStep('duplicate');
       return;
