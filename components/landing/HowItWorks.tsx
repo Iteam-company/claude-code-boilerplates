@@ -7,11 +7,11 @@ import { highlightCode } from '@/lib/highlight';
 const STEP_KEYS = ['clone', 'describe', 'ship'] as const;
 
 const STEP_SNIPPETS = [
-  `$ git clone <repo> my-app
-$ cd my-app && cp .env.example .env
-$ vercel deploy --prod
+  `# Click "Create new repo" on GitHub
+✓ github.com/you/my-app created from template
 
-✓ Live at https://my-app.vercel.app`,
+$ git clone https://github.com/you/my-app
+$ npm install && cp .env.example .env`,
   `> add a dashboard with user analytics
 
 ✓ app/(main)/dashboard/page.tsx

@@ -65,7 +65,7 @@
       "subheadline": "The only Next.js boilerplate with Stripe, auth, and Claude Code built in. Free forever. Pro tier free for the first 100 founders.",
       "subheadlinePaid": "The only Next.js boilerplate with Stripe, auth, and Claude Code built in. Free forever. Pro tier available for a one-time payment.",
       "ctaPrimary": "Get the free version →",
-      "ctaPrimaryPaid": "Get Free version",
+      "ctaPrimaryPaid": "Get the free version →",
       "ctaSecondary": "Reserve a free Pro spot",
       "ctaSecondaryPaid": "Get the Pro version",
       "noCard": "No credit card",
@@ -73,7 +73,7 @@
       "refund": "14-day refund on Pro",
       "developers": "500+ developers",
       "githubStars": "GitHub stars",
-      "stackCredit": "Built on the stack used by Anthropic, Vercel, and Neon",
+      "stackCredit": "Powered by Next.js, Vercel, Neon, and Anthropic",
       "terminalLabel": "Claude Code"
     },
     "steps": {
@@ -348,7 +348,7 @@
         },
         "q8": {
           "question": "What if I want a refund?",
-          "answer": "Pro spots during the first-100 period are free, so there is nothing to refund. After the promo, if you pay $149 and are not satisfied within 7 days, contact us for a full refund. No questions asked."
+          "answer": "Pro spots during the first-100 period are free, so there is nothing to refund. After the promo, if you pay $149 and are not satisfied within 14 days, contact us for a full refund. No questions asked."
         },
         "q9": {
           "question": "Is this affiliated with Anthropic, Vercel, or Neon?",
@@ -534,7 +534,7 @@
       "feature4": "MDX blog + landing page",
       "feature5": "Core Claude Code skills (10)",
       "feature6": "Public Discord",
-      "feature7": "1 project",
+      "feature7": "MIT license",
       "cta": "Clone for free",
       "landingCta": "Get the free version →",
       "finePrint": "No credit card. No catch. MIT license."

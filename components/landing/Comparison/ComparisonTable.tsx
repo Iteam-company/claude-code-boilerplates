@@ -58,7 +58,7 @@ export async function ComparisonTable({ isFreeProPlan }: Props) {
             </th>
             <th className="bg-emerald-500/10 px-4 py-4 text-center">
               <div className="text-foreground text-sm font-semibold">
-                This &middot; Free
+                CCB &middot; Free
               </div>
               <div className="mt-0.5 text-xs font-bold text-emerald-500">
                 $0
@@ -66,7 +66,7 @@ export async function ComparisonTable({ isFreeProPlan }: Props) {
             </th>
             <th className="bg-primary/10 px-4 py-4 text-center">
               <div className="text-primary text-sm font-semibold">
-                This &middot; Pro
+                CCB &middot; Pro
               </div>
               <div className="text-primary mt-0.5 text-xs font-bold">
                 {isFreeProPlan ? '$0–$149' : '$149'}
