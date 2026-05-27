@@ -48,7 +48,6 @@ export async function Footer() {
             heading={t('legal.heading')}
             links={[
               { label: t('legal.license'), href: '#' },
-              { label: t('legal.refund'), href: '#' },
               { label: t('legal.privacy'), href: '#' },
               { label: t('legal.terms'), href: '#' },
             ]}

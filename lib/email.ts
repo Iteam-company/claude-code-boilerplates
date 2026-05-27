@@ -7,9 +7,10 @@ export const ENABLE_EMAIL_VERIFICATION = false;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const RESEND_SANDBOX_FROM_EMAIL =
-  process.env.NO_REPLY_EMAIL || 'onboarding@resend.dev';
-export const APP_NAME = 'MyApp';
+export const APP_NAME = 'Claude Code Boilerplate';
+
+const fromEmail = process.env.NO_REPLY_EMAIL || 'onboarding@resend.dev';
+const RESEND_SANDBOX_FROM_EMAIL = `${APP_NAME} <${fromEmail}>`;
 export const BASE_URL = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : 'http://localhost:3000';

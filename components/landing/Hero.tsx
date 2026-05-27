@@ -101,8 +101,6 @@ export function Hero({
             <span>{t('noCard')}</span>
             <span aria-hidden>·</span>
             <span>{t('mitLicense')}</span>
-            <span aria-hidden>·</span>
-            <span>{t('refund')}</span>
           </p>
 
           <p className="text-muted-foreground mt-6 flex flex-wrap items-center justify-center gap-x-2 text-sm">
