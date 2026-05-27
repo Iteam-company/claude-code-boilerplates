@@ -16,7 +16,7 @@ export async function GET(_req: Request, { params }: Params) {
 
 export async function PUT(req: Request, { params }: Params) {
   try {
-    getCallerFromRequest(req);
+    const { id: callerId } = getCallerFromRequest(req);
 
     const { id } = await params;
     const body = await req.json();
@@ -26,7 +26,7 @@ export async function PUT(req: Request, { params }: Params) {
       return Response.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
-    const post = await postService.update(id, parsed.data);
+    const post = await postService.update(id, parsed.data, callerId);
     return Response.json(post);
   } catch (error: unknown) {
     return handleError(error);
@@ -35,10 +35,10 @@ export async function PUT(req: Request, { params }: Params) {
 
 export async function DELETE(_req: Request, { params }: Params) {
   try {
-    getCallerFromRequest(_req);
+    const { id: callerId } = getCallerFromRequest(_req);
 
     const { id } = await params;
-    await postService.delete(id);
+    await postService.delete(id, callerId);
     return new Response(null, { status: 204 });
   } catch (error: unknown) {
     return handleError(error);

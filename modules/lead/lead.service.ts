@@ -10,12 +10,8 @@ import { ProOnboardingEmail } from '@/emails/pro-onboarding-email';
 import { TOTAL_PRO_SPOTS } from '@/lib/spots';
 import { getBaseUrl } from '@/lib/utils';
 
-const GITHUB_REPO_URL =
-  process.env.NEXT_PUBLIC_FREE_REPO_URL ??
-  'https://github.com/your-org/your-repo';
-const PRO_REPO_URL =
-  process.env.NEXT_PUBLIC_PRO_REPO_URL ??
-  'https://github.com/your-org/your-pro-repo';
+const GITHUB_REPO_URL = process.env.NEXT_PUBLIC_FREE_REPO_URL ?? '';
+const PRO_REPO_URL = process.env.NEXT_PUBLIC_PRO_REPO_URL ?? '';
 const DOCS_URL = `${getBaseUrl()}/docs`;
 const DISCORD_URL =
   process.env.NEXT_PUBLIC_DISCORD_URL ?? 'https://discord.gg/your-server';
@@ -81,10 +77,11 @@ export const leadService = {
       return { alreadyExists: false, requiresPayment: false, hasGithub: false };
     }
 
-    // pro — check spots before inserting (new user not yet counted)
-    const proCount = await leadRepo.countPro();
-    const requiresPayment = proCount >= TOTAL_PRO_SPOTS;
-    await leadRepo.insert(email, 'pro');
+    // pro — atomically check available spots and insert in one transaction
+    const { requiresPayment } = await leadRepo.claimProSpot(
+      email,
+      TOTAL_PRO_SPOTS,
+    );
     return { alreadyExists: false, requiresPayment, hasGithub: false };
   },
 
@@ -111,8 +108,11 @@ export const leadService = {
       return { requiresPayment, inviteSent: true };
     } catch (err) {
       console.error(
-        'GitHub invite failed, will surface to client for retry',
-        err,
+        JSON.stringify({
+          event: 'github_invite_failed',
+          githubUsername,
+          error: String(err),
+        }),
       );
       return { requiresPayment, inviteSent: false };
     }
@@ -130,7 +130,13 @@ export const leadService = {
       await sendProEmail(email, lead.githubUsername);
       return { inviteSent: true };
     } catch (err) {
-      console.error('GitHub invite retry failed', err);
+      console.error(
+        JSON.stringify({
+          event: 'github_invite_retry_failed',
+          email,
+          error: String(err),
+        }),
+      );
       return { inviteSent: false };
     }
   },
@@ -142,8 +148,10 @@ export const leadService = {
 
     if (!email || !githubUsername) {
       console.error(
-        'pro checkout.session.completed missing email or github_username',
-        { sessionId: session.id },
+        JSON.stringify({
+          event: 'pro_checkout_missing_metadata',
+          sessionId: session.id,
+        }),
       );
       return;
     }
@@ -160,7 +168,13 @@ export const leadService = {
       trackEvent('pro_repo_invited', { githubUsername });
       await sendProEmail(email, githubUsername);
     } catch (err) {
-      console.error('GitHub invite failed after checkout', err);
+      console.error(
+        JSON.stringify({
+          event: 'github_invite_failed_after_checkout',
+          githubUsername,
+          error: String(err),
+        }),
+      );
     }
   },
 };

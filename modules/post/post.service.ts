@@ -46,10 +46,13 @@ export const postService = {
     return post;
   },
 
-  update: async (id: string, data: UpdatePostInput) => {
+  update: async (id: string, data: UpdatePostInput, callerId: string) => {
     const post = await postRepo.findById(id);
     if (!post) {
       throw new HttpError(404, 'Post not found');
+    }
+    if (post.authorId !== callerId) {
+      throw new HttpError(403, 'Forbidden');
     }
 
     if (data.slug && data.slug !== post.slug) {
@@ -62,10 +65,13 @@ export const postService = {
     return postRepo.update(id, data);
   },
 
-  delete: async (id: string) => {
+  delete: async (id: string, callerId: string) => {
     const post = await postRepo.findById(id);
     if (!post) {
       throw new HttpError(404, 'Post not found');
+    }
+    if (post.authorId !== callerId) {
+      throw new HttpError(403, 'Forbidden');
     }
     return postRepo.delete(id);
   },
