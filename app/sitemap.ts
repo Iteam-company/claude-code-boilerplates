@@ -1,10 +1,12 @@
 import type { MetadataRoute } from 'next';
 import { getBaseUrl } from '@/lib/utils';
 import { postService } from '@/modules/post';
+import { getAllDocs } from '@/lib/docs';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = getBaseUrl();
   const posts = await postService.getAll({ published: true });
+  const docs = getAllDocs();
 
   const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${base}/blog/${post.slug}`,
@@ -13,9 +15,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
+  const docEntries: MetadataRoute.Sitemap = docs.map((doc) => ({
+    url: `${base}/docs/${doc.slug}`,
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
   return [
     { url: base, changeFrequency: 'weekly', priority: 1.0 },
     { url: `${base}/blog`, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${base}/docs`, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${base}/vs/shipfast`, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/vs/makerkit`, changeFrequency: 'monthly', priority: 0.8 },
     {
@@ -24,5 +33,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     ...postEntries,
+    ...docEntries,
   ];
 }
