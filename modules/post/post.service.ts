@@ -1,6 +1,7 @@
 import { postRepo } from './post.repo';
 import { CreatePostInput, PostFilter, UpdatePostInput } from './post.types';
 import { HttpError } from '@/lib/errors/http-error';
+import { submitUrl } from '@/lib/indexnow';
 
 const PAGE_SIZE = 6;
 
@@ -62,7 +63,9 @@ export const postService = {
       }
     }
 
-    return postRepo.update(id, data);
+    const updated = await postRepo.update(id, data);
+    if (data.published) void submitUrl(`/blog/${updated.slug}`);
+    return updated;
   },
 
   delete: async (id: string, callerId: string) => {
