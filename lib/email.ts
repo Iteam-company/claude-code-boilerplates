@@ -7,7 +7,7 @@ export const ENABLE_EMAIL_VERIFICATION = false;
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const RESEND_SANBOX_FROM_EMAIL =
+const RESEND_SANDBOX_FROM_EMAIL =
   process.env.NO_REPLY_EMAIL || 'onboarding@resend.dev';
 export const APP_NAME = 'MyApp';
 export const BASE_URL = process.env.VERCEL_URL
@@ -24,7 +24,7 @@ interface SendEmailOptions {
 export const emailService = {
   sendEmail: async ({
     to,
-    from = RESEND_SANBOX_FROM_EMAIL,
+    from = RESEND_SANDBOX_FROM_EMAIL,
     subject,
     react,
   }: SendEmailOptions) => {

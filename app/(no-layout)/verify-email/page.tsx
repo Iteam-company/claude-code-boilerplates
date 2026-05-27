@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { useVerifyEmail } from '@/hooks/api/verifyEmail';
+import { useVerifyEmail } from '@/hooks/api/useVerifyEmail';
 import { ROUTES } from '@/lib/routes';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';

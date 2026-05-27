@@ -7,10 +7,7 @@ import { Container } from '@/components/Container';
 import { EmailCaptureModal } from './EmailCaptureModal';
 import { cn } from '@/lib/utils';
 import { STAR_THRESHOLD } from '@/lib/constants';
-
-function formatStars(n: number): string {
-  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
-}
+import { formatNumber } from '@/lib/format';
 
 const TERMINAL_LINES = [
   {
@@ -115,7 +112,7 @@ export function Hero({
                 <span>·</span>
                 <span className="inline-flex items-center gap-1">
                   <Star className="h-3 w-3 fill-current" />
-                  {formatStars(stars)} {t('githubStars')}
+                  {formatNumber(stars)} {t('githubStars')}
                 </span>
               </>
             )}
