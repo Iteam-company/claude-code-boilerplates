@@ -1,11 +1,20 @@
 import { leadService } from '@/modules/lead';
-import { handleError } from '@/lib/errors';
+import { handleError, HttpError } from '@/lib/errors';
 import { z } from 'zod';
 
 const schema = z.object({ email: z.string().email() });
 
+function assertSameOrigin(req: Request): void {
+  const origin = req.headers.get('origin');
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? '';
+  if (origin && base && !origin.startsWith(base)) {
+    throw new HttpError(403, 'Forbidden');
+  }
+}
+
 export async function POST(req: Request) {
   try {
+    assertSameOrigin(req);
     const body = await req.json();
     const parsed = schema.safeParse(body);
     if (!parsed.success) {

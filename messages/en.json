@@ -520,6 +520,8 @@
     "metaDescription": "Your payment was processed successfully.",
     "heading": "Payment successful!",
     "description": "Thank you for your purchase. You'll receive a confirmation email shortly.",
+    "inviteSent": "Your GitHub invite has been sent. Check your GitHub notifications to accept it.",
+    "invitePending": "Your GitHub invite is being processed. Check your email — it will arrive within a few minutes.",
     "backHome": "Go to docs"
   },
   "pricing": {
@@ -571,7 +573,7 @@
     },
     "proPlan": {
       "name": "Pro",
-      "description": "First 100 copies free -- $149 after. One-time.",
+      "description": "For the first 100 founders. One-time payment, no subscription.",
       "descriptionPaid": "$149 one-time. Lifetime updates.",
       "price": "$149",
       "badge": "First 100 founders",

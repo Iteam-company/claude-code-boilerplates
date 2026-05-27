@@ -68,4 +68,25 @@ export const leadRepo = {
     const [row] = await db.select({ value: count() }).from(leadTable);
     return row?.value ?? 0;
   },
+
+  // Atomically check the pro spot count and insert if a spot is available.
+  // Uses a transaction to eliminate the read-then-write race in addEmail.
+  claimProSpot: async (
+    email: string,
+    totalSpots: number,
+  ): Promise<{ requiresPayment: boolean }> => {
+    return db.transaction(async (tx) => {
+      const [row] = await tx
+        .select({ value: count() })
+        .from(leadTable)
+        .where(eq(leadTable.tierInterest, 'pro'));
+      const proCount = row?.value ?? 0;
+      if (proCount >= totalSpots) return { requiresPayment: true };
+      await tx
+        .insert(leadTable)
+        .values({ email, tierInterest: 'pro' })
+        .onConflictDoNothing();
+      return { requiresPayment: false };
+    });
+  },
 };

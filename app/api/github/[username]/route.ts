@@ -1,9 +1,19 @@
 import { NextResponse } from 'next/server';
 
+function assertSameOrigin(req: Request): boolean {
+  const origin = req.headers.get('origin');
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? '';
+  return !origin || !base || origin.startsWith(base);
+}
+
 export async function GET(
   _req: Request,
   { params }: { params: Promise<{ username: string }> },
 ) {
+  if (!assertSameOrigin(_req)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   const { username } = await params;
 
   const headers: Record<string, string> = {

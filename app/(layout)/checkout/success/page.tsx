@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getTranslations } from 'next-intl/server';
+import { stripe } from '@/lib/stripe';
+import { leadRepo } from '@/modules/lead/lead.repo';
+import { RetryInviteButton } from '@/components/checkout/RetryInviteButton';
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('checkoutSuccess');
@@ -14,8 +17,32 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function CheckoutSuccessPage() {
+type Props = { searchParams: Promise<{ session_id?: string }> };
+
+export default async function CheckoutSuccessPage({ searchParams }: Props) {
   const t = await getTranslations('checkoutSuccess');
+  const { session_id } = await searchParams;
+
+  let inviteEmail: string | null = null;
+  let inviteSent = false;
+  let isProSession = false;
+
+  if (session_id) {
+    try {
+      const session = await stripe.checkout.sessions.retrieve(session_id);
+      isProSession = session.metadata?.tier === 'pro';
+      const email =
+        session.customer_details?.email ?? session.customer_email ?? null;
+      inviteEmail = email;
+
+      if (isProSession && email) {
+        const lead = await leadRepo.findByEmail(email);
+        inviteSent = !!lead?.githubInvitedAt;
+      }
+    } catch {
+      // Stripe retrieval failed — fall through to generic success
+    }
+  }
 
   return (
     <main className="flex min-h-[60vh] flex-col items-center justify-center gap-6 px-4 text-center">
@@ -37,8 +64,18 @@ export default async function CheckoutSuccessPage() {
 
       <div>
         <h1 className="text-foreground text-2xl font-bold">{t('heading')}</h1>
-        <p className="text-muted-foreground mt-2">{t('description')}</p>
+        {isProSession ? (
+          <p className="text-muted-foreground mt-2">
+            {inviteSent ? t('inviteSent') : t('invitePending')}
+          </p>
+        ) : (
+          <p className="text-muted-foreground mt-2">{t('description')}</p>
+        )}
       </div>
+
+      {isProSession && !inviteSent && inviteEmail && (
+        <RetryInviteButton email={inviteEmail} />
+      )}
 
       <Link
         href="/docs/getting-started"
