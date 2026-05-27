@@ -1,13 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-
-const FREE_REPO_URL =
-  process.env.NEXT_PUBLIC_FREE_REPO_URL ??
-  'https://github.com/Iteam-company/claude-code-boilerplate-free';
-const PRO_REPO_URL =
-  process.env.NEXT_PUBLIC_PRO_REPO_URL ??
-  'https://github.com/Iteam-company/claude-code-boilerplate-pro';
+import { FREE_REPO_URL, PRO_REPO_URL } from '@/lib/constants';
 
 interface Props {
   isFree: boolean;

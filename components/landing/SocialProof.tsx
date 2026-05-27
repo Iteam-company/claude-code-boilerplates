@@ -2,10 +2,7 @@ import { getTranslations } from 'next-intl/server';
 import { Star } from 'lucide-react';
 import { Container } from '@/components/Container';
 import { STAR_THRESHOLD, SUBSCRIBER_THRESHOLD } from '@/lib/constants';
-
-function formatCount(n: number): string {
-  return n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
-}
+import { formatNumber } from '@/lib/format';
 
 const BUILT_WITH = ['Next.js', 'Vercel', 'Neon', 'Stripe', 'Anthropic'];
 const FEATURED_ON = [
@@ -70,7 +67,7 @@ export async function SocialProof({ stars = null, subscribers = null }: Props) {
               {showSubscribers && (
                 <span className="text-muted-foreground">
                   <span className="text-foreground font-semibold">
-                    {formatCount(subscribers!)}
+                    {formatNumber(subscribers!)}
                   </span>{' '}
                   developers joined
                 </span>
@@ -82,7 +79,7 @@ export async function SocialProof({ stars = null, subscribers = null }: Props) {
                 <span className="flex items-center gap-1.5">
                   <Star className="h-4 w-4 fill-current text-yellow-500" />
                   <span className="text-foreground font-semibold">
-                    {formatCount(stars!)}
+                    {formatNumber(stars!)}
                   </span>
                   <span className="text-muted-foreground">GitHub stars</span>
                 </span>
