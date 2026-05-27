@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Loader2Icon } from 'lucide-react';
@@ -24,6 +24,13 @@ export function SuccessStep({
   const router = useRouter();
   const [retrying, setRetrying] = useState(false);
   const [retried, setRetried] = useState(false);
+
+  useEffect(() => {
+    if (!isFree && !inviteSent && email) {
+      handleRetryInvite();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function handleRetryInvite() {
     if (!email) return;
