@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getAllDocs, getDoc } from '@/lib/docs';
 import { markdownToHtml } from '@/lib/markdown';
 import { ProseContent } from '@/components/ProseContent';
+import { getBaseUrl } from '@/lib/utils';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -20,9 +21,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: doc.title,
     description: doc.description,
+    keywords: [
+      'claude code boilerplate',
+      'next.js documentation',
+      doc.title.toLowerCase(),
+      'saas boilerplate docs',
+      'nextjs drizzle guide',
+    ],
     alternates: {
       canonical: `/docs/${slug}`,
       languages: { en: `/docs/${slug}`, 'x-default': `/docs/${slug}` },
+    },
+    openGraph: {
+      title: doc.title,
+      description: doc.description,
+      url: `/docs/${slug}`,
+      type: 'article',
+      siteName: 'Claude Code Boilerplate',
+      images: [{ url: `/api/og/docs/${slug}`, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: doc.title,
+      description: doc.description,
+      images: [`/api/og/docs/${slug}`],
     },
   };
 }
@@ -31,6 +53,22 @@ export default async function DocsPage({ params }: Props) {
   const { slug } = await params;
   const doc = getDoc(slug);
   if (!doc) notFound();
+
+  const base = getBaseUrl();
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: base },
+      { '@type': 'ListItem', position: 2, name: 'Docs', item: `${base}/docs` },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: doc.title,
+        item: `${base}/docs/${slug}`,
+      },
+    ],
+  };
 
   const html = await markdownToHtml(doc.content);
   const docs = getAllDocs();
@@ -41,6 +79,12 @@ export default async function DocsPage({ params }: Props) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbSchema).replace(/<\//g, '<\\/'),
+        }}
+      />
       <ProseContent html={html} />
       {(prevDoc || nextDoc) && (
         <nav

@@ -11,6 +11,15 @@ const BLOG_DESCRIPTION =
 export const metadata: Metadata = {
   title: 'Blog',
   description: BLOG_DESCRIPTION,
+  keywords: [
+    'next.js tutorials',
+    'claude code guides',
+    'drizzle orm',
+    'saas development',
+    'stripe integration',
+    'nextjs app router',
+    'full-stack typescript',
+  ],
   alternates: {
     canonical: '/blog',
     languages: { en: '/blog', 'x-default': '/blog' },
