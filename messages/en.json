@@ -269,11 +269,11 @@
       }
     },
     "howItWorks": {
-      "heading": "From zero to shipped in 3 steps.",
+      "heading": "From template to shipped in 3 steps.",
       "steps": {
         "clone": {
-          "title": "Clone & deploy",
-          "body": "One command to clone, push to Vercel. Live URL in 10 minutes."
+          "title": "Create your repo",
+          "body": "Click 'Create new repo' to generate your own copy from the template. Your repo, your commits."
         },
         "describe": {
           "title": "Describe what you want",
