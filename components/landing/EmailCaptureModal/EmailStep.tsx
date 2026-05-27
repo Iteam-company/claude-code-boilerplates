@@ -26,6 +26,7 @@ export function EmailStep({ plan, isFreeProPlan = true, onNext }: Props) {
 
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [submitError, setSubmitError] = useState('');
   const [loading, setLoading] = useState(false);
 
   const isFree = plan === 'free';

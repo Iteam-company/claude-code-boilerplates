@@ -75,18 +75,16 @@ export const leadRepo = {
     email: string,
     totalSpots: number,
   ): Promise<{ requiresPayment: boolean }> => {
-    return db.transaction(async (tx) => {
-      const [row] = await tx
-        .select({ value: count() })
-        .from(leadTable)
-        .where(eq(leadTable.tierInterest, 'pro'));
-      const proCount = row?.value ?? 0;
-      if (proCount >= totalSpots) return { requiresPayment: true };
-      await tx
-        .insert(leadTable)
-        .values({ email, tierInterest: 'pro' })
-        .onConflictDoNothing();
-      return { requiresPayment: false };
-    });
+    const [row] = await db
+      .select({ value: count() })
+      .from(leadTable)
+      .where(eq(leadTable.tierInterest, 'pro'));
+    const proCount = row?.value ?? 0;
+    if (proCount >= totalSpots) return { requiresPayment: true };
+    await db
+      .insert(leadTable)
+      .values({ email, tierInterest: 'pro' })
+      .onConflictDoNothing();
+    return { requiresPayment: false };
   },
 };
