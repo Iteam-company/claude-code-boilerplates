@@ -44,14 +44,21 @@ export function EmailStep({ plan, isFreeProPlan = true, onNext }: Props) {
       return;
     }
     setLoading(true);
+    setSubmitError('');
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, tier: plan }),
       });
+      if (!res.ok) {
+        setSubmitError(tValidation('submitError'));
+        return;
+      }
       const data: WaitlistResult = await res.json();
       onNext(email, data);
+    } catch {
+      setSubmitError(tValidation('submitError'));
     } finally {
       setLoading(false);
     }
@@ -105,6 +112,9 @@ export function EmailStep({ plan, isFreeProPlan = true, onNext }: Props) {
         {loading && <Loader2Icon className="h-4 w-4 animate-spin" />}
         {isFree ? t('ctaFree') : isFreeProPlan ? t('ctaPro') : t('ctaProPaid')}
       </button>
+      {submitError && (
+        <p className="mt-2 text-center text-xs text-red-500">{submitError}</p>
+      )}
     </form>
   );
 }
