@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Container } from '@/components/Container';
 import { markdownToHtml } from '@/lib/markdown';
+import { ProseContent } from '@/components/ProseContent';
 import type { Post } from '@/modules/post';
 
 interface Props {
@@ -49,10 +50,7 @@ export async function BlogPost({ post }: Props) {
           )}
         </header>
 
-        <article
-          className="prose prose-neutral dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        <ProseContent html={html} />
       </div>
     </Container>
   );

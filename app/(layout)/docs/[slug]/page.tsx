@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllDocs, getDoc } from '@/lib/docs';
 import { markdownToHtml } from '@/lib/markdown';
+import { ProseContent } from '@/components/ProseContent';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -40,10 +41,7 @@ export default async function DocsPage({ params }: Props) {
 
   return (
     <>
-      <article
-        className="prose prose-neutral dark:prose-invert max-w-none"
-        dangerouslySetInnerHTML={{ __html: html }}
-      />
+      <ProseContent html={html} />
       {(prevDoc || nextDoc) && (
         <nav
           aria-label="Document navigation"
