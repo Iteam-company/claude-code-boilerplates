@@ -5,7 +5,7 @@ Add new topics anywhere in the Queue section -- the scheduler always picks the f
 
 ## Queue
 
-- [ ] Drizzle ORM migrations -- generate vs push, when to use each, and how to safely run them in production
+- [x] Drizzle ORM migrations -- generate vs push, when to use each, and how to safely run them in production
 - [ ] Stripe webhooks in Next.js -- handling idempotency, event replay, and signature verification
 - [ ] Role-based access with JWT -- adding org-level roles without an extra DB query on every request
 - [ ] Prompt caching with Claude -- cut Anthropic API costs up to 90% on long system prompts
