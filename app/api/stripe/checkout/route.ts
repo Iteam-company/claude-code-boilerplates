@@ -1,8 +1,18 @@
 import Stripe from 'stripe';
+import { z } from 'zod';
 import { stripe } from '@/lib/stripe';
 import { handleError, HttpError } from '@/lib/errors';
-import { checkoutSchema } from '@/modules/order/order.validation';
 import { getBaseUrl } from '@/lib/utils';
+
+const checkoutSchema = z.object({
+  priceId: z.string().min(1),
+  mode: z.enum(['payment', 'subscription']).default('payment'),
+  quantity: z.number().int().positive().optional().default(1),
+  customer_email: z.string().email(),
+  source: z.string().optional(),
+  tier: z.enum(['pro']).optional(),
+  github_username: z.string().min(1).max(39).optional(),
+});
 
 export async function POST(req: Request) {
   try {
@@ -15,8 +25,6 @@ export async function POST(req: Request) {
       priceId,
       mode,
       quantity,
-      type,
-      credits,
       customer_email,
       source,
       tier,
@@ -49,8 +57,6 @@ export async function POST(req: Request) {
       success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}${source ? `&source=${encodeURIComponent(source)}` : ''}`,
       cancel_url: `${baseUrl}/checkout`,
       metadata: {
-        type,
-        ...(credits ? { credits: String(credits) } : {}),
         ...(source ? { source } : {}),
         ...(tier === 'pro' && github_username
           ? { tier: 'pro', github_username }
