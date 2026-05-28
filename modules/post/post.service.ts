@@ -11,7 +11,9 @@ export const postService = {
     if (existing) {
       throw new HttpError(409, 'A post with this slug already exists');
     }
-    return postRepo.create(data);
+    const post = await postRepo.create(data);
+    if (data.published) void submitUrl(`/blog/${post.slug}`);
+    return post;
   },
 
   getAll: async (filter?: PostFilter) => {

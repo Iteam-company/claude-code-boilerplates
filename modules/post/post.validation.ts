@@ -12,6 +12,7 @@ export const createPostSchema = z.object({
   description: z.string().min(1),
   content: z.string().min(1),
   tags: z.array(z.string().min(1).max(50)).max(10).default([]),
+  published: z.boolean().optional(),
 });
 
 export type CreatePostSchemaType = z.infer<typeof createPostSchema>;

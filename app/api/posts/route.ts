@@ -6,17 +6,25 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const self = searchParams.get('self') === 'true';
+    const includeUnpublished =
+      searchParams.get('includeUnpublished') === 'true';
     const tag = searchParams.get('tag') || undefined;
 
     let authorId: string | undefined;
+    let publishedFilter: boolean | undefined = true;
+
     if (self) {
       const user = getUserFromRequest(req);
       authorId = user.id;
+      publishedFilter = undefined;
+    } else if (includeUnpublished) {
+      getCallerFromRequest(req);
+      publishedFilter = undefined;
     }
 
     const posts = await postService.getAll({
       authorId,
-      published: self ? undefined : true,
+      published: publishedFilter,
       tag,
     });
 

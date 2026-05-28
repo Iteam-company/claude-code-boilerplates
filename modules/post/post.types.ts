@@ -19,6 +19,7 @@ export type CreatePostInput = {
   description: string;
   content: string;
   tags?: string[];
+  published?: boolean;
   authorId: string;
 };
 
