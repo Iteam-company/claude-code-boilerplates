@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   robots: {
@@ -12,5 +13,6 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  return notFound();
   return <main>{children}</main>;
 }
