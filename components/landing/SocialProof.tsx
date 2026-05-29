@@ -5,12 +5,6 @@ import { STAR_THRESHOLD, SUBSCRIBER_THRESHOLD } from '@/lib/constants';
 import { formatNumber } from '@/lib/format';
 
 const BUILT_WITH = ['Next.js', 'Vercel', 'Neon', 'Stripe', 'Anthropic'];
-const FEATURED_ON = [
-  'Product Hunt',
-  'Hacker News',
-  'awesome-claude-code',
-  'LinkedIn',
-];
 
 interface Props {
   stars?: number | null;
@@ -28,24 +22,6 @@ export async function SocialProof({ stars = null, subscribers = null }: Props) {
     <section className="border-border/50 border-y py-12">
       <Container>
         <div className="space-y-10">
-          <div className="flex flex-col items-center gap-5">
-            <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
-              {t('featuredOn')}
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-8">
-              {FEATURED_ON.map((platform) => (
-                <span
-                  key={platform}
-                  className="text-muted-foreground font-semibold"
-                >
-                  {platform}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-border mx-auto h-px w-24" />
-
           <div className="flex flex-col items-center gap-5">
             <p className="text-muted-foreground text-xs font-semibold tracking-widest uppercase">
               {t('builtWith')}

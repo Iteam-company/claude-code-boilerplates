@@ -321,7 +321,7 @@
         },
         "q2": {
           "question": "What is the catch with first 100 free Pro?",
-          "answer": "No catch. The first 100 developers get Pro at $0 as an early-adopter reward. After spot 100, Pro is $149 one-time. You get lifetime access and all future updates either way. The counter pulls live from Stripe -- the scarcity is real."
+          "answer": "No catch. The first 100 developers get Pro at $0 as an early-adopter reward. After spot 100, Pro is $149 one-time. You get lifetime access and all future updates either way. The counter tracks email reservations in real time -- reserve your spot with just your email, no payment needed."
         },
         "q3": {
           "question": "Do I need to know Claude Code to use this?",

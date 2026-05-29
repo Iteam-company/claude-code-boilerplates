@@ -18,7 +18,7 @@ interface ProOnboardingEmailProps {
   githubUsername: string;
   repoUrl: string;
   docsUrl: string;
-  discordUrl: string;
+  discordUrl?: string;
 }
 
 export function ProOnboardingEmail({
@@ -86,23 +86,25 @@ export function ProOnboardingEmail({
                   </Button>
                 </Section>
 
-                <Section>
-                  <Row>
-                    <Column style={styles.discordCell}>
-                      <Text style={styles.discordHeading}>
-                        Join the Pro community
-                      </Text>
-                      <Text style={styles.discordText}>
-                        Get direct access to the Pro Discord channel -- connect
-                        with other Pro members, ask questions, and share what
-                        you build.
-                      </Text>
-                      <Button href={discordUrl} style={styles.discordButton}>
-                        Join Pro Discord →
-                      </Button>
-                    </Column>
-                  </Row>
-                </Section>
+                {discordUrl && (
+                  <Section>
+                    <Row>
+                      <Column style={styles.discordCell}>
+                        <Text style={styles.discordHeading}>
+                          Join the Pro community
+                        </Text>
+                        <Text style={styles.discordText}>
+                          Get direct access to the Pro Discord channel --
+                          connect with other Pro members, ask questions, and
+                          share what you build.
+                        </Text>
+                        <Button href={discordUrl} style={styles.discordButton}>
+                          Join Pro Discord →
+                        </Button>
+                      </Column>
+                    </Row>
+                  </Section>
+                )}
 
                 <Section style={styles.linksSection}>
                   <Text style={styles.linksHeading}>Resources</Text>

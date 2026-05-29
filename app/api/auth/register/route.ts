@@ -1,9 +1,12 @@
 import { userService, registerSchema } from '@/modules/user';
 import { handleError } from '@/lib/errors';
 import { buildAuthCookies } from '@/lib/auth';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 export async function POST(req: Request) {
   try {
+    checkRateLimit(`register:${getClientIp(req)}`, 5, 60_000);
+
     const body = await req.json();
 
     const parsed = registerSchema.safeParse(body);

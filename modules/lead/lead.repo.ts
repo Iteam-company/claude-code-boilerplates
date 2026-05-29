@@ -14,16 +14,22 @@ export const leadRepo = {
   },
 
   upsertPro: async (input: UpsertProLeadInput) => {
+    const now = new Date();
     const [lead] = await db
       .insert(leadTable)
       .values({
         email: input.email,
         tierInterest: 'pro',
         githubUsername: input.githubUsername,
+        updatedAt: now,
       })
       .onConflictDoUpdate({
         target: leadTable.email,
-        set: { tierInterest: 'pro', githubUsername: input.githubUsername },
+        set: {
+          tierInterest: 'pro',
+          githubUsername: input.githubUsername,
+          updatedAt: now,
+        },
       })
       .returning();
     return lead;
@@ -32,21 +38,21 @@ export const leadRepo = {
   updateGithub: async (email: string, githubUsername: string) => {
     await db
       .update(leadTable)
-      .set({ githubUsername, tierInterest: 'pro' })
+      .set({ githubUsername, tierInterest: 'pro', updatedAt: new Date() })
       .where(eq(leadTable.email, email));
   },
 
   updateStripeSession: async (id: string, stripeSessionId: string) => {
     await db
       .update(leadTable)
-      .set({ stripeSessionId })
+      .set({ stripeSessionId, updatedAt: new Date() })
       .where(eq(leadTable.id, id));
   },
 
   markGithubInvited: async (id: string) => {
     await db
       .update(leadTable)
-      .set({ githubInvitedAt: new Date() })
+      .set({ githubInvitedAt: new Date(), updatedAt: new Date() })
       .where(eq(leadTable.id, id));
   },
 

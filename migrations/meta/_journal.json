@@ -57,6 +57,13 @@
       "when": 1779708068257,
       "tag": "0007_amused_saracen",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1780050658485,
+      "tag": "0008_common_red_wolf",
+      "breakpoints": true
     }
   ]
 }

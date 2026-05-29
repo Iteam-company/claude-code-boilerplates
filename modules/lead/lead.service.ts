@@ -13,9 +13,14 @@ import { getBaseUrl } from '@/lib/utils';
 const GITHUB_REPO_URL = process.env.NEXT_PUBLIC_FREE_REPO_URL ?? '';
 const PRO_REPO_URL = process.env.NEXT_PUBLIC_PRO_REPO_URL ?? '';
 const DOCS_URL = `${getBaseUrl()}/docs`;
-const DISCORD_URL =
-  process.env.NEXT_PUBLIC_DISCORD_URL ?? 'https://discord.gg/your-server';
-const DISCORD_PRO_URL = process.env.NEXT_PUBLIC_DISCORD_PRO_URL ?? DISCORD_URL;
+const DISCORD_URL = process.env.NEXT_PUBLIC_DISCORD_URL?.includes('your-server')
+  ? undefined
+  : (process.env.NEXT_PUBLIC_DISCORD_URL ?? undefined);
+const DISCORD_PRO_URL = process.env.NEXT_PUBLIC_DISCORD_PRO_URL?.includes(
+  'your-server',
+)
+  ? DISCORD_URL
+  : (process.env.NEXT_PUBLIC_DISCORD_PRO_URL ?? DISCORD_URL);
 
 async function sendProEmail(email: string, githubUsername: string) {
   await emailService.sendEmail({

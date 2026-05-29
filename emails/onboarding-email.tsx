@@ -17,7 +17,7 @@ interface OnboardingEmailProps {
   appName: string;
   githubUrl: string;
   docsUrl: string;
-  discordUrl: string;
+  discordUrl?: string;
 }
 
 export function OnboardingEmail({
@@ -99,12 +99,14 @@ export function OnboardingEmail({
                     </Link>{' '}
                     -- setup guides, API reference, and conventions
                   </Text>
-                  <Text style={styles.linkItem}>
-                    <Link href={discordUrl} style={styles.link}>
-                      Discord community
-                    </Link>{' '}
-                    -- ask questions and share what you build
-                  </Text>
+                  {discordUrl && (
+                    <Text style={styles.linkItem}>
+                      <Link href={discordUrl} style={styles.link}>
+                        Discord community
+                      </Link>{' '}
+                      -- ask questions and share what you build
+                    </Text>
+                  )}
                   <Text style={styles.linkItem}>
                     <Link href={githubUrl} style={styles.link}>
                       GitHub repository

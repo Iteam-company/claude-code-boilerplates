@@ -2,6 +2,8 @@ import { handleError } from '@/lib/errors';
 import { countProSpotsTaken, TOTAL_PRO_SPOTS } from '@/lib/spots';
 import { leadRepo } from '@/modules/lead/lead.repo';
 
+export const revalidate = 60;
+
 export async function GET() {
   try {
     const [taken, subscribers] = await Promise.all([

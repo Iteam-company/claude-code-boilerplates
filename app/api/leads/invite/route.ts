@@ -7,7 +7,7 @@ const schema = z.object({ email: z.string().email() });
 function assertSameOrigin(req: Request): void {
   const origin = req.headers.get('origin');
   const base = process.env.NEXT_PUBLIC_BASE_URL ?? '';
-  if (origin && base && !origin.startsWith(base)) {
+  if (!origin || !base || !origin.startsWith(base)) {
     throw new HttpError(403, 'Forbidden');
   }
 }
