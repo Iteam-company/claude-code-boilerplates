@@ -7,6 +7,7 @@ import { CheckoutEmailButton } from './CheckoutEmailButton';
 export async function PricingSection() {
   const tPlans = await getTranslations('pricing');
   const spotsClaimed = await countProSpotsTaken();
+  const isFreeProPlan = spotsClaimed < TOTAL_PRO_SPOTS;
   const spotsLeft = Math.max(0, TOTAL_PRO_SPOTS - spotsClaimed);
   const pct = Math.min(100, Math.round((spotsClaimed / TOTAL_PRO_SPOTS) * 100));
 
@@ -38,7 +39,9 @@ export async function PricingSection() {
       <div className="mx-auto max-w-3xl px-4">
         <div className="text-center">
           <h1 className="text-foreground text-4xl font-bold tracking-tight md:text-5xl">
-            Two plans. One free forever. One free for 100 people.
+            {isFreeProPlan
+              ? 'Two plans. One free forever. One free for 100 people.'
+              : 'Two plans. One free forever. One for serious builders.'}
           </h1>
         </div>
 
@@ -52,7 +55,9 @@ export async function PricingSection() {
               <span className="text-foreground text-5xl font-bold">
                 {tPlans('proLicense.price')}
               </span>
-              <span className="text-muted-foreground text-sm">/ forever</span>
+              <span className="text-muted-foreground text-sm">
+                {tPlans('proLicense.forever')}
+              </span>
             </div>
             <p className="text-muted-foreground mt-2 text-sm">
               {tPlans('proLicense.description')}
@@ -69,12 +74,12 @@ export async function PricingSection() {
 
             <CheckoutEmailButton
               plan="free"
-              label="Get the free version →"
+              label={tPlans('proLicense.landingCta')}
               className="border-border text-foreground hover:bg-muted mt-8 w-full rounded-md border px-6 py-2.5 text-center text-sm font-medium transition-colors"
             />
 
             <p className="text-muted-foreground mt-4 text-center text-xs">
-              No credit card. No catch. MIT license.
+              {tPlans('proLicense.finePrint')}
             </p>
           </div>
 
@@ -84,36 +89,54 @@ export async function PricingSection() {
               <p className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
                 {tPlans('proPlan.name')}
               </p>
-              <span className="bg-primary/10 text-primary rounded-full px-3 py-0.5 text-xs font-semibold">
-                First 100 founders
-              </span>
+              {isFreeProPlan && (
+                <span className="bg-primary/10 text-primary rounded-full px-3 py-0.5 text-xs font-semibold">
+                  {tPlans('proPlan.badge')}
+                </span>
+              )}
             </div>
             <div className="mt-3 flex items-baseline gap-2">
-              <span className="text-foreground text-5xl font-bold">$0</span>
-              <span className="text-muted-foreground text-sm line-through">
-                {tPlans('proPlan.price')}
-              </span>
+              {isFreeProPlan ? (
+                <>
+                  <span className="text-foreground text-5xl font-bold">$0</span>
+                  <span className="text-muted-foreground text-sm line-through">
+                    {tPlans('proPlan.price')}
+                  </span>
+                </>
+              ) : (
+                <span className="text-foreground text-5xl font-bold">
+                  {tPlans('proPlan.price')}
+                </span>
+              )}
             </div>
             <p className="text-muted-foreground mt-2 text-sm">
-              {tPlans('proPlan.description')}
+              {isFreeProPlan
+                ? tPlans('proPlan.description')
+                : tPlans('proPlan.descriptionPaid')}
             </p>
 
             {/* Scarcity counter + progress bar */}
-            <div className="mt-5 space-y-2">
-              <div className="flex justify-between text-xs">
-                <span className="text-muted-foreground">
-                  {Math.min(spotsClaimed, TOTAL_PRO_SPOTS)} of {TOTAL_PRO_SPOTS}{' '}
-                  spots claimed
-                </span>
-                <span className="text-muted-foreground">{spotsLeft} left</span>
+            {isFreeProPlan && (
+              <div className="mt-5 space-y-2">
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">
+                    {tPlans('proPlan.spotsClaimed', {
+                      claimed: Math.min(spotsClaimed, TOTAL_PRO_SPOTS),
+                      total: TOTAL_PRO_SPOTS,
+                    })}
+                  </span>
+                  <span className="text-muted-foreground">
+                    {tPlans('proPlan.spotsLeft', { count: spotsLeft })}
+                  </span>
+                </div>
+                <div className="bg-muted h-1.5 w-full overflow-hidden rounded-full">
+                  <div
+                    className="bg-primary h-full rounded-full transition-all"
+                    style={{ width: `${pct}%` }}
+                  />
+                </div>
               </div>
-              <div className="bg-muted h-1.5 w-full overflow-hidden rounded-full">
-                <div
-                  className="bg-primary h-full rounded-full transition-all"
-                  style={{ width: `${pct}%` }}
-                />
-              </div>
-            </div>
+            )}
 
             <ul className="mt-8 flex-1 space-y-3">
               {proFeatures.map((f, i) => (
@@ -135,12 +158,18 @@ export async function PricingSection() {
 
             <CheckoutEmailButton
               plan="pro"
-              label="Reserve your free spot →"
+              label={
+                isFreeProPlan
+                  ? tPlans('proPlan.ctaFree')
+                  : tPlans('proPlan.ctaPaid')
+              }
               className="bg-primary text-primary-foreground hover:bg-primary/90 mt-8 w-full rounded-md px-6 py-2.5 text-center text-sm font-medium transition-colors"
             />
 
             <p className="text-muted-foreground mt-4 text-center text-xs">
-              After 100 spots, $149 one-time. Lifetime updates.
+              {isFreeProPlan
+                ? tPlans('proPlan.finePrintFree')
+                : tPlans('proPlan.finePrintPaid')}
             </p>
           </div>
         </div>
