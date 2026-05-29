@@ -1,7 +1,7 @@
 ---
 title: Deployment
 description: Deploy your Next.js app to Vercel using Claude Code -- link your project, sync environment variables, and go live in minutes without touching the CLI yourself.
-order: 2
+order: 3
 section: Getting Started
 ---
 

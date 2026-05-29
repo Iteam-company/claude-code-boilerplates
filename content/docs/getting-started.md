@@ -30,13 +30,35 @@ cd your-repo-name
 
 ## 4. Install Claude Code
 
-If you haven't already, install Claude Code globally:
+Check if it's already installed:
+
+```bash
+claude --version
+```
+
+If the command is not found, install it globally:
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
-You'll need a Claude account to use it. Sign in with `claude` after installing.
+> You need Node.js 18 or higher. Run `node --version` to check.
+
+**First-time sign-in**
+
+After installing, run `claude` once to authenticate:
+
+```bash
+claude
+```
+
+It will open a browser window and ask you to log in with your Anthropic account. If you don't have one, create a free account at [claude.ai](https://claude.ai). After signing in, return to the terminal -- authentication is saved and you won't be prompted again.
+
+**Already installed but outdated?**
+
+```bash
+npm update -g @anthropic-ai/claude-code
+```
 
 ## 5. Open Claude Code
 
