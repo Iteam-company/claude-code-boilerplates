@@ -18,33 +18,6 @@ If no overrides are present, fall back to `http://localhost:3000` and `.env`.
 
 ---
 
-## Blog Style Guide
-
-### Audience
-
-Write for **end users and potential customers**, not just developers.
-Explain the "what's in it for me" -- how does this solve a real problem?
-Include calls to action that invite readers to try the product.
-
-### Voice
-
-- Friendly, clear, and benefit-driven
-- Lead with the user's pain point, then show the solution
-- Use "you" to address the reader directly
-- End posts with an invitation to sign up, try a feature, or explore a demo
-
-### Topics to prioritize
-
-- How [Product] saves you time on X
-- Getting started with [Product] in under 5 minutes
-- Real-world use cases: how [Customer Type] uses [Product]
-- Feature spotlights framed around user outcomes
-
-### Stop words (avoid)
-
-- "leverage", "synergy", "scalable" (jargon)
-- Overly technical internals unless paired with a plain-English benefit
-
 ## Steps
 
 ### 1. Parse arguments

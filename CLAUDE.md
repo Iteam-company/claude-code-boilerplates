@@ -445,30 +445,60 @@ Used by Claude Code when generating blog posts via the `/generate-post` skill.
 
 ## Theme
 
-Next.js full-stack development with Claude Code and AI-assisted workflows. Focus on practical patterns for building SaaS products: authentication, payments, database, email, file uploads, and AI features. Posts should help developers ship faster by understanding the conventions and tools already built into this boilerplate.
+How indie hackers, startup founders, and small teams use AI-assisted development
+to ship SaaS products faster -- without a large engineering team. Posts show what
+is possible to build, how quickly it can be done, and why that matters for the
+reader's business. The product (this boilerplate + Claude Code) is always the
+enabler, never the hero.
+
+## Audience
+
+Potential customers: technical founders, solo developers, and small teams
+evaluating whether to build from scratch or use a boilerplate. They care about
+time-to-launch, cost, and what features they get out of the box. They do not
+care about which ORM is under the hood unless it directly saves them time.
 
 ## Voice & Style
 
-Practical and direct. Code-first. No filler sentences. Assume the reader is building a real product and wants to understand the pattern quickly and apply it. Show the actual code, explain the key decision, move on. Write like a senior engineer explaining something to a teammate, not a tutorial blogger padding word count.
+Clear, benefit-driven, and honest. Lead with the reader's problem, then show
+how it gets solved. Use "you" to address the reader directly. Write like a
+founder who has already solved this problem explaining it to someone about to
+face it -- not a tutorial blogger, not a vendor brochure. No filler. No hype.
+End every post with a specific call to action (e.g. "Clone the repo and have
+auth running in under 10 minutes" or "Try it free -- no credit card required").
 
-## Keywords to include
+## Keywords to include (only where genuinely relevant)
 
+- ship faster
+- SaaS starter kit
+- Next.js
 - Claude Code
-- Next.js App Router
-- Drizzle ORM
-- Neon DB
-- SaaS boilerplate
 - full-stack TypeScript
+- AI-assisted development
+
+## Topics to prioritize
+
+- "What you get out of the box" -- feature spotlights framed as user outcomes
+- Time-to-launch comparisons (build from scratch vs. using this boilerplate)
+- Real use cases: what kind of products people are building with this
+- Pain points solved: auth, payments, email, file uploads -- each framed as
+  "here is the problem, here is how it is already handled for you"
+- "I shipped X in Y hours" style narrative posts
 
 ## Topics to avoid (stop words)
 
+- Internal tooling deep-dives with no customer benefit stated
 - Generic "introduction to React" or "what is TypeScript" content
-- Posts that only cover concepts without a code example
-- Anything already covered by the official Next.js or Drizzle docs verbatim
+- Posts that explain the stack without explaining why the reader should care
+- Anything written for a developer maintaining the boilerplate, not evaluating it
 
 ## Additional instructions
 
-Always include at least one working code example. Keep posts under 1200 words. End with a concrete takeaway or next step the reader can apply immediately. Use ASCII characters only -- no smart quotes, em dashes, or Unicode beyond U+007F.
+Code examples are optional -- only include one if it directly shows the reader
+something impressive or saves them from writing it themselves. If included, keep
+it short and add a one-line comment explaining why it matters. Keep posts under
+1000 words. End every post with a concrete call to action. Use ASCII characters
+only -- no smart quotes, em dashes, or Unicode beyond U+007F.
 
 # SEO
 
