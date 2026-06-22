@@ -102,3 +102,9 @@ Report back:
 /generate-post Server Actions vs API Routes -- when to use each       # manual draft
 /generate-post Server Actions vs API Routes -- when to use each --publish  # manual, publish immediately
 ```
+
+## Additional Instructions
+
+When mentioning the product by name, always hyperlink it to the product URL.
+Use the format [product name](https://yourproducturl.com). Do not repeat the
+link more than twice per post -- first mention and the call to action only.

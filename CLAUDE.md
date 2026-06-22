@@ -500,10 +500,6 @@ it short and add a one-line comment explaining why it matters. Keep posts under
 1000 words. End every post with a concrete call to action. Use ASCII characters
 only -- no smart quotes, em dashes, or Unicode beyond U+007F.
 
-When mentioning the product by name, always hyperlink it to the product URL.
-Use the format [product name](https://yourproducturl.com). Do not repeat the
-link more than twice per post -- first mention and the call to action only.
-
 # SEO
 
 - Root metadata in `app/layout.tsx`: `metadataBase`, `title.template`, `openGraph`, `twitter`, `keywords`
