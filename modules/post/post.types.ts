@@ -5,6 +5,7 @@ export type Post = {
   description: string;
   content: string;
   published: boolean;
+  publishedAt: Date | null;
   tags: string[];
   authorId: string;
   createdAt: Date;

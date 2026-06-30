@@ -65,7 +65,7 @@ export const postService = {
       }
     }
 
-    const updated = await postRepo.update(id, data);
+    const updated = await postRepo.update(id, data, post.published);
     if (data.published) void submitUrl(`/blog/${updated.slug}`);
     return updated;
   },

@@ -174,7 +174,10 @@ export async function PricingSection() {
           </div>
         </div>
 
-        <p className="mt-8 text-center">
+        <p className="text-muted-foreground mt-6 text-center text-xs">
+          {tPlans('page.refundNote')}
+        </p>
+        <p className="mt-4 text-center">
           <a
             href="/#faq"
             className="text-muted-foreground hover:text-foreground text-sm transition-colors"

@@ -61,8 +61,8 @@
       "badge": "Open source · First 100 Pro spots free",
       "badgePaid": "Open source · Pro",
       "headline": "Ship a SaaS in days. Not weeks.",
-      "subheadline": "The only Next.js boilerplate with Stripe, auth, and Claude Code built in. Free forever. Pro tier free for the first 100 founders.",
-      "subheadlinePaid": "The only Next.js boilerplate with Stripe, auth, and Claude Code built in. Free forever. Pro tier available for a one-time payment.",
+      "subheadline": "The Next.js boilerplate with Stripe, auth, email, and Claude Code pre-configured. Free forever. Pro free for the first 100 founders.",
+      "subheadlinePaid": "The Next.js boilerplate with Stripe, auth, email, and Claude Code pre-configured. Free forever. Pro available for a one-time payment.",
       "ctaPrimary": "Get the free version →",
       "ctaPrimaryPaid": "Get the free version →",
       "ctaSecondary": "Reserve a free Pro spot",
@@ -502,7 +502,7 @@
     "metaDescription": "Start free forever or unlock all 40+ Claude Code skills with Pro for $149 one-time. No subscription, no credit card required for the free plan.",
     "heading": "Simple pricing",
     "subheading": "Choose the plan that works for you.",
-    "disclaimer": "All prices in USD. One-time payment, no subscription.",
+    "disclaimer": "All prices in USD. One-time payment, no subscription. All sales are final -- access to the repo is instant and permanent.",
     "mostPopular": "Best value",
     "subscribe": "Subscribe",
     "buyNow": "Buy Now",
@@ -541,6 +541,7 @@
     "page": {
       "metaTitle": "Pricing Plans",
       "metaDescription": "Free forever or Pro for $149 one-time. Auth, Stripe, email, and 40+ Claude Code skills included. No subscription, no credit card for free.",
+      "refundNote": "All sales are final. Access to the private repo is instant and permanent.",
       "viewFull": "View full pricing",
       "faq": {
         "heading": "Common questions",
