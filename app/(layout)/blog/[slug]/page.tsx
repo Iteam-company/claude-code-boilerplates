@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         description,
         url: `/blog/${slug}`,
         type: 'article',
-        siteName: 'Claude Code Boilerplate',
+        siteName: 'Next.js Boilerplate',
         publishedTime: post.createdAt.toISOString(),
         modifiedTime: post.updatedAt.toISOString(),
         authors: ['Claude Code Boilerplate'],

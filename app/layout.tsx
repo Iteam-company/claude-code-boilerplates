@@ -19,25 +19,26 @@ const baseUrl = getBaseUrl();
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'Next.js SaaS Boilerplate with Stripe — Free + Claude Code',
-    template: '%s | Claude Code Boilerplate',
+    default: 'Next.js Boilerplate — Free SaaS Starter with Claude Code',
+    template: '%s | Next.js Boilerplate',
   },
   description:
-    'Open-source Next.js SaaS starter with Stripe, auth, and Claude Code built in. Free forever. First 100 Pro users free. Ship a SaaS in days, not weeks.',
+    'Free Next.js SaaS starter with auth, Stripe, email, and Claude Code pre-configured. Clone the repo and ship your product in days — no building from scratch.',
   keywords: [
+    'nextjs boilerplate',
     'next.js boilerplate',
     'saas starter kit',
     'nextjs saas template',
     'next.js stripe boilerplate',
-    'claude code template',
+    'claude code boilerplate',
     'nextjs ai boilerplate',
-    'free nextjs boilerplate stripe',
+    'free nextjs boilerplate',
   ],
   openGraph: {
     type: 'website',
     url: baseUrl,
     locale: 'en_US',
-    siteName: 'Claude Code Boilerplate',
+    siteName: 'Next.js Boilerplate',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
   robots: {
@@ -47,6 +48,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    title: 'Next.js Boilerplate — Free SaaS Starter with Claude Code',
+    description:
+      'Free Next.js SaaS starter with auth, Stripe, email, and Claude Code pre-configured. Ship your product in days.',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
   other: {

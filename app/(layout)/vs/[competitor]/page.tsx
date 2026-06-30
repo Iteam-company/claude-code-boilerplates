@@ -95,7 +95,7 @@ export async function generateMetadata({
       description,
       url: `/vs/${competitor}`,
       type: 'website',
-      siteName: 'Claude Code Boilerplate',
+      siteName: 'Next.js Boilerplate',
       images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
     },
     twitter: {

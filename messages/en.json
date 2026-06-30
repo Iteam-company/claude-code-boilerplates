@@ -54,8 +54,8 @@
   },
   "landing": {
     "meta": {
-      "title": "Next.js SaaS Boilerplate with Stripe — Free + Claude Code",
-      "description": "Open-source Next.js SaaS starter with Stripe, auth, and Claude Code built in. Free forever. First 100 Pro users free. Ship a SaaS in days, not weeks."
+      "title": "Next.js Boilerplate — Ship SaaS in Days, Not Weeks",
+      "description": "Free Next.js SaaS starter with auth, Stripe, email, and Claude Code pre-configured. Clone the repo and ship your product in days — no building from scratch."
     },
     "hero": {
       "badge": "Open source · First 100 Pro spots free",
@@ -498,8 +498,8 @@
     "backToSignIn": "Back to Sign In"
   },
   "checkout": {
-    "metaTitle": "Pricing",
-    "metaDescription": "Choose a plan to get started.",
+    "metaTitle": "Pricing Plans",
+    "metaDescription": "Start free forever or unlock all 40+ Claude Code skills with Pro for $149 one-time. No subscription, no credit card required for the free plan.",
     "heading": "Simple pricing",
     "subheading": "Choose the plan that works for you.",
     "disclaimer": "All prices in USD. One-time payment, no subscription.",
@@ -514,7 +514,7 @@
   },
   "checkoutSuccess": {
     "metaTitle": "Payment Successful",
-    "metaDescription": "Your payment was processed successfully.",
+    "metaDescription": "Your order is confirmed. Get access to the Next.js boilerplate and start shipping your SaaS today.",
     "heading": "Payment successful!",
     "description": "Thank you for your purchase. You'll receive a confirmation email shortly.",
     "inviteSent": "Your GitHub invite has been sent. Check your GitHub notifications to accept it.",
@@ -539,8 +539,8 @@
       "finePrint": "No credit card. No catch. MIT license."
     },
     "page": {
-      "metaTitle": "Pricing",
-      "metaDescription": "Free forever or Pro for $149. One-time payment, no subscription.",
+      "metaTitle": "Pricing Plans",
+      "metaDescription": "Free forever or Pro for $149 one-time. Auth, Stripe, email, and 40+ Claude Code skills included. No subscription, no credit card for free.",
       "viewFull": "View full pricing",
       "faq": {
         "heading": "Common questions",

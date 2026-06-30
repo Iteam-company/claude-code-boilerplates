@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: doc.description,
       url: `/docs/${slug}`,
       type: 'article',
-      siteName: 'Claude Code Boilerplate',
+      siteName: 'Next.js Boilerplate',
       images: [{ url: `/api/og/docs/${slug}`, width: 1200, height: 630 }],
     },
     twitter: {

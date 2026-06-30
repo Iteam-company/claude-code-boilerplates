@@ -4,17 +4,18 @@ import { postService } from '@/modules/post';
 
 export const revalidate = 3600;
 
-const BLOG_TITLE = 'Blog | Claude Code Boilerplate';
+const BLOG_TITLE = 'Blog — Next.js Boilerplate';
 const BLOG_DESCRIPTION =
-  'Practical guides on Next.js, Drizzle ORM, Claude Code, and building full-stack SaaS products.';
+  'Guides and tips for founders building SaaS products with Next.js and Claude Code. Learn how to ship faster with a production-ready boilerplate.';
 
 export const metadata: Metadata = {
   title: 'Blog',
   description: BLOG_DESCRIPTION,
   keywords: [
+    'nextjs boilerplate',
     'next.js tutorials',
     'claude code guides',
-    'drizzle orm',
+    'saas boilerplate',
     'saas development',
     'stripe integration',
     'nextjs app router',
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     description: BLOG_DESCRIPTION,
     url: '/blog',
     type: 'website',
-    siteName: 'Claude Code Boilerplate',
+    siteName: 'Next.js Boilerplate',
     images: [{ url: '/opengraph-image', width: 1200, height: 630 }],
   },
   twitter: {
