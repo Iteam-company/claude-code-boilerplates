@@ -38,7 +38,10 @@ export const postRepo = {
     return db.query.postTable.findMany({
       where: conditions.length > 0 ? and(...conditions) : undefined,
       columns: { content: false },
-      orderBy: (post, { desc }) => [desc(post.createdAt)],
+      orderBy: (post, { desc }) => [
+        desc(post.publishedAt),
+        desc(post.createdAt),
+      ],
     });
   },
 
@@ -55,7 +58,10 @@ export const postRepo = {
       db.query.postTable.findMany({
         where: whereClause,
         columns: { content: false },
-        orderBy: (post, { desc }) => [desc(post.createdAt)],
+        orderBy: (post, { desc }) => [
+          desc(post.publishedAt),
+          desc(post.createdAt),
+        ],
         limit,
         offset,
       }),
@@ -80,10 +86,16 @@ export const postRepo = {
     });
   },
 
-  update: async (id: string, data: UpdatePostInput) => {
+  update: async (id: string, data: UpdatePostInput, wasPublished = false) => {
+    const now = new Date();
     const [post] = await db
       .update(postTable)
-      .set({ ...data, updatedAt: new Date() })
+      .set({
+        ...data,
+        updatedAt: now,
+        // Set publishedAt only on first publish, never overwrite
+        ...(data.published && !wasPublished ? { publishedAt: now } : {}),
+      })
       .where(eq(postTable.id, id))
       .returning();
     return post;

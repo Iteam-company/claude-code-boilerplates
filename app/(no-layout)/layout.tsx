@@ -13,6 +13,8 @@ export default function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Auth pages are disabled on the demo/marketing site so visitors can't
+  // create accounts here. REMOVE THIS LINE when building your own app.
   return notFound();
   return <main>{children}</main>;
 }

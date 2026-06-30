@@ -53,7 +53,7 @@ export const userService = {
         subject: `Welcome to ${APP_NAME}!`,
         react: React.createElement(WelcomeEmail, {
           appName: APP_NAME,
-          dashboardUrl: `${BASE_URL}/dashboard`,
+          dashboardUrl: `${BASE_URL}/docs/getting-started`,
         }),
       });
     }
