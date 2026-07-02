@@ -453,10 +453,12 @@ enabler, never the hero.
 
 ## Audience
 
-Potential customers: technical founders, solo developers, and small teams
-evaluating whether to build from scratch or use a boilerplate. They care about
-time-to-launch, cost, and what features they get out of the box. They do not
-care about which ORM is under the hood unless it directly saves them time.
+Anyone who wants to launch a product faster -- from technical founders and solo
+developers to non-technical founders who plan to use AI or hire someone to build
+for them. The reader may have no coding knowledge at all. They care about
+time-to-launch, cost, and what they get without doing it from scratch. They do
+not care about which ORM is under the hood unless it directly saves them time.
+Never assume coding knowledge unless the post topic is explicitly technical.
 
 ## Voice & Style
 
@@ -464,26 +466,30 @@ Clear, benefit-driven, and honest. Lead with the reader's problem, then show
 how it gets solved. Use "you" to address the reader directly. Write like a
 founder who has already solved this problem explaining it to someone about to
 face it -- not a tutorial blogger, not a vendor brochure. No filler. No hype.
-End every post with a specific call to action (e.g. "Clone the repo and have
-auth running in under 10 minutes" or "Try it free -- no credit card required").
+Avoid technical jargon unless the post is explicitly for developers; if you must
+use a technical term, explain it in plain language in the same sentence.
+End every post with a specific call to action (e.g. "Get the boilerplate and
+launch your idea this weekend" or "Try it free -- no credit card required").
 
 ## Keywords to include (only where genuinely relevant)
 
 - ship faster
 - SaaS starter kit
-- Next.js
+- Next.js boilerplate
 - Claude Code
-- full-stack TypeScript
+- build a web app
 - AI-assisted development
+- launch your idea
+- no-code / low-code alternative (when comparing to those tools)
 
 ## Topics to prioritize
 
-- "What you get out of the box" -- feature spotlights framed as user outcomes
-- Time-to-launch comparisons (build from scratch vs. using this boilerplate)
-- Real use cases: what kind of products people are building with this
-- Pain points solved: auth, payments, email, file uploads -- each framed as
-  "here is the problem, here is how it is already handled for you"
-- "I shipped X in Y hours" style narrative posts
+- "What you get out of the box" -- feature spotlights framed as customer outcomes, written so a non-developer understands the value
+- Time-to-launch comparisons (build from scratch vs. hiring a team vs. using this boilerplate)
+- Real use cases: what kind of products people are building with this, and how fast
+- Pain points solved: auth, payments, email, file uploads -- each framed as "here is the problem, here is how it is already handled for you"
+- "I launched X in Y days" style narrative posts -- focus on the business outcome, not the code
+- Topics non-technical founders google: "how to build a SaaS without coding", "best way to launch a startup idea fast", "how much does it cost to build a web app"
 
 ## Topics to avoid (stop words)
 
