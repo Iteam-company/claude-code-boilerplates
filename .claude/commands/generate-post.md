@@ -44,6 +44,12 @@ Headers: X-Api-Key: <resolved AI_API_KEY>
 Returns PostSummary[] (id, slug, title, description, published -- no full content).
 This is intentionally lightweight to stay within token limits.
 
+Use these posts for three jobs:
+
+- avoid duplicate topics and near-duplicate search intent
+- choose 2-4 relevant internal links for the new post
+- identify gaps in the existing topic map instead of writing another generic article
+
 ### 4. Resolve the topic
 
 **Manual mode:** use the supplied title and brief directly. Skip to step 5.
@@ -57,7 +63,15 @@ This is intentionally lightweight to stay within token limits.
   - Is specific and actionable -- not generic
   - Matches what a potential customer would actually type into Google -- think search-intent first. The reader may be a technical founder, a non-technical founder who wants to launch a product with AI help, or anyone curious about building a SaaS faster.
   - Examples of good search-intent titles: "best Next.js SaaS boilerplate 2025", "how to launch a SaaS without a development team", "build a web app with Claude Code", "ship a SaaS in a weekend", "Next.js starter kit with payments and auth"
+- Prefer topics that fill one of these content gaps:
+  - a founder decision: build from scratch, hire, use no-code, or start from a boilerplate
+  - a specific feature outcome: auth, payments, email, blog, database, deployment, or GitHub access
+  - a practical launch workflow: idea to landing page, MVP to payments, first users to onboarding
+  - a comparison or objection: cost, speed, maintainability, vendor lock-in, AI-generated code quality
+  - a real product scenario: marketplace, paid community, internal tool, directory, course platform, micro-SaaS
 - Derive a working title from the chosen topic. Prefer titles that include high-value search terms (e.g. "Next.js", "SaaS", "boilerplate", "starter kit", "Claude Code", "build a web app") when natural.
+
+Before committing to a topic, write a one-sentence "why this deserves to exist" test. If the answer is only "it targets a keyword", pick another topic.
 
 ### 5. Deduplicate (manual mode only)
 
@@ -70,8 +84,45 @@ Review existing post titles and descriptions. If a similar post already exists, 
 - `description`: one sentence that answers "what does the reader gain?" -- frame it as a customer outcome, not a feature description. This appears in Google results so make it compelling even to a non-developer.
 - `content`: full MDX -- use headings and prose as the default. Add a code block only when it directly shows the reader something that saves them real time. Write for people evaluating whether to use this boilerplate -- they may or may not be developers. Address the reader as "you". Lead with the pain (time, cost, complexity), show how the boilerplate removes it, end with a concrete CTA. Never assume the reader knows what Drizzle, JWT, or Zod is unless the post is explicitly technical. Keep under 1000 words.
 - `tags`: 2-5 lowercase tags. Use short words or hyphenated phrases (e.g. `nextjs`, `drizzle-orm`, `auth`, `stripe`, `claude-code`). Derive from post content -- do not copy style guide keywords verbatim if they do not apply.
+- `content` must have a unique angle. Do not publish a rewritten feature list. Include at least one of:
+  - a concrete founder scenario with constraints, tradeoffs, and outcome
+  - a short decision framework or checklist the reader can use immediately
+  - a comparison against a realistic alternative: building from scratch, hiring, no-code, or another starter
+  - a specific workflow that uses features that actually exist in this repo
+- Use a strong structure:
+  - opening: name the specific pain or decision in the first 2-3 sentences
+  - middle: show the tradeoff and the practical path forward
+  - proof: mention concrete product capabilities only when they support the argument
+  - close: give one clear next step
+- Add 2-4 internal links where useful:
+  - link the first product mention to the literal `NEXT_PUBLIC_BASE_URL` value
+  - link relevant docs such as `/docs/getting-started`, `/docs/authentication`, `/docs/database`, `/docs/deployment`, or `/docs/claude-code`
+  - link 1-2 related blog posts from the existing posts list when their titles are genuinely relevant
+  - do not add more than two homepage/product links in one post
+- Prefer headings that answer real search intent. Do not repeat the same keyword phrase in every H2.
+- Avoid generic AI writing patterns:
+  - "in today's fast-paced world"
+  - "game changer"
+  - fake statistics
+  - vague claims like "seamless" or "robust" without proof
+  - repetitive sections where every heading has the same shape
+  - conclusions that only summarize the article
 - **Never put multi-item lists inside a single inline code tag.** File trees, directory structures, and lists of items must use a fenced code block (each item on its own line) or a markdown list.
 - **ASCII only**: replace em dashes with `--`, curly/smart quotes with straight quotes, ellipsis with `...`, and any other non-ASCII character with its closest ASCII equivalent. Never output Unicode beyond U+007F.
+
+### 6.1. Pre-publish quality gate
+
+Before calling the API, self-review the post. It must pass every check:
+
+- It has a search intent that is meaningfully different from existing posts.
+- It would still be useful if it got zero search traffic.
+- The intro names a real pain, tradeoff, or decision.
+- At least one section gives the reader a concrete framework, checklist, workflow, or example.
+- The post includes useful internal links, not decorative links.
+- Product claims are honest and grounded in features that exist in this repo.
+- The post does not read like mass-generated SEO content.
+
+If any check fails, revise once before publishing. If it still fails, stop and report why the topic should not be published.
 
 ### 7. Resolve the API key
 
